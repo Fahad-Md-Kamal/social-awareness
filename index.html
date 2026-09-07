@@ -1,0 +1,930 @@
+<!doctype html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>শিশুর খাবার রোডম্যাপ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+Da+2:wght@500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&display=swap">
+<style>
+  :root{
+    --bg:#F4F5EF;
+    --surface:#FFFFFF;
+    --surface-2:#ECEEE4;
+    --ink:#2B3328;
+    --ink-soft:#5B6455;
+    --line:#DCDFD2;
+    --accent:#4F6B45;
+    --accent-tint:#E4EBDE;
+    --accent-2:#8A3F4C;
+    --accent-2-tint:#F3E3E3;
+    --muted-tint:#E9E9E1;
+    --rail:#C7CDBA;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#1A1F17;
+      --surface:#232921;
+      --surface-2:#2B3227;
+      --ink:#E9ECE2;
+      --ink-soft:#AEB6A2;
+      --line:#39412F;
+      --accent:#93B87E;
+      --accent-tint:#2E3A26;
+      --accent-2:#D99AA4;
+      --accent-2-tint:#3C2529;
+      --muted-tint:#2C3226;
+      --rail:#3A4230;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#1A1F17;
+    --surface:#232921;
+    --surface-2:#2B3227;
+    --ink:#E9ECE2;
+    --ink-soft:#AEB6A2;
+    --line:#39412F;
+    --accent:#93B87E;
+    --accent-tint:#2E3A26;
+    --accent-2:#D99AA4;
+    --accent-2-tint:#3C2529;
+    --muted-tint:#2C3226;
+    --rail:#3A4230;
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Hind Siliguri','Noto Sans Bengali',system-ui,sans-serif;
+    line-height:1.65;
+  }
+  h1,h2,h3,.eyebrow,.chip,.stage-age{
+    font-family:'Baloo Da 2','Hind Siliguri',system-ui,sans-serif;
+  }
+  h1,h2,h3{text-wrap:balance;}
+  a{color:var(--accent);text-underline-offset:2px;}
+  :focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+
+  .page{max-width:760px;margin:0 auto;padding:24px 24px 80px;}
+
+  /* header */
+  .eyebrow{
+    font-size:13px;font-weight:600;letter-spacing:.06em;
+    color:var(--accent);text-transform:uppercase;
+    display:inline-block;margin-bottom:14px;
+  }
+  h1{font-size:clamp(30px,5vw,42px);font-weight:800;margin:0 0 12px;color:var(--ink);}
+  .subtitle{font-size:16.5px;color:var(--ink-soft);max-width:56ch;margin:0 0 20px;}
+
+  .print-btn{
+    font:inherit;font-size:13px;font-weight:600;padding:8px 16px;border-radius:8px;
+    border:1px solid var(--line);background:var(--surface);color:var(--ink-soft);
+    cursor:pointer;margin-bottom:28px;
+  }
+  .print-btn:hover{border-color:var(--accent);color:var(--accent);}
+
+  /* quick nav */
+  .quicknav{
+    position:sticky;top:0;z-index:20;display:flex;gap:8px;overflow-x:auto;
+    padding:12px 0;margin-bottom:32px;background:var(--bg);border-bottom:1px solid var(--line);
+  }
+  .quicknav a{
+    flex:none;font-size:13px;font-weight:600;padding:6px 14px;border-radius:99px;
+    background:var(--surface);border:1px solid var(--line);color:var(--ink-soft);
+    text-decoration:none;white-space:nowrap;
+  }
+  .quicknav a:hover,.quicknav a:focus-visible{color:var(--accent);border-color:var(--accent);}
+
+  /* overview timeline */
+  .overview{
+    background:var(--surface);border:1px solid var(--line);
+    border-radius:14px;padding:22px 24px 18px;margin-bottom:32px;
+  }
+  .overview-track{
+    position:relative;height:8px;border-radius:99px;background:var(--surface-2);margin:22px 0 8px;
+  }
+  .overview-seg{
+    position:absolute;top:0;height:100%;border-radius:99px;background:var(--accent);opacity:.85;
+  }
+  .overview-ticks{
+    display:flex;justify-content:space-between;
+    font-size:12px;color:var(--ink-soft);font-variant-numeric:tabular-nums;
+  }
+  .overview-labels{
+    display:flex;justify-content:space-between;font-size:12.5px;color:var(--ink-soft);
+    margin-bottom:2px;
+  }
+
+  /* generic tool/section card */
+  .tool-card{
+    background:var(--surface);border:1px solid var(--line);
+    border-radius:14px;padding:22px 24px;margin-bottom:32px; margin-top:30px; scroll-margin-top:64px;
+  }
+  .tool-card h2{font-size:19px;font-weight:700;margin:0 0 6px;}
+  .tool-desc{font-size:14px;color:var(--ink-soft);margin:0 0 16px;}
+  .sub-head{font-size:13px;font-weight:700;letter-spacing:.03em;text-transform:uppercase;color:var(--ink-soft);margin:20px 0 10px;}
+  .sub-head:first-of-type{margin-top:0;}
+
+  /* golden rule */
+  .golden-rule{
+    background:var(--accent-tint);border:1px solid var(--line);
+    border-inline-start:4px solid var(--accent);
+    border-radius:12px;padding:20px 22px;margin-bottom:32px;
+  }
+  .golden-rule h2{font-size:16px;font-weight:700;color:var(--accent);margin:0 0 8px;}
+  .golden-rule p{margin:0;font-size:15px;color:var(--ink);}
+
+  /* age calculator */
+  .age-form{display:flex;gap:10px;flex-wrap:wrap;}
+  .age-form input[type=date]{
+    font:inherit;font-size:14.5px;padding:9px 12px;border-radius:8px;
+    border:1px solid var(--line);background:var(--bg);color:var(--ink);
+  }
+  .age-form button{
+    font:inherit;font-weight:700;padding:9px 18px;border-radius:8px;border:none;
+    background:var(--accent);color:var(--surface);cursor:pointer;
+  }
+  .age-form button:hover{opacity:.9;}
+  .age-result{margin:14px 0 0;font-size:14.5px;color:var(--ink);min-height:1.4em;}
+
+  /* readiness / sign lists */
+  .sign-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;}
+  .sign-list li{font-size:14.5px;padding-inline-start:22px;position:relative;}
+  .sign-list li::before{content:"✓";position:absolute;left:0;color:var(--accent);font-weight:700;}
+  [dir="rtl"] .sign-list li::before{left:auto;right:0;}
+  .sign-list.full li::before{content:"—";color:var(--accent-2);}
+
+  /* timeline of stages */
+  .timeline{position:relative;}
+  .stage{
+    position:relative;padding-inline-start:32px;padding-bottom:44px;
+    border-inline-start:2px solid var(--rail);
+  }
+  .stage:last-of-type{border-inline-start-color:transparent;padding-bottom:0;}
+  .stage::before{
+    content:"";position:absolute;left:-7px;top:2px;
+    width:12px;height:12px;border-radius:50%;
+    background:var(--accent);border:3px solid var(--bg);
+  }
+  [dir="rtl"] .stage::before{left:auto;right:-7px;}
+
+  .stage-card{
+    background:var(--surface);border:1px solid var(--line);
+    border-radius:14px;padding:22px 24px;scroll-margin-top:64px;
+    transition:box-shadow .3s ease,border-color .3s ease;
+  }
+  .stage-card.highlight{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-tint);}
+  .stage-head{
+    display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:6px 16px;
+    margin-bottom:10px;
+  }
+  .stage-age{font-size:19px;font-weight:700;color:var(--ink);}
+  .stage-months{font-size:12.5px;color:var(--ink-soft);font-variant-numeric:tabular-nums;}
+
+  .stage-locator{position:relative;height:5px;border-radius:99px;background:var(--surface-2);margin-bottom:16px;}
+  .stage-locator span{position:absolute;top:0;height:100%;border-radius:99px;background:var(--accent);}
+
+  .stage-main{font-size:15px;margin:0 0 14px;color:var(--ink);}
+  .stage-main strong{color:var(--ink);}
+
+  .chip-row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px;}
+  .chip{
+    font-size:13px;font-weight:600;padding:5px 12px;border-radius:99px;
+    white-space:nowrap;
+  }
+  .chip.ok{background:var(--accent-tint);color:var(--accent);}
+  .chip.avoid{background:var(--accent-2-tint);color:var(--accent-2);}
+  .chip.neutral{background:var(--muted-tint);color:var(--ink-soft);}
+
+  .stage-detail{font-size:14.5px;color:var(--ink-soft);margin:0 0 8px;}
+  .stage-detail:last-child{margin-bottom:0;}
+  .stage-detail strong{color:var(--ink);font-weight:600;}
+
+  /* allergens / safety step lists */
+  .step-list{margin:0;padding-inline-start:20px;display:flex;flex-direction:column;gap:8px;font-size:14.5px;color:var(--ink);}
+  .step-list li::marker{color:var(--accent);font-weight:700;}
+  .alert-box{
+    margin-top:18px;background:var(--accent-2-tint);border:1px solid var(--line);
+    border-inline-start:4px solid var(--accent-2);border-radius:10px;padding:14px 16px;
+    font-size:14px;color:var(--ink);
+  }
+  .alert-box strong{color:var(--accent-2);}
+
+  .hazard-list{list-style:none;margin:0 0 14px;padding:0;display:flex;flex-direction:column;gap:8px;}
+  .hazard-list li{font-size:14.5px;padding-inline-start:24px;position:relative;color:var(--ink);}
+  .hazard-list li::before{content:"❌";position:absolute;left:0;top:1px;font-size:12px;}
+  [dir="rtl"] .hazard-list li::before{left:auto;right:0;}
+
+  /* feeding cues */
+  .cue-grid{display:grid;grid-template-columns:1fr;gap:20px;}
+  @media(min-width:560px){.cue-grid{grid-template-columns:1fr 1fr;}}
+  .cue-hungry{color:var(--accent);}
+  .cue-full{color:var(--accent-2);}
+
+  /* portions table */
+  .table-wrap{overflow-x:auto;}
+  .portion-table{width:100%;border-collapse:collapse;font-size:14px;}
+  .portion-table th,.portion-table td{text-align:start;padding:10px 12px;border-bottom:1px solid var(--line);}
+  .portion-table td{vertical-align:top;}
+  .portion-table th{font-size:12px;text-transform:uppercase;letter-spacing:.03em;color:var(--ink-soft);font-weight:700;}
+  .portion-table td{color:var(--ink);font-variant-numeric:tabular-nums;}
+
+  /* meal plan */
+  .meal-grid{display:grid;grid-template-columns:1fr;gap:24px;}
+  @media(min-width:560px){.meal-grid{grid-template-columns:1fr 1fr;}}
+  .meal-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px;}
+  .meal-list li{font-size:14px;display:flex;flex-direction:column;gap:2px;color:var(--ink);}
+  .meal-list li span{font-size:12px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.02em;}
+
+  /* tracker */
+  .tracker-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-bottom:16px;}
+  .tracker-item{
+    display:flex;align-items:center;gap:8px;font-size:14px;color:var(--ink);
+    background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:9px 12px;cursor:pointer;
+  }
+  .tracker-item:has(input:checked){background:var(--accent-tint);border-color:var(--accent);color:var(--accent);}
+  .tracker-item input{accent-color:var(--accent);width:16px;height:16px;flex:none;}
+  .reset-btn{
+    font:inherit;font-size:13px;font-weight:600;padding:8px 16px;border-radius:8px;
+    border:1px solid var(--line);background:var(--surface);color:var(--ink-soft);cursor:pointer;
+  }
+  .reset-btn:hover{border-color:var(--accent-2);color:var(--accent-2);}
+
+  /* faq */
+  .faq-list{display:flex;flex-direction:column;gap:10px;}
+  .faq-item{border:1px solid var(--line);border-radius:10px;padding:2px 16px;background:var(--bg);}
+  .faq-item summary{
+    cursor:pointer;font-weight:600;padding:12px 0;list-style:none;position:relative;
+    padding-inline-end:24px;color:var(--ink);
+  }
+  .faq-item summary::-webkit-details-marker{display:none;}
+  .faq-item summary::after{content:"+";position:absolute;right:0;top:11px;color:var(--accent);font-weight:700;}
+  [dir="rtl"] .faq-item summary::after{right:auto;left:0;}
+  .faq-item[open] summary::after{content:"–";}
+  .faq-item p{margin:0 0 14px;font-size:14.5px;color:var(--ink-soft);}
+
+  /* recipe card */
+  .recipe{
+    background:var(--surface);border:1px solid var(--line);
+    border-radius:14px;padding:24px 26px;margin-bottom:32px;scroll-margin-top:64px;
+  }
+  .recipe h2{font-size:19px;font-weight:700;margin:0 0 6px;}
+  .recipe .tagline{font-size:14px;color:var(--ink-soft);margin:0 0 18px;}
+  .recipe-grid{display:grid;grid-template-columns:1fr;gap:18px;}
+  @media(min-width:560px){.recipe-grid{grid-template-columns:1.1fr 1fr;}}
+  .recipe-block h3{font-size:13px;font-weight:700;letter-spacing:.03em;text-transform:uppercase;color:var(--ink-soft);margin:0 0 10px;}
+  .ingredients{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px;}
+  .ingredients li{font-size:14.5px;padding-inline-start:18px;position:relative;color:var(--ink);}
+  .ingredients li::before{content:"•";position:absolute;left:0;color:var(--accent);}
+  [dir="rtl"] .ingredients li::before{left:auto;right:0;}
+  .avoid-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px;}
+  .avoid-list li{font-size:14.5px;color:var(--accent-2);}
+  .recipe-note{
+    margin-top:16px;padding-top:14px;border-top:1px solid var(--line);
+    font-size:14px;color:var(--ink-soft);
+  }
+  .recipe-note strong{color:var(--ink);}
+
+  footer{
+    margin-top:16px;padding-top:24px;border-top:1px solid var(--line);
+    font-size:13px;color:var(--ink-soft);
+  }
+  footer p{margin:0 0 8px;}
+  footer p:last-child{margin-bottom:0;}
+
+  .mini-recipe{
+    border:1px solid var(--line);border-radius:12px;padding:16px 18px;background:var(--bg);
+    break-inside:avoid;-webkit-column-break-inside:avoid;margin-bottom:16px;
+  }
+  .mini-recipe-head{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:8px;flex-wrap:wrap;}
+  .mini-recipe h3{font-size:15.5px;font-weight:700;margin:0;color:var(--ink);}
+  .mini-recipe .age-tag{
+    font-size:11.5px;font-weight:600;color:var(--accent);background:var(--accent-tint);
+    padding:3px 9px;border-radius:99px;white-space:nowrap;
+  }
+  .mini-recipe p{font-size:13.5px;color:var(--ink-soft);margin:0 0 6px;line-height:1.55;}
+  .mini-recipe p:last-child{margin-bottom:0;}
+  .mini-recipe p strong{color:var(--ink);font-weight:600;}
+
+  @media print{
+    .quicknav,.print-btn,.reset-btn,.age-form{display:none;}
+    body{background:#fff;color:#000;}
+    .stage-card.highlight{box-shadow:none;}
+    a{color:#000;}
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <span class="eyebrow">পরিপূরক খাবার পরিকল্পনা</span>
+  <h1>শিশুর খাবার রোডম্যাপ</h1>
+  <p class="subtitle">জন্ম থেকে ৩ বছর — যোগ করা চিনি, লবণ ও মধু ছাড়াই স্বাস্থ্যকর খাদ্যাভ্যাস গড়ে তোলার ধাপে ধাপে পরিকল্পনা, WHO-এর গাইডলাইন অনুসারে।</p>
+
+  <button type="button" class="print-btn" onclick="window.print()">🖨️ প্রিন্ট করুন</button>
+
+  <nav class="quicknav" aria-label="দ্রুত নেভিগেশন">
+    <a href="#calculator">ক্যালকুলেটর</a>
+    <a href="#readiness">প্রস্তুতির লক্ষণ</a>
+    <a href="#stages">সময়রেখা</a>
+    <a href="#allergens">অ্যালার্জি</a>
+    <a href="#alternatives">বিকল্প খাবার</a>
+    <a href="#safety">নিরাপত্তা</a>
+    <a href="#feeding-cues">খাওয়ানোর ইঙ্গিত</a>
+    <a href="#portions">পরিমাণ</a>
+    <a href="#meal-plan">দৈনিক মেনু</a>
+    <a href="#tracker">ট্র্যাকার</a>
+    <a href="#faq">প্রশ্নোত্তর</a>
+    <a href="#cereal">সেরেলাক</a>
+    <a href="#recipe">বরফি</a>
+    <a href="#more-recipes">আরও রেসিপি</a>
+  </nav>
+
+  <div class="overview">
+    <div class="overview-labels">
+      <span>জন্ম</span><span>৩ বছর</span>
+    </div>
+    <div class="overview-track">
+      <div class="overview-seg" style="left:0%;width:16.7%;background:var(--accent);"></div>
+      <div class="overview-seg" style="left:16.7%;width:16.6%;opacity:.65;"></div>
+      <div class="overview-seg" style="left:33.3%;width:33.4%;opacity:.45;"></div>
+      <div class="overview-seg" style="left:66.7%;width:33.3%;opacity:.28;"></div>
+    </div>
+    <div class="overview-ticks">
+      <span>০</span><span>৬ মাস</span><span>১২ মাস</span><span>২৪ মাস</span><span>৩৬ মাস</span>
+    </div>
+  </div>
+
+  <section id="calculator" class="tool-card">
+    <h2>শিশুর বয়স ক্যালকুলেটর</h2>
+    <p class="tool-desc">জন্ম তারিখ দিন — এখন কোন ধাপে আছে দেখুন, পাতাটি সেই ধাপে স্ক্রল করবে।</p>
+    <form id="ageForm" class="age-form">
+      <input type="date" id="birthDate" required aria-label="জন্ম তারিখ">
+      <button type="submit">ধাপ দেখুন</button>
+    </form>
+    <p id="ageResult" class="age-result" role="status"></p>
+  </section>
+
+  <section id="readiness" class="tool-card">
+    <h2>খাবার শুরুর প্রস্তুতির লক্ষণ</h2>
+    <p class="tool-desc">শুধু বয়স (৬ মাস) নয় — নিচের লক্ষণগুলো একসাথে দেখা গেলে বোঝা যায় শিশু কঠিন খাবারের জন্য প্রস্তুত।</p>
+    <ul class="sign-list">
+      <li>মাথা ও ঘাড় সোজা রাখতে পারা</li>
+      <li>সাহায্য নিয়ে বসতে পারা</li>
+      <li>জিভ দিয়ে খাবার ঠেলে বের করে দেওয়ার প্রতিফলন (tongue-thrust) কমে যাওয়া</li>
+      <li>খাবারের দিকে হাত বাড়ানো বা মুখ খোলার মতো আগ্রহ দেখানো</li>
+      <li>অন্যদের খেতে দেখে অনুকরণ করার চেষ্টা করা</li>
+    </ul>
+  </section>
+
+  <div class="golden-rule">
+    <h2>মূল নীতি</h2>
+    <p>শুধু "চিনি খাওয়াব না" নয় — <strong>"খাবারকে মিষ্টি বা লবণাক্ত করে খাওয়ানোর চেষ্টা করব না।"</strong> কলা, মিষ্টি কুমড়া, খেজুর বা দইয়ে বাড়তি চিনি না মিশিয়ে, আর ডাল-ভাত-সবজি-মাছ-ডিমে আলাদা লবণ না দিলে শিশু খাবারের আসল স্বাদ চিনতে শেখে। WHO এই প্রথম বছরগুলোকে দীর্ঘমেয়াদি খাদ্যাভ্যাস গঠনের সবচেয়ে গুরুত্বপূর্ণ সময় হিসেবে চিহ্নিত করে।</p>
+  </div>
+
+  <div class="timeline" id="stages">
+
+    <div class="stage">
+      <div class="stage-card" id="stage-0-6">
+        <div class="stage-head">
+          <span class="stage-age">জন্ম – ৬ মাস</span>
+          <span class="stage-months">Exclusive Breastfeeding</span>
+        </div>
+        <div class="stage-locator"><span style="left:0%;width:16.7%;"></span></div>
+        <p class="stage-main"><strong>মূল খাবার:</strong> শুধু বুকের দুধ; প্রয়োজন হলে চিকিৎসকের পরামর্শ অনুযায়ী ফর্মুলা।</p>
+        <div class="chip-row">
+          <span class="chip avoid">পানি ❌</span>
+          <span class="chip avoid">চিনি ❌</span>
+          <span class="chip avoid">লবণ ❌</span>
+          <span class="chip avoid">মধু ❌</span>
+          <span class="chip avoid">জুস ❌</span>
+        </div>
+        <p class="stage-detail">শুধু চিকিৎসাগত প্রয়োজনে ব্যতিক্রম। WHO প্রথম ৬ মাস exclusive breastfeeding-এর পরামর্শ দেয় — এই সময় অতিরিক্ত আর কিছুরই দরকার নেই।</p>
+      </div>
+    </div>
+
+    <div class="stage">
+      <div class="stage-card" id="stage-6-12">
+        <div class="stage-head">
+          <span class="stage-age">৬ – ১২ মাস</span>
+          <span class="stage-months">Complementary Feeding শুরু</span>
+        </div>
+        <div class="stage-locator"><span style="left:16.7%;width:16.6%;"></span></div>
+        <p class="stage-main"><strong>মূল খাবার:</strong> বুকের দুধ/ফর্মুলা চালিয়ে যাওয়া + ধীরে ধীরে বিভিন্ন স্বাভাবিক খাবার।</p>
+        <div class="chip-row">
+          <span class="chip ok">Added Sugar ০</span>
+          <span class="chip ok">Added Salt ০</span>
+          <span class="chip avoid">মধু ❌</span>
+        </div>
+        <p class="stage-detail"><strong>মধু:</strong> ১২ মাসের আগে একেবারেই নয় — botulism-এর ঝুঁকির কারণে।</p>
+        <p class="stage-detail"><strong>বৈচিত্র্য:</strong> ডিম, মাছ, মাংস, ডাল, শাকসবজি, ফল, শস্য, বাদাম/বীজ — বয়স ও টেক্সচার অনুযায়ী।</p>
+        <p class="stage-detail">ফলের স্বাভাবিক মিষ্টি চলবে — এটা added sugar নয়। টেক্সচার মিহি পিউরি থেকে শুরু করে ধীরে ধীরে ঘন করুন।</p>
+        <p class="stage-detail"><strong>আয়রন:</strong> ৬ মাস থেকে শরীরের আয়রন মজুদ কমতে শুরু করে — প্রথম খাবারে আয়রন সমৃদ্ধ খাবার (মাংস, ডাল, ফর্টিফায়েড সেরিয়াল) অগ্রাধিকার দিন।</p>
+        <p class="stage-detail"><strong>অ্যালার্জেন খাবার:</strong> ডিম, চিনাবাদাম, দুধজাত খাবার এখন থেকেই তাড়াতাড়ি পরিচয় করানো ভালো — <a href="#allergens">বিস্তারিত নিয়ম দেখুন ↓</a></p>
+      </div>
+    </div>
+
+    <div class="stage">
+      <div class="stage-card" id="stage-12-24">
+        <div class="stage-head">
+          <span class="stage-age">১ – ২ বছর</span>
+          <span class="stage-months">পারিবারিক খাবারে রূপান্তর</span>
+        </div>
+        <div class="stage-locator"><span style="left:33.3%;width:33.4%;"></span></div>
+        <p class="stage-main"><strong>মূল খাবার:</strong> পরিবারের খাবার থেকে খেতে পারবে, একই নীতি চালিয়ে যান।</p>
+        <div class="chip-row">
+          <span class="chip avoid">Added Sugar এড়িয়ে চলুন</span>
+          <span class="chip avoid">Added Salt এড়িয়ে চলুন</span>
+          <span class="chip neutral">মধু পরিমিত ✓</span>
+        </div>
+        <p class="stage-detail">খাবারকে চিনি/লবণ দিয়ে বেশি "টেস্টি" করার অভ্যাস না করানোই ভালো।</p>
+        <p class="stage-detail"><strong>এড়িয়ে চলুন:</strong> মিষ্টি পানীয়, প্যাকেটজাত মিষ্টান্ন, বিস্কুট, কেক।</p>
+      </div>
+    </div>
+
+    <div class="stage">
+      <div class="stage-card" id="stage-24-36">
+        <div class="stage-head">
+          <span class="stage-age">২ – ৩ বছর</span>
+          <span class="stage-months">সম্পূর্ণ পারিবারিক খাদ্যাভ্যাস</span>
+        </div>
+        <div class="stage-locator"><span style="left:66.7%;width:33.3%;"></span></div>
+        <p class="stage-main"><strong>মূল খাবার:</strong> সম্পূর্ণ পারিবারিক, বৈচিত্র্যময় ও ভারসাম্যপূর্ণ খাবার।</p>
+        <div class="chip-row">
+          <span class="chip avoid">Added Sugar সর্বনিম্ন</span>
+          <span class="chip avoid">Added Salt সর্বনিম্ন</span>
+          <span class="chip neutral">স্বাধীনভাবে খাওয়া</span>
+        </div>
+        <p class="stage-detail">নিজে হাতে খাওয়া ও নতুন টেক্সচার-স্বাদে অভ্যস্ত হওয়ার দিকে গুরুত্ব দিন।</p>
+        <p class="stage-detail"><strong>সতর্কতা:</strong> গোটা বাদাম বা শক্ত খাবারে দমবন্ধ (choking) হওয়ার ঝুঁকি থাকে — <a href="#safety">নিরাপত্তা নির্দেশিকা দেখুন ↓</a></p>
+      </div>
+    </div>
+
+  </div>
+
+  <section id="allergens" class="tool-card ">
+    <h2>অ্যালার্জেন খাবারের পরিচিতি</h2>
+    <p class="stage-detail">পুরনো ধারণা ছিল অ্যালার্জি-প্রবণ খাবার দেরিতে দেওয়াই নিরাপদ — কিন্তু বর্তমান WHO/AAP গাইডলাইন উল্টো কথা বলে: <strong>৬ মাস থেকেই এগুলো তাড়াতাড়ি ও নিয়মিতভাবে দেওয়া allergy-র ঝুঁকি বরং কমায়।</strong></p>
+
+    <h3 class="sub-head">সাধারণ অ্যালার্জেন খাবার</h3>
+    <div class="chip-row">
+      <span class="chip neutral">ডিম</span>
+      <span class="chip neutral">চিনাবাদাম</span>
+      <span class="chip neutral">গরুর দুধজাত</span>
+      <span class="chip neutral">গম</span>
+      <span class="chip neutral">সয়া</span>
+      <span class="chip neutral">মাছ</span>
+      <span class="chip neutral">চিংড়ি/শেলফিশ</span>
+      <span class="chip neutral">গাছ-বাদাম</span>
+    </div>
+
+    <h3 class="sub-head">কীভাবে পরিচয় করাবেন</h3>
+    <ol class="step-list">
+      <li>একবারে একটি নতুন অ্যালার্জেন খাবার দিন, মিহি পেস্ট/গুঁড়া আকারে — গোটা বাদাম নয়।</li>
+      <li>দিনের প্রথম ভাগে দিন, যাতে সারাদিন প্রতিক্রিয়া লক্ষ্য রাখা যায়।</li>
+      <li>২–৩ দিন অপেক্ষা করুন, এরপর পরবর্তী নতুন অ্যালার্জেন দিন।</li>
+      <li>সমস্যা না হলে, সহনশীলতা ধরে রাখতে সপ্তাহে কয়েকবার নিয়মিত খাদ্যতালিকায় রাখুন।</li>
+    </ol>
+
+    <div class="alert-box">
+      <strong>প্রতিক্রিয়ার লক্ষণ:</strong> চামড়ায় র‍্যাশ/আমবাত, ঠোঁট-মুখ ফুলে যাওয়া, বমি, শ্বাসকষ্ট। শ্বাসকষ্ট বা মুখ-গলা ফুলে গেলে সাথে সাথে জরুরি সেবা নিন। পারিবারিক ইতিহাসে গুরুতর অ্যালার্জি বা একজিমা থাকলে প্রথমবার দেওয়ার আগে চিকিৎসকের সাথে কথা বলুন।
+    </div>
+  </section>
+
+  <section id="alternatives" class="tool-card">
+    <h2>খাবারের বিকল্প</h2>
+    <p class="tool-desc">অ্যালার্জি, হাতের কাছে না থাকা, বা বাচ্চা পছন্দ না করলে — একই পুষ্টিগুণ পেতে যা দিতে পারেন।</p>
+    <div class="table-wrap">
+      <table class="portion-table">
+        <thead>
+          <tr><th>মূল খাবার</th><th>বিকল্প</th><th>কেন লাগতে পারে</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>ডিম</td><td>মাছ, মুরগি, ডাল, দই</td><td>অ্যালার্জি বা হাতের কাছে না থাকলে</td></tr>
+          <tr><td>দুধ/দই/পনির</td><td>ক্যালসিয়াম-ফর্টিফায়েড সয়া/ওট দুধ, তিল বাটা, সবুজ শাক</td><td>দুধে এলার্জি বা lactose intolerance</td></tr>
+          <tr><td>চিনাবাদাম</td><td>তিল বাটা, কুমড়ার বিচি বাটা, সূর্যমুখী বীজ বাটা</td><td>চিনাবাদাম এলার্জি</td></tr>
+          <tr><td>গাছ-বাদাম</td><td>বীজজাতীয় খাবার (তিল, কুমড়ার বিচি), ডাল</td><td>ট্রি-নাট এলার্জি</td></tr>
+          <tr><td>মাছ</td><td>মুরগি, ডিম, ডাল + ফ্ল্যাক্সসিড/চিয়া গুঁড়া</td><td>মাছে এলার্জি বা না থাকলে (ওমেগা-৩-এর জন্য)</td></tr>
+          <tr><td>চিংড়ি/শেলফিশ</td><td>মুরগি, সাধারণ মাছ, ডিম</td><td>শেলফিশ এলার্জির ঝুঁকি তুলনামূলক বেশি</td></tr>
+          <tr><td>গম</td><td>ভাত, গ্লুটেন-ফ্রি ওটস, ভুট্টা</td><td>গ্লুটেন সংবেদনশীলতা/সিলিয়াক</td></tr>
+          <tr><td>সয়া</td><td>মসুর ডাল, মুরগি, ডিম</td><td>সয়া এলার্জি</td></tr>
+          <tr><td>মাংস</td><td>ডাল, পালং শাক + ভিটামিন সি সমৃদ্ধ ফল, ফর্টিফায়েড সেরিয়াল</td><td>আয়রনের জন্য — মাংস না থাকলে বা নিরামিষ পরিবার</td></tr>
+          <tr><td>কলা</td><td>পাকা পেঁপে, আম</td><td>মৌসুমে না পাওয়া গেলে</td></tr>
+          <tr><td>গাজর</td><td>মিষ্টি কুমড়া, মিষ্টি আলু</td><td>মৌসুমে না পাওয়া গেলে</td></tr>
+          <tr><td>আখরোট</td><td>কুমড়ার বিচি বাটা, সূর্যমুখী বীজ বাটা, তিল বাটা</td><td>ট্রি-নাট এলার্জি</td></tr>
+          <tr><td>পেস্তা/হ্যাজেলনাট</td><td>কুমড়ার বিচি বাটা, তিল বাটা</td><td>ট্রি-নাট এলার্জি</td></tr>
+          <tr><td>ফ্ল্যাক্সসিড/চিয়া বীজ</td><td>তিল বাটা, কুমড়ার বিচি বাটা</td><td>ওমেগা-৩-এর বিকল্প উৎস, না থাকলে</td></tr>
+          <tr><td>তিল/তাহিনি</td><td>সূর্যমুখী বীজ বাটা, কুমড়ার বিচি বাটা</td><td>তিল এলার্জি</td></tr>
+          <tr><td>ওটস</td><td>ভাত, ভুট্টার দালিয়া, রাগি (ফিঙ্গার মিলেট)</td><td>গ্লুটেন সংক্রমণের ঝুঁকি (non-certified oats), না পাওয়া গেলে</td></tr>
+          <tr><td>আলু</td><td>মিষ্টি আলু, মিষ্টি কুমড়া</td><td>বৈচিত্র্য বা না থাকলে</td></tr>
+          <tr><td>টমেটো</td><td>মিষ্টি কুমড়া পিউরি, গাজর</td><td>টক/অ্যাসিডিটির কারণে প্রথমদিকে এড়াতে চাইলে</td></tr>
+          <tr><td>নারিকেল</td><td>তিল বাটা, ঘি</td><td>নারিকেল এলার্জি (বিরল, কিছু দেশে ট্রি-নাট হিসেবে গণ্য)</td></tr>
+          <tr><td>অ্যাভোকাডো</td><td>পাকা কলা (ম্যাশ), ঘি মেশানো ভাত</td><td>স্থানীয়ভাবে না পাওয়া গেলে (স্বাস্থ্যকর ফ্যাটের বিকল্প)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="stage-detail">নতুন বিকল্প খাবারও অ্যালার্জেন হতে পারে (যেমন তিল, ডাল) — এটিও প্রথমবার অল্প পরিমাণে দিয়ে প্রতিক্রিয়া লক্ষ্য রাখুন। বিস্তারিত <a href="#allergens">অ্যালার্জেন পরিচিতি বিভাগে দেখুন ↑</a></p>
+  </section>
+
+  <section id="safety" class="tool-card">
+    <h2>নিরাপত্তা: দমবন্ধ (Choking) এড়ানো</h2>
+
+    <h3 class="sub-head">যেসব খাবার ঝুঁকিপূর্ণ</h3>
+    <ul class="hazard-list">
+      <li>গোটা আঙুর বা চেরি টমেটো (চার ভাগ না করে কাটা)</li>
+      <li>পপকর্ন, শক্ত ক্যান্ডি/লজেন্স</li>
+      <li>গোটা বাদাম ও বীজ</li>
+      <li>বড় টুকরায় মাংস বা পনির</li>
+      <li>হট ডগ/সসেজের গোল টুকরা</li>
+      <li>ঘন পিনাট বাটার (চামচে করে দেওয়া)</li>
+      <li>কাঁচা শক্ত সবজি বা ফল (গাজর, আপেলের বড় টুকরা)</li>
+    </ul>
+    <p class="stage-detail">নিরাপদ করতে: ফল/সবজি চার ভাগ বা মিহি করে কাটুন, বাদাম গুঁড়া/পেস্ট করুন, মাংস নরম ও ছোট টুকরা করুন।</p>
+
+    <h3 class="sub-head">দমবন্ধ হলে প্রাথমিক চিকিৎসা (১ বছরের কম)</h3>
+    <ol class="step-list">
+      <li>শিশুকে বাহুর ওপর উপুড় করে শুইয়ে মাথা শরীরের চেয়ে নিচু রাখুন, থুতনি ধরে সাপোর্ট দিন।</li>
+      <li>হাতের তালুর গোড়া দিয়ে দুই কাঁধের মাঝখানে ৫টি জোরে ব্যাক ব্লো দিন।</li>
+      <li>খাবার বের না হলে শিশুকে চিৎ করে ঘুরিয়ে বুকের হাড়ের নিচের অর্ধেকে দুই আঙুল দিয়ে ৫টি চেস্ট থ্রাস্ট দিন।</li>
+      <li>খাবার বের না হওয়া বা শিশু কাঁদতে/শ্বাস নিতে শুরু না করা পর্যন্ত পালাক্রমে চালিয়ে যান।</li>
+      <li>শিশু অজ্ঞান হয়ে গেলে সাথে সাথে জরুরি সেবা কল করুন এবং প্রশিক্ষিত হলে CPR শুরু করুন।</li>
+    </ol>
+
+    <div class="alert-box">
+      এই তথ্য শুধু প্রাথমিক ধারণার জন্য — বাস্তব প্রশিক্ষণের বিকল্প নয়। সম্ভব হলে একটি স্বীকৃত ইনফ্যান্ট CPR/ফার্স্ট এইড কোর্স করুন এবং জরুরি নম্বর হাতের কাছে রাখুন।
+    </div>
+  </section>
+
+  <section id="feeding-cues" class="tool-card">
+    <h2>খাওয়ানোর ইঙ্গিত চিনুন</h2>
+    <p class="tool-desc">জোর করে খাওয়ানো এড়িয়ে চলুন — শিশুকে নিজের ক্ষুধা ও তৃপ্তির সংকেত অনুসরণ করতে দিন।</p>
+    <div class="cue-grid">
+      <div class="cue-col">
+        <h3 class="sub-head cue-hungry">ক্ষুধার লক্ষণ</h3>
+        <ul class="sign-list">
+          <li>হাত বা আঙুল মুখে দেওয়া</li>
+          <li>খাবারের দিকে হাত বাড়ানো</li>
+          <li>মুখ খোলা বা সামনে ঝোঁকা</li>
+        </ul>
+      </div>
+      <div class="cue-col">
+        <h3 class="sub-head cue-full">পেট ভরার লক্ষণ</h3>
+        <ul class="sign-list full">
+          <li>মুখ ঘুরিয়ে নেওয়া</li>
+          <li>চামচ ঠেলে দেওয়া</li>
+          <li>মুখ বন্ধ রাখা বা আগ্রহ হারানো</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="portions" class="tool-card">
+    <h2>পরিমাণ নির্দেশিকা (আনুমানিক)</h2>
+    <p class="tool-desc">এগুলো শুরুর নির্দেশিকা মাত্র — শিশুকে তার নিজের ক্ষুধা অনুযায়ী কম-বেশি খেতে দিন, জোর করবেন না।</p>
+    <div class="table-wrap">
+      <table class="portion-table">
+        <thead>
+          <tr><th>বয়স</th><th>প্রতি বেলা পরিমাণ</th><th>বেলার সংখ্যা</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>৬–৮ মাস</td><td>২–৩ টেবিল চামচ</td><td>দিনে ২–৩ বেলা</td></tr>
+          <tr><td>৯–১১ মাস</td><td>¼–½ কাপ</td><td>দিনে ৩ বেলা + ১–২ নাশতা</td></tr>
+          <tr><td>১২–২৩ মাস</td><td>½–¾ কাপ</td><td>দিনে ৩ বেলা + ২ নাশতা</td></tr>
+          <tr><td>২–৩ বছর</td><td>¾–১ কাপ</td><td>দিনে ৩ বেলা + ২ নাশতা</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="meal-plan" class="tool-card">
+    <h2>দৈনিক মেনুর নমুনা</h2>
+    <div class="meal-grid">
+      <div class="meal-col">
+        <h3 class="sub-head">৬–১২ মাস</h3>
+        <ul class="meal-list">
+          <li><span>সকাল ৮টা</span>বুকের দুধ/ফর্মুলা</li>
+          <li><span>সকাল ৯টা</span>আয়রন সমৃদ্ধ পিউরি (ডাল/মাংস) + ফল</li>
+          <li><span>দুপুর ১২টা</span>বুকের দুধ/ফর্মুলা</li>
+          <li><span>বিকাল ৩টা</span>সবজি পিউরি + শস্য</li>
+          <li><span>সন্ধ্যা ৬টা</span>বুকের দুধ/ফর্মুলা</li>
+          <li><span>রাত ৮টা</span>ঘুমানোর আগে দুধ</li>
+        </ul>
+      </div>
+      <div class="meal-col">
+        <h3 class="sub-head">১–৩ বছর</h3>
+        <ul class="meal-list">
+          <li><span>সকাল</span>নাশতা: রুটি/ভাত + ডিম বা ডাল + ফল</li>
+          <li><span>সকাল ১০টা</span>নাশতা: ফল বা বাদাম-বীজের গুঁড়া</li>
+          <li><span>দুপুর</span>ভাত + সবজি + ডাল/মাছ/মাংস</li>
+          <li><span>বিকাল</span>নাশতা: দই বা হালকা খাবার</li>
+          <li><span>রাত</span>পরিবারের সাথে হালকা খাবার</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="tracker" class="tool-card">
+    <h2>প্রথম খাবার ট্র্যাকার</h2>
+    <p class="tool-desc">কোন খাবার ইতিমধ্যে পরিচয় করানো হয়েছে তা টিক দিয়ে রাখুন — এই ব্রাউজারে পরের ভিজিটেও মনে থাকবে।</p>
+    <div class="tracker-grid" id="trackerGrid">
+      <label class="tracker-item"><input type="checkbox" data-food="rice"><span>ভাত/সেরিয়াল</span></label>
+      <label class="tracker-item"><input type="checkbox" data-food="lentil"><span>ডাল</span></label>
+      <label class="tracker-item"><input type="checkbox" data-food="sweetpotato"><span>মিষ্টি আলু</span></label>
+      <label class="tracker-item"><input type="checkbox" data-food="carrot"><span>গাজর</span></label>
+      <label class="tracker-item"><input type="checkbox" data-food="banana"><span>কলা</span></label>
+      <label class="tracker-item"><input type="checkbox" data-food="apple"><span>আপেল</span></label>
+      <label class="tracker-item"><input type="checkbox" data-food="chicken"><span>মুরগি</span></label>
+      <label class="tracker-item"><input type="checkbox" data-food="fish"><span>মাছ</span></label>
+      <label class="tracker-item"><input type="checkbox" data-food="egg"><span>ডিম</span></label>
+      <label class="tracker-item"><input type="checkbox" data-food="peanut"><span>চিনাবাদাম (পেস্ট)</span></label>
+      <label class="tracker-item"><input type="checkbox" data-food="dairy"><span>দই/পনির</span></label>
+      <label class="tracker-item"><input type="checkbox" data-food="wheat"><span>গম</span></label>
+      <label class="tracker-item"><input type="checkbox" data-food="soy"><span>সয়া</span></label>
+      <label class="tracker-item"><input type="checkbox" data-food="sesame"><span>তিল</span></label>
+      <label class="tracker-item"><input type="checkbox" data-food="shellfish"><span>চিংড়ি/শেলফিশ</span></label>
+      <label class="tracker-item"><input type="checkbox" data-food="treenut"><span>গাছ-বাদাম</span></label>
+    </div>
+    <button type="button" id="trackerReset" class="reset-btn">রিসেট করুন</button>
+  </section>
+
+  <section id="faq" class="tool-card">
+    <h2>সাধারণ জিজ্ঞাসা</h2>
+    <div class="faq-list">
+      <details class="faq-item">
+        <summary>বাচ্চা নতুন খাবার খেতে না চাইলে কী করব?</summary>
+        <p>একটি নতুন খাবার গ্রহণযোগ্য হতে ৮–১৫ বার চেষ্টা লাগতে পারে — হাল ছাড়বেন না, চাপ না দিয়ে বারবার অফার করতে থাকুন।</p>
+      </details>
+      <details class="faq-item">
+        <summary>এক বেলা কম খেলে চিন্তার কিছু আছে?</summary>
+        <p>বাচ্চাদের ক্ষুধা দিনে দিনে ওঠানামা করে — একবেলার পরিমাণ নয়, সপ্তাহ জুড়ে সামগ্রিক খাদ্যাভ্যাস দেখুন।</p>
+      </details>
+      <details class="faq-item">
+        <summary>বাচ্চা শুধু একই খাবার বারবার চায় — এটা কি স্বাভাবিক?</summary>
+        <p>হ্যাঁ, এটা বিকাশের একটি সাধারণ ধাপ (food jag)। পাশাপাশি অন্য খাবারও অফার করতে থাকুন, ধীরে ধীরে বৈচিত্র্য ফিরবে।</p>
+      </details>
+      <details class="faq-item">
+        <summary>টিভি বা মোবাইল দেখিয়ে খাওয়ানো কি ঠিক আছে?</summary>
+        <p>এড়িয়ে চলাই ভালো — এতে শিশু নিজের ক্ষুধা-তৃপ্তির সংকেত চিনতে শেখে না, যা দীর্ঘমেয়াদে খাদ্যাভ্যাসে সমস্যা তৈরি করতে পারে।</p>
+      </details>
+      <details class="faq-item">
+        <summary>পানি কখন থেকে দেওয়া যাবে?</summary>
+        <p>৬ মাস বয়স থেকে খাবারের সাথে অল্প পরিমাণে পানি দেওয়া যায় — তার আগে নয়।</p>
+      </details>
+    </div>
+  </section>
+
+  <div class="recipe" id="cereal">
+    <h2>ঘরে তৈরি বেবি সেরেলাক</h2>
+    <p class="tagline">প্যাকেটজাত সেরেলাকের বদলে বাড়িতেই বানানো যায় — উপকরণ, তাজা থাকা ও চিনি/লবণ সম্পূর্ণ নিয়ন্ত্রণে রাখা যায়।</p>
+
+    <div class="alert-box">
+      <strong>কেন ঘরে বানাবেন:</strong> ২০২৪ সালে আন্তর্জাতিক তদন্তে (Public Eye/IBFAN) দেখা গেছে, ইউরোপে বিক্রি হওয়া চিনি-মুক্ত সেরেলাকের তুলনায় বাংলাদেশসহ কিছু নিম্ন ও মধ্যম আয়ের দেশে বিক্রি হওয়া সংস্করণে বাড়তি চিনি যোগ করা হয়। ঘরে বানালে চিনি, লবণ ও প্রিজারভেটিভ সম্পূর্ণ এড়ানো যায়, খরচও কম হয়, আর উপকরণ কতটা তাজা তা নিজেই নিশ্চিত করা যায়।
+    </div>
+
+    <div class="recipe-grid">
+      <div class="recipe-block">
+        <h3>মূল উপকরণ</h3>
+        <ul class="ingredients">
+          <li>চাল (আতপ/সেদ্ধ চাল)</li>
+          <li>লাল মুগ ডাল (খোসা ছাড়ানো)</li>
+          <li>ঐচ্ছিক: ওটস বা রাগি (ফিঙ্গার মিলেট — একধরনের ছোট দানার শস্য, না পেলে বাদ দিন) — বাড়তি আয়রন-ক্যালসিয়ামের জন্য</li>
+        </ul>
+      </div>
+      <div class="recipe-block">
+        <h3>বাদ দিন</h3>
+        <ul class="avoid-list">
+          <li>❌ চিনি</li>
+          <li>❌ লবণ</li>
+          <li>❌ প্রিজারভেটিভ/কৃত্রিম ফ্লেভার</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3 class="sub-head">গুঁড়া বানানোর পদ্ধতি</h3>
+    <ol class="step-list">
+      <li>চাল ও ডাল আলাদা আলাদাভাবে অল্প আঁচে শুকনো তাওয়ায় ভাজুন, যতক্ষণ না হালকা সুগন্ধ বের হয় — বাদামি করে পোড়াবেন না।</li>
+      <li>সম্পূর্ণ ঠান্ডা হতে দিন, তারপর ড্রাই গ্রাইন্ডার/ব্লেন্ডারে মিহি গুঁড়া করুন।</li>
+      <li>ছাঁকনি দিয়ে ছেঁকে মোটা অংশ বাদ দিন।</li>
+      <li>শুকনো, বায়ুরোধী কৌটায় সংরক্ষণ করুন — ঘরের তাপমাত্রায় ২–৩ সপ্তাহ, ফ্রিজে বেশি দিন ভালো থাকে।</li>
+    </ol>
+
+    <h3 class="sub-head">রান্নার নিয়ম</h3>
+    <ol class="step-list">
+      <li>১–২ টেবিল চামচ গুঁড়া পানি বা বুকের দুধ/ফর্মুলার সাথে মিশিয়ে নিন।</li>
+      <li>অল্প আঁচে ৫–৮ মিনিট ক্রমাগত নাড়তে নাড়তে সেদ্ধ করুন, যতক্ষণ না নরম-পাতলা পিউরি টেক্সচার হয়।</li>
+      <li>একটু ঠান্ডা হলে সামান্য ঘি বা ম্যাশ করা ফল/সবজি মিশিয়ে দিন — চিনি ছাড়াই বাড়তি ক্যালরি ও স্বাদের জন্য।</li>
+    </ol>
+
+    <h3 class="sub-head">কোন ফল/সবজি মেশাবেন</h3>
+    <div class="recipe-grid">
+      <div class="recipe-block">
+        <h3>ফল (ম্যাশ/পিউরি করে)</h3>
+        <ul class="ingredients">
+          <li>পাকা কলা</li>
+          <li>পাকা পেঁপে</li>
+          <li>সিদ্ধ/ভাপে দেওয়া আপেল</li>
+          <li>পাকা আম (মৌসুমে)</li>
+          <li>নাশপাতি (সিদ্ধ)</li>
+          <li>অল্প খেজুর পেস্ট</li>
+        </ul>
+      </div>
+      <div class="recipe-block">
+        <h3>সবজি (সেদ্ধ করে ম্যাশ)</h3>
+        <ul class="ingredients">
+          <li>মিষ্টি আলু</li>
+          <li>মিষ্টি কুমড়া</li>
+          <li>গাজর</li>
+          <li>ফুলকপি/ব্রকলি</li>
+          <li>মটরশুঁটি</li>
+          <li>পালং শাক (অল্প পরিমাণে)</li>
+        </ul>
+      </div>
+    </div>
+    <p class="stage-detail">একবারে একটি নতুন ফল/সবজি যোগ করুন, ২–৩ দিন অপেক্ষা করে প্রতিক্রিয়া লক্ষ্য রাখুন — <a href="#allergens">অ্যালার্জেন পরিচিতি দেখুন ↑</a>। পালং শাক, বিট বা শালগমের মতো নাইট্রেট-সমৃদ্ধ শাকসবজি অল্প পরিমাণে দিন এবং সপ্তাহে বেশ কয়েকবার এড়িয়ে চলুন।</p>
+
+    <p class="stage-detail"><strong>আয়রন বাড়াতে:</strong> শুধু চাল-ডালের গুঁড়ায় আয়রন কম শোষিত হয় — সপ্তাহে কয়েকবার আলাদাভাবে রান্না করা মাংস/মাছ/ডিমের পিউরি সাথে দিন, আর ভিটামিন সি সমৃদ্ধ ফল (কমলা, পেয়ারা) একসাথে দিলে আয়রন শোষণ বাড়ে।</p>
+    <p class="recipe-note"><strong>সংরক্ষণ সতর্কতা:</strong> গুঁড়া শুকনো অবস্থায় রাখুন। রান্না করা পোরিজ ফ্রিজে সর্বোচ্চ ২৪ ঘণ্টা রাখা যায় — এর বেশি নয়। প্রতিবার তাজা বানানোই সবচেয়ে নিরাপদ।</p>
+  </div>
+
+  <div class="recipe" id="recipe">
+    <h2>বাদাম–খেজুর বরফি, নতুনভাবে</h2>
+    <p class="tagline">"মিষ্টি" হিসেবে নয় — একটা nut-and-seed food হিসেবে বানান।</p>
+    <div class="recipe-grid">
+      <div class="recipe-block">
+        <h3>উপকরণ</h3>
+        <ul class="ingredients">
+          <li>কাজু</li>
+          <li>কাঠবাদাম</li>
+          <li>তিল</li>
+          <li>কুমড়ার বিচি</li>
+          <li>অল্প খেজুর</li>
+        </ul>
+      </div>
+      <div class="recipe-block">
+        <h3>বাদ দিন</h3>
+        <ul class="avoid-list">
+          <li>❌ চিনি</li>
+          <li>❌ মধু (১ বছরের কম বয়সে)</li>
+          <li>❌ লবণ</li>
+          <li>❌ কনডেন্সড মিল্ক</li>
+          <li>❌ সিরাপ</li>
+        </ul>
+      </div>
+    </div>
+    <p class="recipe-note"><strong>টেক্সচার সতর্কতা:</strong> বাচ্চা খাওয়া শুরু করলে গোটা বাদাম/বিচি বা শক্ত বরফির টুকরা দেবেন না — বয়স অনুযায়ী মিহি গুঁড়া বা নরম পেস্ট করে দিন। WHO-ও বয়স বাড়ার সঙ্গে খাবারের টেক্সচার ধীরে ধীরে পরিবর্তনের পরামর্শ দেয়।</p>
+  </div>
+
+  <section id="more-recipes" class="tool-card">
+    <h2>আরও ঘরে তৈরি খাবার</h2>
+    <p class="tool-desc">একঘেয়েমি এড়াতে বৈচিত্র্য আনুন — নিচের সবগুলোতেই যোগ করা চিনি, লবণ বা মধু নেই।</p>
+      <div class="mini-recipe">
+        <div class="mini-recipe-head"><h3>সবজি খিচুড়ি</h3><span class="age-tag">৬–৮ মাস+</span></div>
+        <p><strong>উপকরণ:</strong> ভাত, মুগ ডাল, মিষ্টি আলু/গাজর/লাউ, সামান্য ঘি, হলুদ।</p>
+        <p><strong>পদ্ধতি:</strong> সব একসাথে নরম হওয়া পর্যন্ত সেদ্ধ করে ম্যাশ করুন। ১ বছরের নিচে লবণ দেবেন না।</p>
+      </div>
+      <div class="mini-recipe">
+        <div class="mini-recipe-head"><h3>রাগি-কলা পুডিং</h3><span class="age-tag">৭–৮ মাস+</span></div>
+        <p><strong>রাগি কী:</strong> ফিঙ্গার মিলেট নামের একধরনের ছোট দানার শস্য (দক্ষিণ ভারতে বেশি প্রচলিত) — স্বাভাবিক শস্যের মধ্যে সবচেয়ে বেশি ক্যালসিয়াম থাকে। বাংলাদেশের সাধারণ দোকানে সহজে পাওয়া নাও যেতে পারে, অর্গানিক/হেলথ ফুড শপ বা অনলাইন গ্রোসারিতে "ragi flour" নামে খুঁজুন।</p>
+        <p><strong>উপকরণ:</strong> রাগির গুঁড়া, পাকা কলা, বুকের দুধ/পানি।</p>
+        <p><strong>পদ্ধতি:</strong> রাগির গুঁড়া পানিতে সেদ্ধ করে ম্যাশ করা কলা মিশিয়ে দিন — চিনি ছাড়াই স্বাভাবিক মিষ্টি, ক্যালসিয়াম-আয়রন সমৃদ্ধ।</p>
+        <p><strong>না পেলে:</strong> চালের গুঁড়া বা ওটস দিয়ে একই পদ্ধতিতে বানাতে পারেন — স্বাদ একই রকম মিষ্টি হবে না, তবে পুষ্টিগুণ কাছাকাছি।</p>
+      </div>
+      <div class="mini-recipe">
+        <div class="mini-recipe-head"><h3>ওটস-কলা প্যানকেক</h3><span class="age-tag">৯–১০ মাস+</span></div>
+        <p><strong>উপকরণ:</strong> ওটসের গুঁড়া, পাকা কলা (চটকানো), ডিম (ঐচ্ছিক বাইন্ডার)।</p>
+        <p><strong>পদ্ধতি:</strong> একসাথে মিশিয়ে অল্প ঘিয়ে ছোট প্যানকেক ভেজে নিন — হাতে ধরে খাওয়ার (self-feeding) অভ্যাস তৈরি করে।</p>
+      </div>
+      <div class="mini-recipe">
+        <div class="mini-recipe-head"><h3>নরম মুরগি/মাছের কোপ্তা</h3><span class="age-tag">১০–১২ মাস+</span></div>
+        <p><strong>উপকরণ:</strong> সেদ্ধ মুরগি/মাছ (কাঁটা ছাড়া) কিমা, সেদ্ধ আলু, সামান্য ঘি।</p>
+        <p><strong>পদ্ধতি:</strong> একসাথে মেখে ছোট নরম বল বানিয়ে ভাপে বা অল্প তেলে হালকা সেঁকে নিন — চিবানোর অভ্যাস তৈরি করে ও আয়রনের ভালো উৎস।</p>
+      </div>
+      <div class="mini-recipe">
+        <div class="mini-recipe-head"><h3>ফল-দই মিশ্রণ</h3><span class="age-tag">৮ মাস+</span></div>
+        <p><strong>উপকরণ:</strong> টক দই, ম্যাশ করা পাকা ফল (কলা/আম/পেঁপে)।</p>
+        <p><strong>পদ্ধতি:</strong> দইয়ের সাথে ফল মিশিয়ে দিন — আলাদা চিনি ছাড়াই মিষ্টি স্বাদ পাওয়া যায়। দুধজাত খাবার পরিচয়ের পর দিন।</p>
+      </div>
+      <div class="mini-recipe">
+        <div class="mini-recipe-head"><h3>মসুর ডাল-সবজির স্যুপ</h3><span class="age-tag">১–৩ বছর</span></div>
+        <p><strong>উপকরণ:</strong> মসুর ডাল, গাজর/টমেটো/লাউ, হালকা রসুন-জিরা, সামান্য ঘি।</p>
+        <p><strong>পদ্ধতি:</strong> সব সেদ্ধ করে ব্লেন্ড করুন — পরিবারের বাকি খাবারে লবণ দেওয়ার আগেই শিশুর ভাগ আলাদা করে তুলে রাখুন।</p>
+      </div>
+  </section>
+
+  <footer>
+    <p>এই রোডম্যাপ WHO-এর সাধারণ গাইডলাইনের ওপর ভিত্তি করে তৈরি একটি প্র্যাকটিক্যাল সহায়িকা। প্রতিটি শিশুর প্রয়োজন আলাদা হতে পারে — অ্যালার্জি, বৃদ্ধি বা যেকোনো নির্দিষ্ট স্বাস্থ্য সংক্রান্ত সিদ্ধান্তের আগে শিশু বিশেষজ্ঞের পরামর্শ নিন।</p>
+    <p>এই সাইটের নিরাপত্তা ও প্রাথমিক চিকিৎসা সংক্রান্ত তথ্য কোনো প্রশিক্ষণ বা পেশাদার চিকিৎসা পরামর্শের বিকল্প নয়।</p>
+  </footer>
+
+</div>
+
+<script>
+(function(){
+  var stageEls = {
+    0: document.getElementById('stage-0-6'),
+    1: document.getElementById('stage-6-12'),
+    2: document.getElementById('stage-12-24'),
+    3: document.getElementById('stage-24-36')
+  };
+  var stageNames = ['জন্ম – ৬ মাস','৬ – ১২ মাস','১ – ২ বছর','২ – ৩ বছর'];
+
+  function monthsBetween(birth, today){
+    var months = (today.getFullYear() - birth.getFullYear()) * 12 + (today.getMonth() - birth.getMonth());
+    if(today.getDate() < birth.getDate()) months--;
+    return months;
+  }
+
+  function stageIndex(months){
+    if(months < 6) return 0;
+    if(months < 12) return 1;
+    if(months < 24) return 2;
+    if(months < 36) return 3;
+    return -1;
+  }
+
+  function highlightStage(idx){
+    Object.keys(stageEls).forEach(function(key){
+      if(stageEls[key]) stageEls[key].classList.remove('highlight');
+    });
+    if(idx >= 0 && stageEls[idx]){
+      stageEls[idx].classList.add('highlight');
+      stageEls[idx].scrollIntoView({behavior:'smooth', block:'center'});
+    }
+  }
+
+  var form = document.getElementById('ageForm');
+  var input = document.getElementById('birthDate');
+  var result = document.getElementById('ageResult');
+
+  function runCalc(){
+    if(!input.value) return;
+    var birth = new Date(input.value + 'T00:00:00');
+    var today = new Date();
+    if(isNaN(birth.getTime()) || birth > today){
+      result.textContent = 'সঠিক জন্ম তারিখ দিন।';
+      return;
+    }
+    var months = monthsBetween(birth, today);
+    var idx = stageIndex(months);
+    if(idx === -1){
+      result.textContent = 'আপনার শিশুর বয়স ' + months + ' মাস — এই রোডম্যাপ ৩ বছর পর্যন্ত কভার করে।';
+      highlightStage(-1);
+      return;
+    }
+    result.textContent = 'আপনার শিশুর বয়স ' + months + ' মাস — এখন "' + stageNames[idx] + '" ধাপে আছে।';
+    highlightStage(idx);
+  }
+
+  if(form && input && result){
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      try{ localStorage.setItem('babyBirthDate', input.value); }catch(err){}
+      runCalc();
+    });
+    try{
+      var saved = localStorage.getItem('babyBirthDate');
+      if(saved){ input.value = saved; runCalc(); }
+    }catch(err){}
+  }
+
+  var trackerGrid = document.getElementById('trackerGrid');
+  var resetBtn = document.getElementById('trackerReset');
+  var STORE_KEY = 'babyFoodTracker';
+
+  function loadTracker(){
+    try{
+      var raw = localStorage.getItem(STORE_KEY);
+      return raw ? JSON.parse(raw) : {};
+    }catch(err){ return {}; }
+  }
+  function saveTracker(data){
+    try{ localStorage.setItem(STORE_KEY, JSON.stringify(data)); }catch(err){}
+  }
+
+  if(trackerGrid){
+    var data = loadTracker();
+    var boxes = trackerGrid.querySelectorAll('input[type=checkbox]');
+    boxes.forEach(function(box){
+      var id = box.getAttribute('data-food');
+      box.checked = !!data[id];
+      box.addEventListener('change', function(){
+        var d = loadTracker();
+        d[id] = box.checked;
+        saveTracker(d);
+      });
+    });
+    if(resetBtn){
+      resetBtn.addEventListener('click', function(){
+        saveTracker({});
+        boxes.forEach(function(box){ box.checked = false; });
+      });
+    }
+  }
+})();
+</script>
+
+</body>
+</html>
