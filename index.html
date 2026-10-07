@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nihongo Roadmap</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="topbar">
+  <button class="btn" id="menu" aria-label="Open menu">Menu</button>
+  <b>日本語 Roadmap</b>
+</div>
+<div class="shell">
+  <aside class="side" id="side">
+    <div class="brand"><span class="jp">日本語</span> Roadmap</div>
+    <nav id="nav" aria-label="Main"></nav>
+    <div class="foot">
+      <button class="btn" id="theme">Theme</button>
+      <p>Progress is saved only in this browser.</p>
+      <button class="btn" id="reset">Reset all</button>
+    </div>
+  </aside>
+  <main id="view" tabindex="-1"></main>
+</div>
+<dialog id="wordDialog" aria-labelledby="dlgTitle"></dialog>
+<script src="data.js"></script>
+<script src="data-levels.js"></script>
+<script src="data-n5.js"></script>
+<script src="data-kana.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
