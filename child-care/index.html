@@ -1,0 +1,2079 @@
+<!doctype html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>শিশুর খাবার রোডম্যাপ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+Da+2:wght@500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&display=swap">
+<style>
+  /* ============ Design tokens ============ */
+  :root{
+    --bg:#FFF8F1;
+    --bg-2:#FFEFE0;
+    --surface:#FFFFFF;
+    --surface-2:#FAF3EA;
+    --ink:#2E2A39;
+    --ink-soft:#6A6577;
+    --line:#F0E4D6;
+
+    --accent:#2A9D8F;          /* teal */
+    --accent-strong:#1F7F73;
+    --accent-tint:#E0F4F0;
+    --accent-2:#E4654B;        /* coral */
+    --accent-2-tint:#FDE9E3;
+    --sun:#F2B134;
+    --sun-tint:#FFF2D2;
+    --lav:#8B7FD6;
+    --lav-tint:#ECE9FB;
+    --muted-tint:#F3ECE3;
+    --rail:#F0DCC8;
+
+    --shadow-sm:0 1px 2px rgba(80,50,20,.05),0 4px 14px rgba(80,50,20,.05);
+    --shadow-md:0 2px 4px rgba(80,50,20,.05),0 12px 32px rgba(80,50,20,.08);
+    --radius:22px;
+    --radius-sm:14px;
+    --glass:rgba(255,248,241,.82);
+    color-scheme:light;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#14151B;
+      --bg-2:#1B1C25;
+      --surface:#1E2029;
+      --surface-2:#252733;
+      --ink:#F1EEF7;
+      --ink-soft:#B0ABC0;
+      --line:#2E3040;
+      --accent:#5FD0C0;
+      --accent-strong:#8DE3D6;
+      --accent-tint:#1B3A39;
+      --accent-2:#FF9A82;
+      --accent-2-tint:#42241F;
+      --sun:#F6C25E;
+      --sun-tint:#3F3217;
+      --lav:#B2A8F0;
+      --lav-tint:#2C2850;
+      --muted-tint:#2A2C39;
+      --rail:#363849;
+      --shadow-sm:0 1px 2px rgba(0,0,0,.3),0 4px 14px rgba(0,0,0,.25);
+      --shadow-md:0 2px 4px rgba(0,0,0,.3),0 12px 32px rgba(0,0,0,.35);
+      --glass:rgba(20,21,27,.82);
+      color-scheme:dark;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#14151B;
+    --bg-2:#1B1C25;
+    --surface:#1E2029;
+    --surface-2:#252733;
+    --ink:#F1EEF7;
+    --ink-soft:#B0ABC0;
+    --line:#2E3040;
+    --accent:#5FD0C0;
+    --accent-strong:#8DE3D6;
+    --accent-tint:#1B3A39;
+    --accent-2:#FF9A82;
+    --accent-2-tint:#42241F;
+    --sun:#F6C25E;
+    --sun-tint:#3F3217;
+    --lav:#B2A8F0;
+    --lav-tint:#2C2850;
+    --muted-tint:#2A2C39;
+    --rail:#363849;
+    --shadow-sm:0 1px 2px rgba(0,0,0,.3),0 4px 14px rgba(0,0,0,.25);
+    --shadow-md:0 2px 4px rgba(0,0,0,.3),0 12px 32px rgba(0,0,0,.35);
+    --glass:rgba(20,21,27,.82);
+    color-scheme:dark;
+  }
+
+  /* ============ Base ============ */
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(900px 500px at 8% -5%,var(--sun-tint),transparent 60%),
+      radial-gradient(800px 500px at 100% 0%,var(--accent-tint),transparent 55%),
+      var(--bg);
+    background-attachment:fixed;
+    color:var(--ink);
+    font-family:'Hind Siliguri','Noto Sans Bengali',system-ui,sans-serif;
+    font-size:16px;
+    line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,.eyebrow,.chip,.stage-age{
+    font-family:'Baloo Da 2','Hind Siliguri',system-ui,sans-serif;
+  }
+  h1,h2,h3{text-wrap:balance;line-height:1.3;}
+  a{color:var(--accent-strong);text-underline-offset:3px;}
+  :focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:8px;}
+
+  .page{max-width:880px;margin:0 auto;padding:20px 18px 96px;}
+  @media(min-width:640px){.page{padding:32px 28px 120px;}}
+
+  /* reading progress */
+  .progress{position:fixed;inset:0 0 auto 0;height:4px;z-index:60;background:transparent;pointer-events:none;}
+  .progress span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--sun),var(--accent-2));border-radius:0 4px 4px 0;}
+
+  /* floating buttons */
+  .fab{
+    position:fixed;z-index:50;width:46px;height:46px;border-radius:50%;
+    border:1px solid var(--line);background:var(--surface);color:var(--ink);
+    box-shadow:var(--shadow-md);cursor:pointer;font-size:20px;line-height:1;
+    display:grid;place-items:center;transition:transform .2s ease,opacity .2s ease;
+  }
+  .fab:hover{transform:translateY(-2px);}
+  .theme-btn{right:16px;bottom:16px;}
+  .top-btn{right:16px;bottom:70px;opacity:0;pointer-events:none;}
+  .top-btn.show{opacity:1;pointer-events:auto;}
+
+  /* ============ Hero ============ */
+  .hero{
+    position:relative;overflow:hidden;
+    background:linear-gradient(135deg,var(--accent) 0%,#4DB6A6 45%,var(--sun) 130%);
+    color:#fff;border-radius:28px;padding:34px 26px 28px;margin-bottom:22px;
+    box-shadow:var(--shadow-md);
+  }
+  @media(min-width:640px){.hero{padding:48px 44px 40px;}}
+  .hero::before,.hero::after{
+    content:"";position:absolute;border-radius:50%;background:rgba(255,255,255,.14);pointer-events:none;
+  }
+  .hero::before{width:260px;height:260px;right:-70px;top:-90px;}
+  .hero::after{width:160px;height:160px;right:90px;bottom:-80px;background:rgba(255,255,255,.1);}
+  .hero-emoji{
+    position:absolute;right:22px;top:20px;font-size:54px;line-height:1;
+    filter:drop-shadow(0 6px 10px rgba(0,0,0,.18));animation:float 5s ease-in-out infinite;
+  }
+  @keyframes float{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-8px) rotate(4deg)}}
+  @media(prefers-reduced-motion:reduce){.hero-emoji{animation:none}html{scroll-behavior:auto}}
+  .eyebrow{
+    display:inline-block;font-size:13.5px;font-weight:600;
+    background:rgba(255,255,255,.22);color:#fff;padding:4px 14px;border-radius:99px;
+    margin-bottom:16px;backdrop-filter:blur(4px);
+  }
+  h1{font-size:clamp(32px,6vw,50px);font-weight:800;margin:0 0 12px;color:#fff;max-width:14ch;}
+  .subtitle{font-size:16.5px;color:rgba(255,255,255,.95);max-width:52ch;margin:0 0 24px;}
+  .hero-actions{display:flex;flex-wrap:wrap;gap:10px;position:relative;z-index:1;}
+  .btn{
+    font:inherit;font-size:14.5px;font-weight:600;padding:10px 20px;border-radius:99px;
+    border:2px solid transparent;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:8px;
+    transition:transform .15s ease,box-shadow .15s ease,background .15s ease;
+  }
+  .btn:hover{transform:translateY(-2px);}
+  .btn-light{background:#fff;color:#1F7F73;box-shadow:0 6px 16px rgba(0,0,0,.14);}
+  .btn-ghost{background:rgba(255,255,255,.16);color:#fff;border-color:rgba(255,255,255,.55);}
+  .btn-ghost:hover{background:rgba(255,255,255,.28);}
+  .print-btn{margin:0;}
+
+  /* ============ Quick nav ============ */
+  .quicknav{
+    position:sticky;top:8px;z-index:40;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;
+    padding:8px;margin:0 0 26px;border-radius:99px;
+    background:var(--glass);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+    border:1px solid var(--line);box-shadow:var(--shadow-sm);
+  }
+  .quicknav::-webkit-scrollbar{display:none;}
+  .quicknav a{
+    flex:none;font-size:13.5px;font-weight:600;padding:7px 15px;border-radius:99px;
+    color:var(--ink-soft);text-decoration:none;white-space:nowrap;transition:background .2s,color .2s;
+  }
+  .quicknav a:hover{background:var(--muted-tint);color:var(--ink);}
+  .quicknav a.active{background:var(--accent);color:#fff;}
+  :root[data-theme="dark"] .quicknav a.active{color:#0F2B28;}
+  @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .quicknav a.active{color:#0F2B28;}}
+
+  /* ============ Overview ============ */
+  .overview{
+    background:var(--surface);border:1px solid var(--line);
+    border-radius:var(--radius);padding:22px 26px 18px;margin-bottom:28px;box-shadow:var(--shadow-sm);
+  }
+  .overview-track{position:relative;height:12px;border-radius:99px;background:var(--surface-2);margin:20px 0 8px;}
+  .overview-seg{position:absolute;top:0;height:100%;border-radius:99px;background:var(--accent);opacity:.9;}
+  .overview-seg:nth-child(2){background:var(--sun);}
+  .overview-seg:nth-child(3){background:var(--accent-2);}
+  .overview-seg:nth-child(4){background:var(--lav);}
+  .overview-seg{opacity:1 !important;}
+  .overview-ticks{display:flex;justify-content:space-between;font-size:12.5px;color:var(--ink-soft);}
+  .overview-labels{display:flex;justify-content:space-between;font-size:13px;font-weight:600;color:var(--ink-soft);margin-bottom:2px;}
+
+  /* ============ Cards ============ */
+  .tool-card,.recipe{
+    position:relative;background:var(--surface);border:1px solid var(--line);
+    border-radius:var(--radius);padding:24px 22px;margin:0 0 24px;
+    box-shadow:var(--shadow-sm);scroll-margin-top:86px;
+  }
+  @media(min-width:640px){.tool-card,.recipe{padding:30px 32px;}}
+  .tool-card h2,.recipe h2{
+    display:flex;align-items:center;gap:12px;
+    font-size:22px;font-weight:700;margin:0 0 8px;color:var(--ink);
+  }
+  .h-ico{
+    flex:none;width:42px;height:42px;border-radius:14px;display:grid;place-items:center;
+    font-size:22px;background:var(--accent-tint);
+  }
+  #readiness .h-ico,#alternatives .h-ico,#portions .h-ico,#faq .h-ico{background:var(--sun-tint);}
+  #safety .h-ico,#allergens .h-ico{background:var(--accent-2-tint);}
+  #feeding-cues .h-ico,#tracker .h-ico,#meal-plan .h-ico{background:var(--lav-tint);}
+  .tool-desc{font-size:15px;color:var(--ink-soft);margin:0 0 18px;}
+  .sub-head{
+    font-size:15px;font-weight:700;color:var(--ink);margin:26px 0 12px;
+    display:flex;align-items:center;gap:10px;
+  }
+  .sub-head::before{content:"";width:6px;height:18px;border-radius:99px;background:var(--accent);flex:none;}
+  .sub-head:first-of-type{margin-top:4px;}
+
+  .tool-card.featured{
+    border:2px solid transparent;
+    background:
+      linear-gradient(var(--surface),var(--surface)) padding-box,
+      linear-gradient(135deg,var(--accent),var(--sun),var(--accent-2)) border-box;
+    box-shadow:var(--shadow-md);
+  }
+  .badge-now{
+    display:inline-block;font-family:'Baloo Da 2',sans-serif;font-size:12px;font-weight:700;
+    padding:2px 10px;border-radius:99px;background:var(--accent-2);color:#fff;margin-inline-start:4px;
+    vertical-align:middle;
+  }
+
+  /* golden rule */
+  .golden-rule{
+    position:relative;background:linear-gradient(135deg,var(--sun-tint),var(--accent-tint));
+    border:1px solid var(--line);border-radius:var(--radius);padding:24px 26px 24px 26px;margin:0 0 28px;
+    box-shadow:var(--shadow-sm);
+  }
+  .golden-rule h2{font-size:18px;font-weight:700;color:var(--ink);margin:0 0 8px;display:flex;align-items:center;gap:8px;}
+  .golden-rule p{margin:0;font-size:15.5px;color:var(--ink);}
+
+  /* age calculator */
+  .age-form{display:flex;gap:10px;flex-wrap:wrap;}
+  .age-form input[type=date]{
+    font:inherit;font-size:15px;padding:11px 16px;border-radius:99px;flex:1 1 180px;min-width:0;
+    border:2px solid var(--line);background:var(--bg);color:var(--ink);
+  }
+  .age-form input[type=date]:focus{border-color:var(--accent);outline:none;}
+  .age-form button{
+    font:inherit;font-weight:700;font-size:15px;padding:11px 24px;border-radius:99px;border:none;
+    background:var(--accent);color:#fff;cursor:pointer;transition:transform .15s,background .15s;
+  }
+  .age-form button:hover{transform:translateY(-2px);background:var(--accent-strong);}
+  :root[data-theme="dark"] .age-form button{color:#0F2B28;}
+  @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .age-form button{color:#0F2B28;}}
+  .age-result{margin:14px 0 0;font-size:15px;color:var(--ink);min-height:1.4em;}
+  .age-result:not(:empty){background:var(--accent-tint);padding:12px 16px;border-radius:var(--radius-sm);font-weight:500;}
+
+  /* sign lists */
+  .sign-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px;}
+  .sign-list li{font-size:15px;padding-inline-start:34px;position:relative;}
+  .sign-list li::before{
+    content:"✓";position:absolute;left:0;top:2px;width:22px;height:22px;border-radius:50%;
+    background:var(--accent-tint);color:var(--accent-strong);font-weight:700;font-size:12px;
+    display:grid;place-items:center;line-height:1;
+  }
+  [dir="rtl"] .sign-list li::before{left:auto;right:0;}
+  .sign-list.full li::before{content:"–";background:var(--accent-2-tint);color:var(--accent-2);font-size:15px;}
+
+  /* ============ Timeline ============ */
+  .timeline{position:relative;margin-bottom:24px;}
+  .stage{
+    --c:var(--accent);--ct:var(--accent-tint);
+    position:relative;padding-inline-start:30px;padding-bottom:24px;
+    border-inline-start:3px solid var(--rail);margin-inline-start:10px;
+  }
+  .stage:nth-of-type(2){--c:var(--sun);--ct:var(--sun-tint);}
+  .stage:nth-of-type(3){--c:var(--accent-2);--ct:var(--accent-2-tint);}
+  .stage:nth-of-type(4){--c:var(--lav);--ct:var(--lav-tint);}
+  .stage:last-of-type{border-inline-start-color:transparent;padding-bottom:0;}
+  .stage::before{
+    content:"";position:absolute;left:-12px;top:22px;width:21px;height:21px;border-radius:50%;
+    background:var(--c);border:4px solid var(--bg);box-shadow:0 0 0 2px var(--c);
+  }
+  [dir="rtl"] .stage::before{left:auto;right:-12px;}
+  .stage-card{
+    background:var(--surface);border:1px solid var(--line);border-top:5px solid var(--c);
+    border-radius:var(--radius);padding:22px 22px;scroll-margin-top:90px;box-shadow:var(--shadow-sm);
+    transition:box-shadow .3s ease,transform .3s ease;
+  }
+  @media(min-width:640px){.stage-card{padding:26px 30px;}}
+  .stage-card.highlight{box-shadow:0 0 0 4px var(--ct),var(--shadow-md);transform:translateY(-2px);}
+  .stage-head{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px 16px;margin-bottom:12px;}
+  .stage-age{font-size:23px;font-weight:800;color:var(--ink);}
+  .stage-months{font-size:13px;font-weight:600;color:var(--ink);background:var(--ct);padding:4px 14px;border-radius:99px;}
+  .stage-locator{position:relative;height:6px;border-radius:99px;background:var(--surface-2);margin-bottom:18px;}
+  .stage-locator span{position:absolute;top:0;height:100%;border-radius:99px;background:var(--c);}
+  .stage-main{font-size:16px;margin:0 0 14px;color:var(--ink);}
+  .stage-main strong{color:var(--ink);}
+
+  .chip-row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;}
+  .chip{font-size:13.5px;font-weight:600;padding:5px 14px;border-radius:99px;white-space:nowrap;}
+  .chip.ok{background:var(--accent-tint);color:var(--accent-strong);}
+  .chip.avoid{background:var(--accent-2-tint);color:var(--accent-2);}
+  .chip.neutral{background:var(--muted-tint);color:var(--ink-soft);}
+
+  .stage-detail{font-size:15px;color:var(--ink-soft);margin:0 0 10px;}
+  .stage-detail:last-child{margin-bottom:0;}
+  .stage-detail strong{color:var(--ink);font-weight:600;}
+
+  /* step lists & alerts */
+  .step-list{margin:0;padding:0;list-style:none;counter-reset:s;display:flex;flex-direction:column;gap:12px;font-size:15px;color:var(--ink);}
+  .step-list li{counter-increment:s;position:relative;padding-inline-start:40px;}
+  .step-list li::before{
+    content:counter(s,bengali);position:absolute;left:0;top:0;width:28px;height:28px;border-radius:50%;
+    background:var(--accent);color:#fff;font-family:'Baloo Da 2',sans-serif;font-weight:700;font-size:14px;
+    display:grid;place-items:center;line-height:1;
+  }
+  :root[data-theme="dark"] .step-list li::before{color:#0F2B28;}
+  @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .step-list li::before{color:#0F2B28;}}
+  [dir="rtl"] .step-list li::before{left:auto;right:0;}
+
+  .alert-box{
+    margin-top:22px;background:var(--accent-2-tint);
+    border-radius:var(--radius-sm);padding:18px 20px 18px 20px;font-size:15px;color:var(--ink);
+    border:1px solid color-mix(in srgb,var(--accent-2) 30%,transparent);
+    border-inline-start:6px solid var(--accent-2);
+  }
+  .alert-box strong{color:var(--accent-2);}
+  .alert-box > strong:first-child{display:block;font-family:'Baloo Da 2',sans-serif;font-size:16.5px;margin-bottom:6px;}
+  .alert-box > strong:first-child::before{content:"⚠️ ";}
+
+  .hazard-list{list-style:none;margin:0 0 14px;padding:0;display:flex;flex-direction:column;gap:9px;}
+  .hazard-list li{font-size:15px;padding-inline-start:26px;position:relative;color:var(--ink);}
+  .hazard-list li::before{content:"";position:absolute;left:2px;top:9px;width:10px;height:10px;border-radius:50%;background:var(--accent-2);}
+  [dir="rtl"] .hazard-list li::before{left:auto;right:2px;}
+
+  /* stool colour swatches */
+  .swatch-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin:4px 0 8px;}
+  @media(min-width:640px){.swatch-grid{grid-template-columns:repeat(4,1fr);}}
+  .swatch{
+    background:var(--bg);border:1px solid var(--line);border-radius:var(--radius-sm);
+    padding:14px 10px 12px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:6px;
+  }
+  .swatch i{
+    width:44px;height:44px;border-radius:50%;display:block;
+    box-shadow:inset 0 -5px 8px rgba(0,0,0,.18),0 3px 8px rgba(0,0,0,.14);
+  }
+  .swatch b{font-size:14px;font-weight:600;color:var(--ink);line-height:1.35;}
+  .swatch em{
+    font-style:normal;font-size:12px;font-weight:700;padding:2px 10px;border-radius:99px;
+  }
+  .swatch.ok em{background:var(--accent-tint);color:var(--accent-strong);}
+  .swatch.warn em{background:var(--sun-tint);color:#9A6A00;}
+  .swatch.bad em{background:var(--accent-2-tint);color:var(--accent-2);}
+  :root[data-theme="dark"] .swatch.warn em{color:var(--sun);}
+  @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .swatch.warn em{color:var(--sun);}}
+
+  /* feeding cues */
+  .cue-grid{display:grid;grid-template-columns:1fr;gap:16px;}
+  @media(min-width:640px){.cue-grid{grid-template-columns:1fr 1fr;}}
+  .cue-col{background:var(--accent-tint);border-radius:var(--radius-sm);padding:18px 20px;}
+  .cue-col:nth-child(2){background:var(--accent-2-tint);}
+  .cue-col .sub-head{margin-top:0;}
+  .cue-col .sub-head::before{display:none;}
+  .cue-hungry{color:var(--accent-strong);}
+  .cue-full{color:var(--accent-2);}
+  .cue-col .sign-list li::before{background:var(--surface);}
+
+  /* tables */
+  .table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--radius-sm);background:var(--surface);}
+  .portion-table{width:100%;border-collapse:collapse;font-size:14.5px;min-width:520px;}
+  .portion-table th,.portion-table td{text-align:start;padding:12px 16px;border-bottom:1px solid var(--line);}
+  .portion-table tr:last-child td{border-bottom:none;}
+  .portion-table td{vertical-align:top;color:var(--ink);}
+  .portion-table td:first-child{font-weight:600;}
+  .portion-table tbody tr:nth-child(even) td{background:var(--surface-2);}
+  .portion-table tbody tr:hover td{background:var(--accent-tint);}
+  .portion-table th{
+    font-size:13.5px;color:var(--ink);font-weight:700;background:var(--muted-tint);
+    position:sticky;top:0;
+  }
+
+  /* meal plan */
+  .meal-grid{display:grid;grid-template-columns:1fr;gap:18px;}
+  @media(min-width:640px){.meal-grid{grid-template-columns:1fr 1fr;}}
+  .meal-grid > div{background:var(--bg);border:1px solid var(--line);border-radius:var(--radius-sm);padding:18px 20px;}
+  .meal-grid .sub-head{margin-top:0;}
+  .meal-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px;}
+  .meal-list li{font-size:14.5px;display:flex;flex-direction:column;gap:2px;color:var(--ink);padding-inline-start:14px;border-inline-start:3px solid var(--accent-tint);}
+  .meal-list li span{font-size:13px;font-weight:700;color:var(--accent-strong);}
+
+  /* tracker */
+  .tracker-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;margin-bottom:18px;}
+  .tracker-item{
+    display:flex;align-items:center;gap:10px;font-size:14.5px;color:var(--ink);
+    background:var(--bg);border:2px solid var(--line);border-radius:99px;padding:9px 16px;cursor:pointer;
+    transition:background .15s,border-color .15s,transform .15s;
+  }
+  .tracker-item:hover{transform:translateY(-1px);border-color:var(--accent);}
+  .tracker-item:has(input:checked){background:var(--accent-tint);border-color:var(--accent);color:var(--accent-strong);font-weight:600;}
+  .tracker-item input{accent-color:var(--accent);width:18px;height:18px;flex:none;}
+  .reset-btn{
+    font:inherit;font-size:14px;font-weight:600;padding:9px 20px;border-radius:99px;
+    border:2px solid var(--line);background:var(--surface);color:var(--ink-soft);cursor:pointer;
+  }
+  .reset-btn:hover{border-color:var(--accent-2);color:var(--accent-2);}
+
+  /* faq */
+  .faq-list{display:flex;flex-direction:column;gap:10px;}
+  .faq-item{border:1px solid var(--line);border-radius:var(--radius-sm);padding:2px 20px;background:var(--bg);transition:background .2s,border-color .2s;}
+  .faq-item[open]{background:var(--surface);border-color:var(--accent);}
+  .faq-item summary{
+    cursor:pointer;font-weight:600;padding:14px 0;list-style:none;position:relative;
+    padding-inline-end:34px;color:var(--ink);font-size:15.5px;
+  }
+  .faq-item summary::-webkit-details-marker{display:none;}
+  .faq-item summary::after{
+    content:"+";position:absolute;right:0;top:12px;width:26px;height:26px;border-radius:50%;
+    background:var(--accent-tint);color:var(--accent-strong);font-weight:700;font-size:18px;
+    display:grid;place-items:center;line-height:1;transition:transform .25s ease;
+  }
+  [dir="rtl"] .faq-item summary::after{right:auto;left:0;}
+  .faq-item[open] summary::after{transform:rotate(45deg);}
+  .faq-item p{margin:0 0 16px;font-size:15px;color:var(--ink-soft);}
+
+  /* recipes */
+  .recipe{background:linear-gradient(180deg,var(--surface),var(--surface));}
+  .recipe .tagline{font-size:15px;color:var(--ink-soft);margin:0 0 20px;}
+  .recipe-grid{display:grid;grid-template-columns:1fr;gap:18px;margin-bottom:6px;}
+  @media(min-width:640px){.recipe-grid{grid-template-columns:1.1fr 1fr;}}
+  .recipe-block{background:var(--bg);border:1px solid var(--line);border-radius:var(--radius-sm);padding:16px 20px;}
+  .recipe-block h3{font-size:15px;font-weight:700;margin:0 0 10px;color:var(--ink);}
+  .ingredients{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:7px;}
+  .ingredients li{font-size:15px;padding-inline-start:20px;position:relative;color:var(--ink);}
+  .ingredients li::before{content:"";position:absolute;left:2px;top:11px;width:8px;height:8px;border-radius:50%;background:var(--accent);}
+  [dir="rtl"] .ingredients li::before{left:auto;right:2px;}
+  .avoid-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:7px;}
+  .avoid-list li{font-size:15px;color:var(--accent-2);}
+  .recipe-note{margin-top:18px;padding-top:16px;border-top:1px dashed var(--line);font-size:15px;color:var(--ink-soft);}
+  .recipe-note strong{color:var(--ink);}
+
+  .mini-recipes-grid{display:grid;grid-template-columns:1fr;gap:14px;}
+  @media(min-width:640px){.mini-recipes-grid{grid-template-columns:1fr 1fr;}}
+  .mini-recipe{
+    border:1px solid var(--line);border-radius:var(--radius-sm);padding:18px 20px;background:var(--bg);
+    break-inside:avoid;margin:0;transition:transform .2s,box-shadow .2s,border-color .2s;
+  }
+  .mini-recipe:hover{transform:translateY(-3px);box-shadow:var(--shadow-md);border-color:var(--accent);}
+  .mini-recipe-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:10px;flex-wrap:wrap;}
+  .mini-recipe h3{font-size:17px;font-weight:700;margin:0;color:var(--ink);}
+  .mini-recipe .age-tag{
+    font-size:12.5px;font-weight:700;color:var(--accent-strong);background:var(--accent-tint);
+    padding:3px 11px;border-radius:99px;white-space:nowrap;
+  }
+  .mini-recipe p{font-size:14.5px;color:var(--ink-soft);margin:0 0 8px;line-height:1.6;}
+  .mini-recipe p:last-child{margin-bottom:0;}
+  .mini-recipe p strong{color:var(--ink);font-weight:600;}
+
+  footer{
+    margin-top:36px;padding:22px 24px;border-radius:var(--radius);background:var(--surface-2);
+    font-size:13.5px;color:var(--ink-soft);
+  }
+  footer p{margin:0 0 8px;}
+  footer p:last-child{margin-bottom:0;}
+
+
+  /* pregnancy timeline */
+  .preg-stats{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:22px;}
+  @media(min-width:640px){.preg-stats{grid-template-columns:repeat(4,1fr);}}
+  .preg-stat{background:var(--bg);border:1px solid var(--line);border-radius:var(--radius-sm);padding:14px 14px 12px;text-align:center;}
+  .preg-stat small{display:block;font-size:12.5px;color:var(--ink-soft);margin-bottom:2px;}
+  .preg-stat b{display:block;font-family:'Baloo Da 2',sans-serif;font-size:17px;line-height:1.3;color:var(--ink);}
+  .preg-stat span{display:block;font-size:12.5px;color:var(--ink-soft);margin-top:2px;}
+  .preg-stat.hl{background:var(--accent-2-tint);border-color:transparent;}
+  .preg-stat.hl b{color:var(--accent-2);}
+  .preg-bar{position:relative;display:flex;height:16px;border-radius:99px;overflow:hidden;margin:34px 0 8px;background:var(--surface-2);}
+  .preg-bar i{display:block;height:100%;}
+  .preg-bar i:nth-child(1){width:32.5%;background:var(--sun);}
+  .preg-bar i:nth-child(2){width:37.5%;background:var(--accent);}
+  .preg-bar i:nth-child(3){width:30%;background:var(--lav);}
+  .preg-pin{position:absolute;top:-30px;transform:translateX(-50%);font-size:12px;font-weight:700;white-space:nowrap;
+    padding:2px 10px;border-radius:99px;color:#fff;font-family:'Baloo Da 2',sans-serif;}
+  .preg-pin::after{content:"";position:absolute;left:50%;bottom:-5px;margin-left:-5px;border:5px solid transparent;border-top-color:inherit;border-bottom:0;}
+  .preg-pin.birth{background:var(--accent-2);border-top-color:var(--accent-2);}
+  .preg-pin.due{background:var(--ink-soft);border-top-color:var(--ink-soft);transform:translateX(-100%);}
+  .preg-pin.due::after{left:auto;right:10px;margin-left:0;}
+  .preg-legend{display:flex;justify-content:space-between;gap:6px;font-size:12.5px;color:var(--ink-soft);margin-bottom:6px;flex-wrap:wrap;}
+  .preg-legend span::before{content:"";display:inline-block;width:10px;height:10px;border-radius:50%;margin-inline-end:6px;background:var(--c);}
+  .preg-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;}
+  .preg-list li{display:grid;grid-template-columns:96px 1fr;gap:4px 16px;padding:12px 0;border-bottom:1px dashed var(--line);font-size:15px;}
+  .preg-list li:last-child{border-bottom:none;}
+  .preg-list time{font-family:'Baloo Da 2',sans-serif;font-weight:700;color:var(--accent-strong);font-size:14px;line-height:1.5;}
+  .preg-list li.now time{color:var(--accent-2);}
+  .preg-list li b{color:var(--ink);font-weight:600;}
+  .preg-list li span{display:block;color:var(--ink-soft);font-size:14px;}
+
+
+  .preg-form{display:grid;grid-template-columns:1fr;gap:12px;margin-bottom:6px;align-items:end;}
+  @media(min-width:760px){.preg-form{grid-template-columns:1fr 1fr auto;}}
+  .preg-form label{display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:600;color:var(--ink);}
+  .preg-form label small{font-weight:400;color:var(--ink-soft);}
+  .preg-form input[type=date]{
+    font:inherit;font-size:15px;padding:11px 16px;border-radius:99px;min-width:0;
+    border:2px solid var(--line);background:var(--bg);color:var(--ink);
+  }
+  .preg-form input[type=date]:focus{border-color:var(--accent);outline:none;}
+  .preg-form-btns{display:flex;gap:8px;}
+  .preg-go{
+    font:inherit;font-weight:700;font-size:15px;padding:11px 24px;border-radius:99px;border:none;
+    background:var(--accent);color:#fff;cursor:pointer;transition:transform .15s,background .15s;
+  }
+  .preg-go:hover{transform:translateY(-2px);background:var(--accent-strong);}
+  :root[data-theme="dark"] .preg-go{color:#0F2B28;}
+  @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .preg-go{color:#0F2B28;}}
+  .preg-form .reset-btn{padding:11px 20px;}
+  .preg-msg{margin:8px 0 0;font-size:14px;color:var(--accent-2);min-height:1.2em;}
+  #pregOut{margin-top:18px;}
+  .preg-list li.future{opacity:.6;}
+  .preg-list li.today time{color:var(--lav);}
+  .preg-pin.today{background:var(--lav);border-top-color:var(--lav);}
+
+
+  /* baby log & weight tracker */
+  .fld{display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:600;color:var(--ink);min-width:0;}
+  .fld small{font-weight:400;color:var(--ink-soft);}
+  .fld input,.fld select{
+    font:inherit;font-size:15px;padding:10px 16px;border-radius:99px;min-width:0;width:100%;
+    border:2px solid var(--line);background:var(--surface);color:var(--ink);
+  }
+  .fld input:focus,.fld select:focus{border-color:var(--accent);outline:none;}
+  .span2{grid-column:1/-1;}
+  .log-types{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px;}
+  .log-type{
+    font:inherit;font-size:14.5px;font-weight:600;padding:9px 16px;border-radius:99px;
+    border:2px solid var(--line);background:var(--bg);color:var(--ink);cursor:pointer;transition:transform .15s,background .15s;
+  }
+  .log-type:hover{transform:translateY(-1px);border-color:var(--accent);}
+  .log-type.active{background:var(--accent);border-color:var(--accent);color:#fff;}
+  :root[data-theme="dark"] .log-type.active{color:#0F2B28;}
+  @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .log-type.active{color:#0F2B28;}}
+  .log-form{
+    display:grid;gap:12px;grid-template-columns:1fr;background:var(--bg);
+    border:1px solid var(--line);border-radius:var(--radius-sm);padding:16px;align-items:end;
+  }
+  @media(min-width:760px){.log-form{grid-template-columns:1fr 1fr;}}
+  .log-fields{display:contents;}
+  .col-pick{display:flex;flex-wrap:wrap;gap:8px;}
+  .col-opt{
+    display:flex;align-items:center;gap:8px;font-size:13.5px;font-weight:600;padding:6px 12px 6px 8px;
+    border-radius:99px;border:2px solid var(--line);background:var(--surface);cursor:pointer;
+  }
+  .col-opt input{position:absolute;opacity:0;pointer-events:none;}
+  .col-opt i{width:20px;height:20px;border-radius:50%;display:block;box-shadow:inset 0 -2px 3px rgba(0,0,0,.2);}
+  .col-opt:has(input:checked){border-color:var(--accent);background:var(--accent-tint);}
+  .col-opt:has(input:focus-visible){outline:3px solid var(--accent);outline-offset:2px;}
+  .day-nav{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:22px 0 14px;}
+  .day-nav input[type=date]{
+    font:inherit;font-size:15px;padding:8px 14px;border-radius:99px;border:2px solid var(--line);background:var(--bg);color:var(--ink);
+  }
+  .mini-btn{
+    font:inherit;font-size:13.5px;font-weight:600;padding:8px 14px;border-radius:99px;
+    border:2px solid var(--line);background:var(--surface);color:var(--ink-soft);cursor:pointer;
+  }
+  .mini-btn:hover{border-color:var(--accent);color:var(--accent-strong);}
+  .preg-stat.good{background:var(--accent-tint);border-color:transparent;}
+  .preg-stat.good b{color:var(--accent-strong);}
+  .preg-stat.warnc{background:var(--sun-tint);border-color:transparent;}
+  .log-list{list-style:none;margin:14px 0 0;padding:0;display:flex;flex-direction:column;gap:8px;}
+  .log-list li{
+    display:flex;align-items:center;gap:12px;padding:10px 14px;border:1px solid var(--line);
+    border-radius:var(--radius-sm);background:var(--bg);font-size:15px;
+  }
+  .log-list time{flex:none;font-family:'Baloo Da 2',sans-serif;font-weight:700;font-size:13.5px;color:var(--accent-strong);min-width:74px;}
+  .log-list .txt{flex:1;min-width:0;word-break:break-word;}
+  .log-list .txt em{display:block;font-style:normal;font-size:13px;color:var(--ink-soft);}
+  .x-btn{flex:none;border:none;background:transparent;color:var(--ink-soft);font-size:18px;cursor:pointer;width:32px;height:32px;border-radius:50%;line-height:1;}
+  .x-btn:hover{background:var(--accent-2-tint);color:var(--accent-2);}
+  .log-empty{color:var(--ink-soft);font-size:14.5px;padding:14px 0;text-align:center;}
+  .backup-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px;padding-top:18px;border-top:1px dashed var(--line);align-items:center;}
+  .backup-row span{font-size:13.5px;color:var(--ink-soft);flex:1 1 100%;}
+  .w-form{display:grid;gap:12px;grid-template-columns:1fr 1fr;align-items:end;background:var(--bg);border:1px solid var(--line);border-radius:var(--radius-sm);padding:16px;}
+  @media(min-width:760px){.w-form{grid-template-columns:repeat(5,1fr);}}
+  .w-form .preg-go{grid-column:1/-1;justify-self:start;}
+  @media(min-width:760px){.w-form .preg-go{grid-column:auto;}}
+  .w-chart{margin:22px 0 6px;background:var(--bg);border:1px solid var(--line);border-radius:var(--radius-sm);padding:10px 8px 6px;}
+  .w-chart svg{width:100%;height:auto;display:block;}
+  .w-chart text{font-family:'Hind Siliguri',sans-serif;font-size:11px;fill:var(--ink-soft);}
+  .w-legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:12.5px;color:var(--ink-soft);margin:6px 0 0;padding:0 8px 6px;}
+  .w-legend span::before{content:"";display:inline-block;width:12px;height:12px;border-radius:3px;margin-inline-end:6px;background:var(--c);vertical-align:-1px;}
+  .w-status{margin-top:14px;padding:12px 16px;border-radius:var(--radius-sm);font-size:14.5px;background:var(--accent-tint);color:var(--ink);}
+  .w-status.warn{background:var(--sun-tint);}
+  .w-status.bad{background:var(--accent-2-tint);}
+  .w-status:empty{display:none;}
+  .w-table td .x-btn{width:28px;height:28px;font-size:16px;}
+
+
+  /* vaccination schedule */
+  .vac-visit{background:var(--bg);border:1px solid var(--line);border-radius:var(--radius-sm);padding:14px 18px;margin-bottom:12px;border-inline-start:6px solid var(--rail);}
+  .vac-visit.done{border-inline-start-color:var(--accent);}
+  .vac-visit.soon{border-inline-start-color:var(--sun);background:var(--sun-tint);}
+  .vac-visit.late{border-inline-start-color:var(--accent-2);background:var(--accent-2-tint);}
+  .vac-head{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:6px 12px;margin-bottom:8px;}
+  .vac-head b{font-family:'Baloo Da 2',sans-serif;font-size:17px;color:var(--ink);}
+  .vac-head small{display:block;font-size:13px;color:var(--ink-soft);font-weight:400;font-family:'Hind Siliguri',sans-serif;}
+  .vac-tag{font-size:12.5px;font-weight:700;padding:3px 12px;border-radius:99px;background:var(--muted-tint);color:var(--ink-soft);white-space:nowrap;}
+  .vac-visit.done .vac-tag{background:var(--accent-tint);color:var(--accent-strong);}
+  .vac-visit.soon .vac-tag{background:var(--sun);color:#3d2c00;}
+  .vac-visit.late .vac-tag{background:var(--accent-2);color:#fff;}
+  .vac-items{display:flex;flex-direction:column;gap:6px;}
+  .vac-item{display:flex;align-items:flex-start;gap:10px;font-size:15px;cursor:pointer;padding:6px 2px;}
+  .vac-item input{accent-color:var(--accent);width:20px;height:20px;flex:none;margin-top:3px;}
+  .vac-item span{flex:1;min-width:0;}
+  .vac-item em{display:block;font-style:normal;font-size:13px;color:var(--ink-soft);}
+  .vac-item .chk{display:inline-block;font-size:11.5px;font-weight:700;padding:1px 8px;border-radius:99px;background:var(--sun-tint);color:#8a6100;margin-inline-start:6px;}
+  :root[data-theme="dark"] .vac-item .chk{color:var(--sun);}
+  @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .vac-item .chk{color:var(--sun);}}
+  .vac-item.is-done span b{text-decoration:line-through;color:var(--ink-soft);}
+
+  @media print{
+    .quicknav,.print-btn,.hero-actions,.reset-btn,.age-form,.fab,.progress,.hero-emoji{display:none !important;}
+    body{background:#fff;color:#000;}
+    .hero{background:#fff;color:#000;box-shadow:none;border:1px solid #ccc;}
+    .hero h1,.hero .subtitle,.hero .eyebrow{color:#000;background:none;}
+    .tool-card,.recipe,.stage-card,.mini-recipe{box-shadow:none;break-inside:avoid;}
+    a{color:#000;}
+  }
+</style>
+</head>
+<body>
+
+<div class="progress" aria-hidden="true"><span id="progressBar"></span></div>
+<button type="button" class="fab top-btn" id="topBtn" aria-label="উপরে যান">↑</button>
+<button type="button" class="fab theme-btn" id="themeBtn" aria-label="থিম পরিবর্তন করুন">🌙</button>
+
+<div class="page">
+
+  <header class="hero">
+    <span class="hero-emoji" aria-hidden="true">🍼</span>
+    <span class="eyebrow">পরিপূরক খাবার পরিকল্পনা</span>
+    <h1>শিশুর খাবার রোডম্যাপ</h1>
+    <p class="subtitle">জন্ম থেকে ৩ বছর — যোগ করা চিনি, লবণ ও মধু ছাড়াই স্বাস্থ্যকর খাদ্যাভ্যাস গড়ে তোলার ধাপে ধাপে পরিকল্পনা, WHO-এর গাইডলাইন অনুসারে।</p>
+    <div class="hero-actions">
+      <a class="btn btn-light" href="#calculator">🗓️ শিশুর ধাপ দেখুন</a>
+      <a class="btn btn-ghost" href="#newborn-stool">🍼 নবজাতকের পটি গাইড</a>
+      <button type="button" class="btn btn-ghost print-btn" onclick="window.print()">🖨️ প্রিন্ট</button>
+    </div>
+  </header>
+
+  <nav class="quicknav" aria-label="দ্রুত নেভিগেশন">
+    <a href="#pregnancy">গর্ভকালীন যাত্রা</a>
+    <a href="#calculator">ক্যালকুলেটর</a>
+    <a href="#readiness">প্রস্তুতির লক্ষণ</a>
+    <a href="#stages">সময়রেখা</a>
+    <a href="#allergens">অ্যালার্জি</a>
+    <a href="#alternatives">বিকল্প খাবার</a>
+    <a href="#safety">নিরাপত্তা</a>
+    <a href="#feeding-cues">খাওয়ানোর ইঙ্গিত</a>
+    <a href="#newborn-stool">নবজাতকের পটি</a>
+    <a href="#baby-log">বেবি লগ</a>
+    <a href="#weight-tracker">ওজন</a>
+    <a href="#vaccines">টিকা</a>
+    <a href="#portions">পরিমাণ</a>
+    <a href="#meal-plan">দৈনিক মেনু</a>
+    <a href="#tracker">ট্র্যাকার</a>
+    <a href="#faq">প্রশ্নোত্তর</a>
+    <a href="#cereal">সেরেলাক</a>
+    <a href="#recipe">বরফি</a>
+    <a href="#more-recipes">আরও রেসিপি</a>
+  </nav>
+
+  <div class="overview">
+    <div class="overview-labels">
+      <span>জন্ম</span><span>৩ বছর</span>
+    </div>
+    <div class="overview-track">
+      <div class="overview-seg" style="left:0%;width:16.7%;background:var(--accent);"></div>
+      <div class="overview-seg" style="left:16.7%;width:16.6%;opacity:.65;"></div>
+      <div class="overview-seg" style="left:33.3%;width:33.4%;opacity:.45;"></div>
+      <div class="overview-seg" style="left:66.7%;width:33.3%;opacity:.28;"></div>
+    </div>
+    <div class="overview-ticks">
+      <span>০</span><span>৬ মাস</span><span>১২ মাস</span><span>২৪ মাস</span><span>৩৬ মাস</span>
+    </div>
+  </div>
+
+  <section id="pregnancy" class="tool-card">
+    <h2><span class="h-ico" aria-hidden="true">🤰</span><span>গর্ভকালীন যাত্রা: প্রথম দিন থেকে জন্ম পর্যন্ত</span></h2>
+    <p class="tool-desc">প্রত্যাশিত জন্মতারিখ দিন — শেষ মাসিক, গর্ভধারণ, ত্রৈমাসিক ও গুরুত্বপূর্ণ ধাপের তারিখ স্বয়ংক্রিয়ভাবে হিসাব হবে। শিশুর জন্ম হয়ে গেলে আসল জন্মতারিখও দিন। এগুলো আনুমানিক তারিখ।</p>
+
+    <form id="pregForm" class="preg-form">
+      <label>প্রত্যাশিত জন্মতারিখ (EDD)
+        <input type="date" id="eddDate" required>
+      </label>
+      <label>আসল জন্মতারিখ <small>(ঐচ্ছিক)</small>
+        <input type="date" id="actualBirth">
+      </label>
+      <div class="preg-form-btns">
+        <button type="submit" class="preg-go">হিসাব করুন</button>
+        <button type="button" id="pregClear" class="reset-btn">মুছুন</button>
+      </div>
+    </form>
+    <p id="pregMsg" class="preg-msg" role="alert"></p>
+
+    <div id="pregOut" aria-live="polite"></div>
+  </section>
+
+  <section id="calculator" class="tool-card">
+    <h2><span class="h-ico" aria-hidden="true">🗓️</span><span>শিশুর বয়স ক্যালকুলেটর</span></h2>
+    <p class="tool-desc">জন্ম তারিখ দিন — এখন কোন ধাপে আছে দেখুন, পাতাটি সেই ধাপে স্ক্রল করবে।</p>
+    <form id="ageForm" class="age-form">
+      <input type="date" id="birthDate" required aria-label="জন্ম তারিখ">
+      <button type="submit">ধাপ দেখুন</button>
+    </form>
+    <p id="ageResult" class="age-result" role="status"></p>
+  </section>
+
+  <section id="readiness" class="tool-card">
+    <h2><span class="h-ico" aria-hidden="true">🌱</span><span>খাবার শুরুর প্রস্তুতির লক্ষণ</span></h2>
+    <p class="tool-desc">শুধু বয়স (৬ মাস) নয় — নিচের লক্ষণগুলো একসাথে দেখা গেলে বোঝা যায় শিশু কঠিন খাবারের জন্য প্রস্তুত।</p>
+    <ul class="sign-list">
+      <li>মাথা ও ঘাড় সোজা রাখতে পারা</li>
+      <li>সাহায্য নিয়ে বসতে পারা</li>
+      <li>জিভ দিয়ে খাবার ঠেলে বের করে দেওয়ার প্রতিফলন (tongue-thrust) কমে যাওয়া</li>
+      <li>খাবারের দিকে হাত বাড়ানো বা মুখ খোলার মতো আগ্রহ দেখানো</li>
+      <li>অন্যদের খেতে দেখে অনুকরণ করার চেষ্টা করা</li>
+    </ul>
+  </section>
+
+  <div class="golden-rule">
+    <h2>⭐ মূল নীতি</h2>
+    <p>শুধু "চিনি খাওয়াব না" নয় — <strong>"খাবারকে মিষ্টি বা লবণাক্ত করে খাওয়ানোর চেষ্টা করব না।"</strong> কলা, মিষ্টি কুমড়া, খেজুর বা দইয়ে বাড়তি চিনি না মিশিয়ে, আর ডাল-ভাত-সবজি-মাছ-ডিমে আলাদা লবণ না দিলে শিশু খাবারের আসল স্বাদ চিনতে শেখে। WHO এই প্রথম বছরগুলোকে দীর্ঘমেয়াদি খাদ্যাভ্যাস গঠনের সবচেয়ে গুরুত্বপূর্ণ সময় হিসেবে চিহ্নিত করে।</p>
+  </div>
+
+  <div class="timeline" id="stages">
+
+    <div class="stage">
+      <div class="stage-card" id="stage-0-6">
+        <div class="stage-head">
+          <span class="stage-age">জন্ম – ৬ মাস</span>
+          <span class="stage-months">Exclusive Breastfeeding</span>
+        </div>
+        <div class="stage-locator"><span style="left:0%;width:16.7%;"></span></div>
+        <p class="stage-main"><strong>মূল খাবার:</strong> শুধু বুকের দুধ; প্রয়োজন হলে চিকিৎসকের পরামর্শ অনুযায়ী ফর্মুলা।</p>
+        <div class="chip-row">
+          <span class="chip avoid">পানি ❌</span>
+          <span class="chip avoid">চিনি ❌</span>
+          <span class="chip avoid">লবণ ❌</span>
+          <span class="chip avoid">মধু ❌</span>
+          <span class="chip avoid">জুস ❌</span>
+        </div>
+        <p class="stage-detail">শুধু চিকিৎসাগত প্রয়োজনে ব্যতিক্রম। WHO প্রথম ৬ মাস exclusive breastfeeding-এর পরামর্শ দেয় — এই সময় অতিরিক্ত আর কিছুরই দরকার নেই।</p>
+      </div>
+    </div>
+
+    <div class="stage">
+      <div class="stage-card" id="stage-6-12">
+        <div class="stage-head">
+          <span class="stage-age">৬ – ১২ মাস</span>
+          <span class="stage-months">Complementary Feeding শুরু</span>
+        </div>
+        <div class="stage-locator"><span style="left:16.7%;width:16.6%;"></span></div>
+        <p class="stage-main"><strong>মূল খাবার:</strong> বুকের দুধ/ফর্মুলা চালিয়ে যাওয়া + ধীরে ধীরে বিভিন্ন স্বাভাবিক খাবার।</p>
+        <div class="chip-row">
+          <span class="chip ok">Added Sugar ০</span>
+          <span class="chip ok">Added Salt ০</span>
+          <span class="chip avoid">মধু ❌</span>
+        </div>
+        <p class="stage-detail"><strong>মধু:</strong> ১২ মাসের আগে একেবারেই নয় — botulism-এর ঝুঁকির কারণে।</p>
+        <p class="stage-detail"><strong>বৈচিত্র্য:</strong> ডিম, মাছ, মাংস, ডাল, শাকসবজি, ফল, শস্য, বাদাম/বীজ — বয়স ও টেক্সচার অনুযায়ী।</p>
+        <p class="stage-detail">ফলের স্বাভাবিক মিষ্টি চলবে — এটা added sugar নয়। টেক্সচার মিহি পিউরি থেকে শুরু করে ধীরে ধীরে ঘন করুন।</p>
+        <p class="stage-detail"><strong>আয়রন:</strong> ৬ মাস থেকে শরীরের আয়রন মজুদ কমতে শুরু করে — প্রথম খাবারে আয়রন সমৃদ্ধ খাবার (মাংস, ডাল, ফর্টিফায়েড সেরিয়াল) অগ্রাধিকার দিন।</p>
+        <p class="stage-detail"><strong>অ্যালার্জেন খাবার:</strong> ডিম, চিনাবাদাম, দুধজাত খাবার এখন থেকেই তাড়াতাড়ি পরিচয় করানো ভালো — <a href="#allergens">বিস্তারিত নিয়ম দেখুন ↓</a></p>
+      </div>
+    </div>
+
+    <div class="stage">
+      <div class="stage-card" id="stage-12-24">
+        <div class="stage-head">
+          <span class="stage-age">১ – ২ বছর</span>
+          <span class="stage-months">পারিবারিক খাবারে রূপান্তর</span>
+        </div>
+        <div class="stage-locator"><span style="left:33.3%;width:33.4%;"></span></div>
+        <p class="stage-main"><strong>মূল খাবার:</strong> পরিবারের খাবার থেকে খেতে পারবে, একই নীতি চালিয়ে যান।</p>
+        <div class="chip-row">
+          <span class="chip avoid">Added Sugar এড়িয়ে চলুন</span>
+          <span class="chip avoid">Added Salt এড়িয়ে চলুন</span>
+          <span class="chip neutral">মধু পরিমিত ✓</span>
+        </div>
+        <p class="stage-detail">খাবারকে চিনি/লবণ দিয়ে বেশি "টেস্টি" করার অভ্যাস না করানোই ভালো।</p>
+        <p class="stage-detail"><strong>এড়িয়ে চলুন:</strong> মিষ্টি পানীয়, প্যাকেটজাত মিষ্টান্ন, বিস্কুট, কেক।</p>
+      </div>
+    </div>
+
+    <div class="stage">
+      <div class="stage-card" id="stage-24-36">
+        <div class="stage-head">
+          <span class="stage-age">২ – ৩ বছর</span>
+          <span class="stage-months">সম্পূর্ণ পারিবারিক খাদ্যাভ্যাস</span>
+        </div>
+        <div class="stage-locator"><span style="left:66.7%;width:33.3%;"></span></div>
+        <p class="stage-main"><strong>মূল খাবার:</strong> সম্পূর্ণ পারিবারিক, বৈচিত্র্যময় ও ভারসাম্যপূর্ণ খাবার।</p>
+        <div class="chip-row">
+          <span class="chip avoid">Added Sugar সর্বনিম্ন</span>
+          <span class="chip avoid">Added Salt সর্বনিম্ন</span>
+          <span class="chip neutral">স্বাধীনভাবে খাওয়া</span>
+        </div>
+        <p class="stage-detail">নিজে হাতে খাওয়া ও নতুন টেক্সচার-স্বাদে অভ্যস্ত হওয়ার দিকে গুরুত্ব দিন।</p>
+        <p class="stage-detail"><strong>সতর্কতা:</strong> গোটা বাদাম বা শক্ত খাবারে দমবন্ধ (choking) হওয়ার ঝুঁকি থাকে — <a href="#safety">নিরাপত্তা নির্দেশিকা দেখুন ↓</a></p>
+      </div>
+    </div>
+
+  </div>
+
+  <section id="allergens" class="tool-card ">
+    <h2><span class="h-ico" aria-hidden="true">🥜</span><span>অ্যালার্জেন খাবারের পরিচিতি</span></h2>
+    <p class="stage-detail">পুরনো ধারণা ছিল অ্যালার্জি-প্রবণ খাবার দেরিতে দেওয়াই নিরাপদ — কিন্তু বর্তমান WHO/AAP গাইডলাইন উল্টো কথা বলে: <strong>৬ মাস থেকেই এগুলো তাড়াতাড়ি ও নিয়মিতভাবে দেওয়া allergy-র ঝুঁকি বরং কমায়।</strong></p>
+
+    <h3 class="sub-head">সাধারণ অ্যালার্জেন খাবার</h3>
+    <div class="chip-row">
+      <span class="chip neutral">ডিম</span>
+      <span class="chip neutral">চিনাবাদাম</span>
+      <span class="chip neutral">গরুর দুধজাত</span>
+      <span class="chip neutral">গম</span>
+      <span class="chip neutral">সয়া</span>
+      <span class="chip neutral">মাছ</span>
+      <span class="chip neutral">চিংড়ি/শেলফিশ</span>
+      <span class="chip neutral">গাছ-বাদাম</span>
+    </div>
+
+    <h3 class="sub-head">কীভাবে পরিচয় করাবেন</h3>
+    <ol class="step-list">
+      <li>একবারে একটি নতুন অ্যালার্জেন খাবার দিন, মিহি পেস্ট/গুঁড়া আকারে — গোটা বাদাম নয়।</li>
+      <li>দিনের প্রথম ভাগে দিন, যাতে সারাদিন প্রতিক্রিয়া লক্ষ্য রাখা যায়।</li>
+      <li>২–৩ দিন অপেক্ষা করুন, এরপর পরবর্তী নতুন অ্যালার্জেন দিন।</li>
+      <li>সমস্যা না হলে, সহনশীলতা ধরে রাখতে সপ্তাহে কয়েকবার নিয়মিত খাদ্যতালিকায় রাখুন।</li>
+    </ol>
+
+    <div class="alert-box">
+      <strong>প্রতিক্রিয়ার লক্ষণ:</strong> চামড়ায় র‍্যাশ/আমবাত, ঠোঁট-মুখ ফুলে যাওয়া, বমি, শ্বাসকষ্ট। শ্বাসকষ্ট বা মুখ-গলা ফুলে গেলে সাথে সাথে জরুরি সেবা নিন। পারিবারিক ইতিহাসে গুরুতর অ্যালার্জি বা একজিমা থাকলে প্রথমবার দেওয়ার আগে চিকিৎসকের সাথে কথা বলুন।
+    </div>
+  </section>
+
+  <section id="alternatives" class="tool-card">
+    <h2><span class="h-ico" aria-hidden="true">🔄</span><span>খাবারের বিকল্প</span></h2>
+    <p class="tool-desc">অ্যালার্জি, হাতের কাছে না থাকা, বা বাচ্চা পছন্দ না করলে — একই পুষ্টিগুণ পেতে যা দিতে পারেন।</p>
+    <div class="table-wrap">
+      <table class="portion-table">
+        <thead>
+          <tr><th>মূল খাবার</th><th>বিকল্প</th><th>কেন লাগতে পারে</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>ডিম</td><td>মাছ, মুরগি, ডাল, দই</td><td>অ্যালার্জি বা হাতের কাছে না থাকলে</td></tr>
+          <tr><td>দুধ/দই/পনির</td><td>ক্যালসিয়াম-ফর্টিফায়েড সয়া/ওট দুধ, তিল বাটা, সবুজ শাক</td><td>দুধে এলার্জি বা lactose intolerance</td></tr>
+          <tr><td>চিনাবাদাম</td><td>তিল বাটা, কুমড়ার বিচি বাটা, সূর্যমুখী বীজ বাটা</td><td>চিনাবাদাম এলার্জি</td></tr>
+          <tr><td>গাছ-বাদাম</td><td>বীজজাতীয় খাবার (তিল, কুমড়ার বিচি), ডাল</td><td>ট্রি-নাট এলার্জি</td></tr>
+          <tr><td>মাছ</td><td>মুরগি, ডিম, ডাল + ফ্ল্যাক্সসিড/চিয়া গুঁড়া</td><td>মাছে এলার্জি বা না থাকলে (ওমেগা-৩-এর জন্য)</td></tr>
+          <tr><td>চিংড়ি/শেলফিশ</td><td>মুরগি, সাধারণ মাছ, ডিম</td><td>শেলফিশ এলার্জির ঝুঁকি তুলনামূলক বেশি</td></tr>
+          <tr><td>গম</td><td>ভাত, গ্লুটেন-ফ্রি ওটস, ভুট্টা</td><td>গ্লুটেন সংবেদনশীলতা/সিলিয়াক</td></tr>
+          <tr><td>সয়া</td><td>মসুর ডাল, মুরগি, ডিম</td><td>সয়া এলার্জি</td></tr>
+          <tr><td>মাংস</td><td>ডাল, পালং শাক + ভিটামিন সি সমৃদ্ধ ফল, ফর্টিফায়েড সেরিয়াল</td><td>আয়রনের জন্য — মাংস না থাকলে বা নিরামিষ পরিবার</td></tr>
+          <tr><td>কলা</td><td>পাকা পেঁপে, আম</td><td>মৌসুমে না পাওয়া গেলে</td></tr>
+          <tr><td>গাজর</td><td>মিষ্টি কুমড়া, মিষ্টি আলু</td><td>মৌসুমে না পাওয়া গেলে</td></tr>
+          <tr><td>আখরোট</td><td>কুমড়ার বিচি বাটা, সূর্যমুখী বীজ বাটা, তিল বাটা</td><td>ট্রি-নাট এলার্জি</td></tr>
+          <tr><td>পেস্তা/হ্যাজেলনাট</td><td>কুমড়ার বিচি বাটা, তিল বাটা</td><td>ট্রি-নাট এলার্জি</td></tr>
+          <tr><td>ফ্ল্যাক্সসিড/চিয়া বীজ</td><td>তিল বাটা, কুমড়ার বিচি বাটা</td><td>ওমেগা-৩-এর বিকল্প উৎস, না থাকলে</td></tr>
+          <tr><td>তিল/তাহিনি</td><td>সূর্যমুখী বীজ বাটা, কুমড়ার বিচি বাটা</td><td>তিল এলার্জি</td></tr>
+          <tr><td>ওটস</td><td>ভাত, ভুট্টার দালিয়া, রাগি (ফিঙ্গার মিলেট)</td><td>গ্লুটেন সংক্রমণের ঝুঁকি (non-certified oats), না পাওয়া গেলে</td></tr>
+          <tr><td>আলু</td><td>মিষ্টি আলু, মিষ্টি কুমড়া</td><td>বৈচিত্র্য বা না থাকলে</td></tr>
+          <tr><td>টমেটো</td><td>মিষ্টি কুমড়া পিউরি, গাজর</td><td>টক/অ্যাসিডিটির কারণে প্রথমদিকে এড়াতে চাইলে</td></tr>
+          <tr><td>নারিকেল</td><td>তিল বাটা, ঘি</td><td>নারিকেল এলার্জি (বিরল, কিছু দেশে ট্রি-নাট হিসেবে গণ্য)</td></tr>
+          <tr><td>অ্যাভোকাডো</td><td>পাকা কলা (ম্যাশ), ঘি মেশানো ভাত</td><td>স্থানীয়ভাবে না পাওয়া গেলে (স্বাস্থ্যকর ফ্যাটের বিকল্প)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="stage-detail">নতুন বিকল্প খাবারও অ্যালার্জেন হতে পারে (যেমন তিল, ডাল) — এটিও প্রথমবার অল্প পরিমাণে দিয়ে প্রতিক্রিয়া লক্ষ্য রাখুন। বিস্তারিত <a href="#allergens">অ্যালার্জেন পরিচিতি বিভাগে দেখুন ↑</a></p>
+  </section>
+
+  <section id="safety" class="tool-card">
+    <h2><span class="h-ico" aria-hidden="true">🛟</span><span>নিরাপত্তা: দমবন্ধ (Choking) এড়ানো</span></h2>
+
+    <h3 class="sub-head">যেসব খাবার ঝুঁকিপূর্ণ</h3>
+    <ul class="hazard-list">
+      <li>গোটা আঙুর বা চেরি টমেটো (চার ভাগ না করে কাটা)</li>
+      <li>পপকর্ন, শক্ত ক্যান্ডি/লজেন্স</li>
+      <li>গোটা বাদাম ও বীজ</li>
+      <li>বড় টুকরায় মাংস বা পনির</li>
+      <li>হট ডগ/সসেজের গোল টুকরা</li>
+      <li>ঘন পিনাট বাটার (চামচে করে দেওয়া)</li>
+      <li>কাঁচা শক্ত সবজি বা ফল (গাজর, আপেলের বড় টুকরা)</li>
+    </ul>
+    <p class="stage-detail">নিরাপদ করতে: ফল/সবজি চার ভাগ বা মিহি করে কাটুন, বাদাম গুঁড়া/পেস্ট করুন, মাংস নরম ও ছোট টুকরা করুন।</p>
+
+    <h3 class="sub-head">দমবন্ধ হলে প্রাথমিক চিকিৎসা (১ বছরের কম)</h3>
+    <ol class="step-list">
+      <li>শিশুকে বাহুর ওপর উপুড় করে শুইয়ে মাথা শরীরের চেয়ে নিচু রাখুন, থুতনি ধরে সাপোর্ট দিন।</li>
+      <li>হাতের তালুর গোড়া দিয়ে দুই কাঁধের মাঝখানে ৫টি জোরে ব্যাক ব্লো দিন।</li>
+      <li>খাবার বের না হলে শিশুকে চিৎ করে ঘুরিয়ে বুকের হাড়ের নিচের অর্ধেকে দুই আঙুল দিয়ে ৫টি চেস্ট থ্রাস্ট দিন।</li>
+      <li>খাবার বের না হওয়া বা শিশু কাঁদতে/শ্বাস নিতে শুরু না করা পর্যন্ত পালাক্রমে চালিয়ে যান।</li>
+      <li>শিশু অজ্ঞান হয়ে গেলে সাথে সাথে জরুরি সেবা কল করুন এবং প্রশিক্ষিত হলে CPR শুরু করুন।</li>
+    </ol>
+
+    <div class="alert-box">
+      এই তথ্য শুধু প্রাথমিক ধারণার জন্য — বাস্তব প্রশিক্ষণের বিকল্প নয়। সম্ভব হলে একটি স্বীকৃত ইনফ্যান্ট CPR/ফার্স্ট এইড কোর্স করুন এবং জরুরি নম্বর হাতের কাছে রাখুন।
+    </div>
+  </section>
+
+  <section id="feeding-cues" class="tool-card">
+    <h2><span class="h-ico" aria-hidden="true">👶</span><span>খাওয়ানোর ইঙ্গিত চিনুন</span></h2>
+    <p class="tool-desc">জোর করে খাওয়ানো এড়িয়ে চলুন — শিশুকে নিজের ক্ষুধা ও তৃপ্তির সংকেত অনুসরণ করতে দিন।</p>
+    <div class="cue-grid">
+      <div class="cue-col">
+        <h3 class="sub-head cue-hungry">ক্ষুধার লক্ষণ</h3>
+        <ul class="sign-list">
+          <li>হাত বা আঙুল মুখে দেওয়া</li>
+          <li>খাবারের দিকে হাত বাড়ানো</li>
+          <li>মুখ খোলা বা সামনে ঝোঁকা</li>
+        </ul>
+      </div>
+      <div class="cue-col">
+        <h3 class="sub-head cue-full">পেট ভরার লক্ষণ</h3>
+        <ul class="sign-list full">
+          <li>মুখ ঘুরিয়ে নেওয়া</li>
+          <li>চামচ ঠেলে দেওয়া</li>
+          <li>মুখ বন্ধ রাখা বা আগ্রহ হারানো</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="newborn-stool" class="tool-card featured">
+    <h2><span class="h-ico" aria-hidden="true">🍼</span><span>নবজাতকের পটি (স্টুল) গাইড <span class="badge-now">নবজাতকের জন্য</span></span></h2>
+    <p class="tool-desc">জন্মের প্রথম কয়েক সপ্তাহে পটির রঙ ও ধরন প্রতিদিন বদলাতে পারে — রঙের চেয়ে শিশু কেমন আছে সেটাই বেশি গুরুত্বপূর্ণ। এটি সাধারণ ধারণার জন্য, চিকিৎসকের পরামর্শের বিকল্প নয়।</p>
+
+
+    <h3 class="sub-head">রঙ দেখে বুঝুন</h3>
+    <div class="swatch-grid">
+      <div class="swatch ok"><i style="background:#2F3B25"></i><b>কালচে-সবুজ</b><em>প্রথম ২–৩ দিন</em></div>
+      <div class="swatch ok"><i style="background:#D9A921"></i><b>সরষে-হলুদ</b><em>স্বাভাবিক</em></div>
+      <div class="swatch ok"><i style="background:#8DB254"></i><b>হালকা সবুজ</b><em>প্রায়ই স্বাভাবিক</em></div>
+      <div class="swatch warn"><i style="background:#7A7A3A"></i><b>সবুজাভ-বাদামি</b><em>পরিবর্তনের ধাপ</em></div>
+      <div class="swatch bad"><i style="background:#EDEBDD;box-shadow:inset 0 0 0 2px #cfcbb8,0 3px 8px rgba(0,0,0,.14)"></i><b>সাদা / ফ্যাকাশে</b><em>জরুরি</em></div>
+      <div class="swatch bad"><i style="background:#171717"></i><b>কালো (১ম সপ্তাহের পর)</b><em>চিকিৎসক দেখান</em></div>
+      <div class="swatch bad"><i style="background:#C0392B"></i><b>রক্ত / লাল</b><em>চিকিৎসক দেখান</em></div>
+    </div>
+
+    <h3 class="sub-head">সাধারণত স্বাভাবিক</h3>
+    <ul class="sign-list">
+      <li><strong>কালচে-সবুজ (মেকোনিয়াম):</strong> প্রথম ২–৩ দিন।</li>
+      <li><strong>সবুজাভ-বাদামি বা হলুদ:</strong> ৩–৫ দিনের পর পরিবর্তনের ধাপ।</li>
+      <li><strong>সরষে-হলুদ, নরম বা পাতলা, দানাদার:</strong> বুকের দুধ খাওয়া শিশুর সাধারণ পটি।</li>
+      <li><strong>হালকা সবুজ পটি:</strong> যেকোনো সময় হতে পারে। কারণ হতে পারে দ্রুত হজম, শুরুর পাতলা দুধ (foremilk) বেশি পাওয়া, দুধ খুব জোরে আসা, মায়ের আয়রন বা খাবার, অথবা ফর্মুলা।</li>
+      <li><strong>একটু জেলির মতো বা আঠালো হলুদ পটি:</strong> শিশু লালা ও মিউকাস গিলে ফেললে এমন হতে পারে — শিশু ভালো থাকলে সাধারণত চিন্তার নয়।</li>
+    </ul>
+
+    <h3 class="sub-head">শিশু ভালো আছে কীভাবে বুঝবেন</h3>
+    <ul class="sign-list">
+      <li>বুকের দুধ খাওয়ালে দিনে ৮–১২ বার দুধ খাচ্ছে।</li>
+      <li>দিনে অন্তত ৬টি ভেজা ন্যাপি/কাপড়।</li>
+      <li>সময়মতো ওজন বাড়ছে (সাধারণত ১০–১৪ দিনের মধ্যে জন্মওজনে ফেরে, তারপর সপ্তাহে প্রায় ১৫০–২০০ গ্রাম)।</li>
+      <li>জেগে থাকলে সজাগ, দুধ খাওয়ার পর শান্ত; পেট নরম।</li>
+    </ul>
+
+    <h3 class="sub-head">যা করবেন</h3>
+    <ol class="step-list">
+      <li>আগের মতোই বুকের দুধ চালিয়ে যান; পানি, হারবাল ড্রপ বা ঘরোয়া টোটকা দেবেন না।</li>
+      <li>বুকের দুধ খাওয়ালে এক স্তন শেষ করে তারপর অন্যটি দিন, যাতে শিশু ঘন (hindmilk) দুধ পায়। চিকিৎসক না বললে মায়ের খাবার বন্ধ করবেন না।</li>
+      <li>পটির রঙ, বারের সংখ্যা ও ভেজা ন্যাপির হিসাব রাখুন; প্রয়োজনে একটি ছবি তুলে রাখুন যা চিকিৎসককে দেখানো যায়।</li>
+      <li>নির্ধারিত নবজাতক চেকআপ বাদ দেবেন না; ওজন নিয়ে সন্দেহ থাকলে ওজন মাপিয়ে নিন।</li>
+    </ol>
+
+    <div class="alert-box">
+      <strong>এসব লক্ষণে দ্রুত চিকিৎসকের কাছে যান:</strong>
+      <ul class="hazard-list" style="margin-top:10px;">
+        <li><strong>জ্বর ৩৮°C (১০০.৪°F) বা বেশি</strong> — ৩ মাসের কম বয়সী শিশুর জন্য এটি জরুরি, সরাসরি হাসপাতালে যান।</li>
+        <li>দুধ খেতে না চাওয়া, অস্বাভাবিক ঘুমকাতর বা নেতিয়ে পড়া।</li>
+        <li>দিনে ৬টির কম ভেজা ন্যাপি, বা প্রস্রাব খুব গাঢ় হলুদ।</li>
+        <li><strong>সাদা, ফ্যাকাশে বা কাদামাটির মতো পটি</strong> — লিভার/পিত্তনালির সমস্যার ইঙ্গিত হতে পারে, জরুরি।</li>
+        <li><strong>কালো পটি</strong> (প্রথম সপ্তাহের পর) বা পটিতে <strong>রক্ত</strong>।</li>
+        <li>ঘন ঘন পানির মতো, ফেনাযুক্ত বা দুর্গন্ধযুক্ত পটি, সাথে জ্বর বা অস্থিরতা।</li>
+        <li>বারবার বা জোরে বমি, বিশেষ করে <strong>সবুজ/হলদে-সবুজ বমি</strong>, বা পেট ফুলে শক্ত হয়ে যাওয়া।</li>
+        <li>জন্ডিস (চোখ-ত্বকের হলুদ ভাব) বেড়ে যাওয়া।</li>
+        <li>থামানো যাচ্ছে না এমন কান্না বা স্পষ্ট ব্যথার লক্ষণ।</li>
+      </ul>
+      মনে সন্দেহ হলে অপেক্ষা না করে চিকিৎসকের সাথে যোগাযোগ করুন — নবজাতকের ক্ষেত্রে অভিভাবকের অনুভূতি গুরুত্বপূর্ণ।
+    </div>
+  </section>
+
+  <section id="baby-log" class="tool-card">
+    <h2><span class="h-ico" aria-hidden="true">📒</span><span>দৈনিক বেবি লগ</span></h2>
+    <p class="tool-desc">দুধ খাওয়া, ভেজা ন্যাপি, পটি, ঘুম ও ওষুধ লিখে রাখুন — চিকিৎসকের কাছে গেলে এই হিসাব খুব কাজে লাগে। তথ্য শুধু এই ডিভাইসের ব্রাউজারে সংরক্ষিত থাকে।</p>
+
+    <div class="log-types" id="logTypes" role="group" aria-label="লগের ধরন">
+      <button type="button" class="log-type active" data-type="feed">🍼 দুধ খাওয়া</button>
+      <button type="button" class="log-type" data-type="wet">💧 ভেজা ন্যাপি</button>
+      <button type="button" class="log-type" data-type="stool">💩 পটি</button>
+      <button type="button" class="log-type" data-type="sleep">😴 ঘুম</button>
+      <button type="button" class="log-type" data-type="med">💊 ওষুধ/ভিটামিন</button>
+    </div>
+
+    <form id="logForm" class="log-form">
+      <label class="fld">সময়
+        <input type="datetime-local" id="logTime" required>
+      </label>
+      <div class="log-fields" id="logFields"></div>
+      <label class="fld span2">নোট <small>(ঐচ্ছিক)</small>
+        <input type="text" id="logNote" maxlength="120" placeholder="যেমন: বমি করেছে, কান্না বেশি ছিল">
+      </label>
+      <div class="span2"><button type="submit" class="preg-go">➕ যোগ করুন</button></div>
+    </form>
+    <p id="logMsg" class="preg-msg" role="alert"></p>
+
+    <div class="day-nav">
+      <button type="button" class="mini-btn" id="dayPrev" aria-label="আগের দিন">← আগের দিন</button>
+      <input type="date" id="logDay" aria-label="দিন নির্বাচন">
+      <button type="button" class="mini-btn" id="dayNext" aria-label="পরের দিন">পরের দিন →</button>
+      <button type="button" class="mini-btn" id="dayToday">আজ</button>
+    </div>
+    <div id="logSummary" class="preg-stats"></div>
+    <div id="logAlert"></div>
+    <ul id="logList" class="log-list"></ul>
+
+    <div class="backup-row">
+      <span>ব্রাউজারের ডেটা মুছে গেলে সব হারাতে পারেন — মাঝে মাঝে ব্যাকআপ রাখুন (লগ, ওজন ও তারিখসহ)।</span>
+      <button type="button" class="mini-btn" id="backupBtn">⬇️ ব্যাকআপ ডাউনলোড</button>
+      <label class="mini-btn" style="cursor:pointer;">⬆️ ব্যাকআপ ফিরিয়ে আনুন
+        <input type="file" id="restoreFile" accept="application/json,.json" hidden>
+      </label>
+    </div>
+  </section>
+
+  <section id="weight-tracker" class="tool-card">
+    <h2><span class="h-ico" aria-hidden="true">⚖️</span><span>ওজন ও বৃদ্ধির ট্র্যাকার</span></h2>
+    <p class="tool-desc">ওজন (এবং চাইলে উচ্চতা ও মাথার মাপ) লিখে রাখুন। প্রথম ৩ মাসে সপ্তাহে প্রায় ১৫০–২০০ গ্রাম ওজন বাড়া সাধারণ প্রত্যাশা; ১০–১৪ দিনের মধ্যে জন্মওজনে ফেরার কথা।</p>
+
+    <form id="wForm" class="w-form">
+      <label class="fld">তারিখ <input type="date" id="wDate" required></label>
+      <label class="fld">ওজন (কেজি) <input type="number" id="wKg" step="0.01" min="0.5" max="30" inputmode="decimal" required placeholder="৩.২০"></label>
+      <label class="fld">উচ্চতা (সেমি) <small>ঐচ্ছিক</small><input type="number" id="wLen" step="0.1" min="20" max="130" inputmode="decimal"></label>
+      <label class="fld">মাথার মাপ (সেমি) <small>ঐচ্ছিক</small><input type="number" id="wHead" step="0.1" min="20" max="60" inputmode="decimal"></label>
+      <button type="submit" class="preg-go">➕ যোগ করুন</button>
+    </form>
+    <p id="wMsg" class="preg-msg" role="alert"></p>
+
+    <div class="preg-form" style="margin:6px 0 0;grid-template-columns:1fr 1fr;">
+      <label class="fld">জন্মওজন (কেজি) <input type="number" id="birthW" step="0.01" min="0.5" max="6" inputmode="decimal"></label>
+      <label class="fld">জন্মতারিখ <input type="date" id="wBirth"></label>
+    </div>
+
+    <div id="wStats" class="preg-stats" style="margin-top:18px;"></div>
+    <div id="wStatus" class="w-status" role="status"></div>
+    <div class="w-chart">
+      <div id="wChart"></div>
+      <div class="w-legend">
+        <span style="--c:var(--accent-tint)">WHO রেফারেন্স রেঞ্জ (ছেলে, −২ থেকে +২ SD)</span>
+        <span style="--c:var(--accent)">মিডিয়ান</span>
+        <span style="--c:var(--accent-2)">আপনার শিশু</span>
+      </div>
+    </div>
+    <div class="table-wrap"><table class="portion-table w-table" id="wTable"></table></div>
+    <p class="stage-detail" style="margin-top:12px;">রেফারেন্স রেঞ্জ আনুমানিক (WHO ছেলে শিশুর weight-for-age)। এক-দুটি মাপ নয়, ধারাবাহিক ধারা দেখুন — চিন্তা হলে চিকিৎসকের সাথে কথা বলুন।</p>
+  </section>
+
+  <section id="vaccines" class="tool-card">
+    <h2><span class="h-ico" aria-hidden="true">💉</span><span>টিকার সময়সূচি</span></h2>
+    <p class="tool-desc">শিশুর জন্মতারিখ থেকে স্বয়ংক্রিয়ভাবে টিকার সম্ভাব্য তারিখ হিসাব হয়। টিকা দেওয়ার পর টিক দিন — দেরি হলে চিহ্নিত হবে। তথ্য এই ডিভাইসের ব্রাউজারে সংরক্ষিত থাকে।</p>
+
+    <div class="preg-form" style="grid-template-columns:1fr;margin-bottom:16px;">
+      <label class="fld">জন্মতারিখ <input type="date" id="vBirth"></label>
+    </div>
+
+    <div id="vStats" class="preg-stats"></div>
+
+    <h3 class="sub-head">সরকারি ইপিআই সূচি (বিনামূল্যে)</h3>
+    <div id="vEpi"></div>
+
+    <h3 class="sub-head">ঐচ্ছিক টিকা (চিকিৎসকের পরামর্শে, সাধারণত বেসরকারিভাবে)</h3>
+    <div id="vOpt"></div>
+
+    <div class="alert-box" style="background:var(--sun-tint);border-color:transparent;border-inline-start-color:var(--sun);">
+      <strong style="color:inherit;">অবশ্যই মিলিয়ে নিন:</strong> এই সূচি বাংলাদেশের ইপিআই-এর সাধারণ রূপরেখা অনুযায়ী আনুমানিক। টিকার ধরন ও বয়স (বিশেষ করে পোলিও ইনজেকশন IPV এবং টাইফয়েড TCV) সময়ের সাথে বদলায় এবং সরবরাহে ঘাটতি হতে পারে — তাই <strong>শিশুর টিকা কার্ড ও আপনার শিশুচিকিৎসক/ইপিআই কেন্দ্রের নির্দেশনা চূড়ান্ত ধরুন</strong>। ঐচ্ছিক টিকা নিতে হবে কি না চিকিৎসকের সাথে আলোচনা করুন। টিকার পর হালকা জ্বর বা ইনজেকশনের জায়গায় ব্যথা সাধারণ, তবে <strong>৩ মাসের কম বয়সে জ্বর ৩৮°C বা বেশি হলে সরাসরি হাসপাতালে যান</strong>।
+    </div>
+  </section>
+
+  <section id="portions" class="tool-card">
+    <h2><span class="h-ico" aria-hidden="true">🥄</span><span>পরিমাণ নির্দেশিকা (আনুমানিক)</span></h2>
+    <p class="tool-desc">এগুলো শুরুর নির্দেশিকা মাত্র — শিশুকে তার নিজের ক্ষুধা অনুযায়ী কম-বেশি খেতে দিন, জোর করবেন না।</p>
+    <div class="table-wrap">
+      <table class="portion-table">
+        <thead>
+          <tr><th>বয়স</th><th>প্রতি বেলা পরিমাণ</th><th>বেলার সংখ্যা</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>৬–৮ মাস</td><td>২–৩ টেবিল চামচ</td><td>দিনে ২–৩ বেলা</td></tr>
+          <tr><td>৯–১১ মাস</td><td>¼–½ কাপ</td><td>দিনে ৩ বেলা + ১–২ নাশতা</td></tr>
+          <tr><td>১২–২৩ মাস</td><td>½–¾ কাপ</td><td>দিনে ৩ বেলা + ২ নাশতা</td></tr>
+          <tr><td>২–৩ বছর</td><td>¾–১ কাপ</td><td>দিনে ৩ বেলা + ২ নাশতা</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="meal-plan" class="tool-card">
+    <h2><span class="h-ico" aria-hidden="true">🍽️</span><span>দৈনিক মেনুর নমুনা</span></h2>
+    <div class="meal-grid">
+      <div class="meal-col">
+        <h3 class="sub-head">৬–১২ মাস</h3>
+        <ul class="meal-list">
+          <li><span>সকাল ৮টা</span>বুকের দুধ/ফর্মুলা</li>
+          <li><span>সকাল ৯টা</span>আয়রন সমৃদ্ধ পিউরি (ডাল/মাংস) + ফল</li>
+          <li><span>দুপুর ১২টা</span>বুকের দুধ/ফর্মুলা</li>
+          <li><span>বিকাল ৩টা</span>সবজি পিউরি + শস্য</li>
+          <li><span>সন্ধ্যা ৬টা</span>বুকের দুধ/ফর্মুলা</li>
+          <li><span>রাত ৮টা</span>ঘুমানোর আগে দুধ</li>
+        </ul>
+      </div>
+      <div class="meal-col">
+        <h3 class="sub-head">১–৩ বছর</h3>
+        <ul class="meal-list">
+          <li><span>সকাল</span>নাশতা: রুটি/ভাত + ডিম বা ডাল + ফল</li>
+          <li><span>সকাল ১০টা</span>নাশতা: ফল বা বাদাম-বীজের গুঁড়া</li>
+          <li><span>দুপুর</span>ভাত + সবজি + ডাল/মাছ/মাংস</li>
+          <li><span>বিকাল</span>নাশতা: দই বা হালকা খাবার</li>
+          <li><span>রাত</span>পরিবারের সাথে হালকা খাবার</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="tracker" class="tool-card">
+    <h2><span class="h-ico" aria-hidden="true">✅</span><span>প্রথম খাবার ট্র্যাকার</span></h2>
+    <p class="tool-desc">কোন খাবার ইতিমধ্যে পরিচয় করানো হয়েছে তা টিক দিয়ে রাখুন — এই ব্রাউজারে পরের ভিজিটেও মনে থাকবে।</p>
+    <div class="tracker-grid" id="trackerGrid">
+      <label class="tracker-item"><input type="checkbox" data-food="rice"><span>ভাত/সেরিয়াল</span></label>
+      <label class="tracker-item"><input type="checkbox" data-food="lentil"><span>ডাল</span></label>
+      <label class="tracker-item"><input type="checkbox" data-food="sweetpotato"><span>মিষ্টি আলু</span></label>
+      <label class="tracker-item"><input type="checkbox" data-food="carrot"><span>গাজর</span></label>
+      <label class="tracker-item"><input type="checkbox" data-food="banana"><span>কলা</span></label>
+      <label class="tracker-item"><input type="checkbox" data-food="apple"><span>আপেল</span></label>
+      <label class="tracker-item"><input type="checkbox" data-food="chicken"><span>মুরগি</span></label>
+      <label class="tracker-item"><input type="checkbox" data-food="fish"><span>মাছ</span></label>
+      <label class="tracker-item"><input type="checkbox" data-food="egg"><span>ডিম</span></label>
+      <label class="tracker-item"><input type="checkbox" data-food="peanut"><span>চিনাবাদাম (পেস্ট)</span></label>
+      <label class="tracker-item"><input type="checkbox" data-food="dairy"><span>দই/পনির</span></label>
+      <label class="tracker-item"><input type="checkbox" data-food="wheat"><span>গম</span></label>
+      <label class="tracker-item"><input type="checkbox" data-food="soy"><span>সয়া</span></label>
+      <label class="tracker-item"><input type="checkbox" data-food="sesame"><span>তিল</span></label>
+      <label class="tracker-item"><input type="checkbox" data-food="shellfish"><span>চিংড়ি/শেলফিশ</span></label>
+      <label class="tracker-item"><input type="checkbox" data-food="treenut"><span>গাছ-বাদাম</span></label>
+    </div>
+    <button type="button" id="trackerReset" class="reset-btn">রিসেট করুন</button>
+  </section>
+
+  <section id="faq" class="tool-card">
+    <h2><span class="h-ico" aria-hidden="true">💬</span><span>সাধারণ জিজ্ঞাসা</span></h2>
+    <div class="faq-list">
+      <details class="faq-item">
+        <summary>বাচ্চা নতুন খাবার খেতে না চাইলে কী করব?</summary>
+        <p>একটি নতুন খাবার গ্রহণযোগ্য হতে ৮–১৫ বার চেষ্টা লাগতে পারে — হাল ছাড়বেন না, চাপ না দিয়ে বারবার অফার করতে থাকুন।</p>
+      </details>
+      <details class="faq-item">
+        <summary>এক বেলা কম খেলে চিন্তার কিছু আছে?</summary>
+        <p>বাচ্চাদের ক্ষুধা দিনে দিনে ওঠানামা করে — একবেলার পরিমাণ নয়, সপ্তাহ জুড়ে সামগ্রিক খাদ্যাভ্যাস দেখুন।</p>
+      </details>
+      <details class="faq-item">
+        <summary>বাচ্চা শুধু একই খাবার বারবার চায় — এটা কি স্বাভাবিক?</summary>
+        <p>হ্যাঁ, এটা বিকাশের একটি সাধারণ ধাপ (food jag)। পাশাপাশি অন্য খাবারও অফার করতে থাকুন, ধীরে ধীরে বৈচিত্র্য ফিরবে।</p>
+      </details>
+      <details class="faq-item">
+        <summary>টিভি বা মোবাইল দেখিয়ে খাওয়ানো কি ঠিক আছে?</summary>
+        <p>এড়িয়ে চলাই ভালো — এতে শিশু নিজের ক্ষুধা-তৃপ্তির সংকেত চিনতে শেখে না, যা দীর্ঘমেয়াদে খাদ্যাভ্যাসে সমস্যা তৈরি করতে পারে।</p>
+      </details>
+      <details class="faq-item">
+        <summary>নবজাতকের পটি সবুজ হলে কি চিন্তার কিছু আছে?</summary>
+        <p>সাধারণত না। শিশু ঠিকমতো দুধ খেলে, দিনে ৬টি বা বেশি ভেজা ন্যাপি হলে, সক্রিয় থাকলে ও জ্বর না থাকলে সবুজ বা হলুদ-জেলির মতো পটি স্বাভাবিক হতে পারে। সাদা/ফ্যাকাশে পটি, কালো পটি, রক্ত, জ্বর বা দুধ না খাওয়া হলে দ্রুত চিকিৎসকের কাছে যান — <a href="#newborn-stool">বিস্তারিত দেখুন ↑</a></p>
+      </details>
+      <details class="faq-item">
+        <summary>পানি কখন থেকে দেওয়া যাবে?</summary>
+        <p>৬ মাস বয়স থেকে খাবারের সাথে অল্প পরিমাণে পানি দেওয়া যায় — তার আগে নয়।</p>
+      </details>
+    </div>
+  </section>
+
+  <div class="recipe" id="cereal">
+    <h2><span class="h-ico" aria-hidden="true">🌾</span><span>ঘরে তৈরি বেবি সেরেলাক</span></h2>
+    <p class="tagline">প্যাকেটজাত সেরেলাকের বদলে বাড়িতেই বানানো যায় — উপকরণ, তাজা থাকা ও চিনি/লবণ সম্পূর্ণ নিয়ন্ত্রণে রাখা যায়।</p>
+
+    <div class="alert-box">
+      <strong>কেন ঘরে বানাবেন:</strong> ২০২৪ সালে আন্তর্জাতিক তদন্তে (Public Eye/IBFAN) দেখা গেছে, ইউরোপে বিক্রি হওয়া চিনি-মুক্ত সেরেলাকের তুলনায় বাংলাদেশসহ কিছু নিম্ন ও মধ্যম আয়ের দেশে বিক্রি হওয়া সংস্করণে বাড়তি চিনি যোগ করা হয়। ঘরে বানালে চিনি, লবণ ও প্রিজারভেটিভ সম্পূর্ণ এড়ানো যায়, খরচও কম হয়, আর উপকরণ কতটা তাজা তা নিজেই নিশ্চিত করা যায়।
+    </div>
+
+    <div class="recipe-grid">
+      <div class="recipe-block">
+        <h3>মূল উপকরণ</h3>
+        <ul class="ingredients">
+          <li>চাল (আতপ/সেদ্ধ চাল)</li>
+          <li>লাল মুগ ডাল (খোসা ছাড়ানো)</li>
+          <li>ঐচ্ছিক: ওটস বা রাগি (ফিঙ্গার মিলেট — একধরনের ছোট দানার শস্য, না পেলে বাদ দিন) — বাড়তি আয়রন-ক্যালসিয়ামের জন্য</li>
+        </ul>
+      </div>
+      <div class="recipe-block">
+        <h3>বাদ দিন</h3>
+        <ul class="avoid-list">
+          <li>❌ চিনি</li>
+          <li>❌ লবণ</li>
+          <li>❌ প্রিজারভেটিভ/কৃত্রিম ফ্লেভার</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3 class="sub-head">গুঁড়া বানানোর পদ্ধতি</h3>
+    <ol class="step-list">
+      <li>চাল ও ডাল আলাদা আলাদাভাবে অল্প আঁচে শুকনো তাওয়ায় ভাজুন, যতক্ষণ না হালকা সুগন্ধ বের হয় — বাদামি করে পোড়াবেন না।</li>
+      <li>সম্পূর্ণ ঠান্ডা হতে দিন, তারপর ড্রাই গ্রাইন্ডার/ব্লেন্ডারে মিহি গুঁড়া করুন।</li>
+      <li>ছাঁকনি দিয়ে ছেঁকে মোটা অংশ বাদ দিন।</li>
+      <li>শুকনো, বায়ুরোধী কৌটায় সংরক্ষণ করুন — ঘরের তাপমাত্রায় ২–৩ সপ্তাহ, ফ্রিজে বেশি দিন ভালো থাকে।</li>
+    </ol>
+
+    <h3 class="sub-head">রান্নার নিয়ম</h3>
+    <ol class="step-list">
+      <li>১–২ টেবিল চামচ গুঁড়া পানি বা বুকের দুধ/ফর্মুলার সাথে মিশিয়ে নিন।</li>
+      <li>অল্প আঁচে ৫–৮ মিনিট ক্রমাগত নাড়তে নাড়তে সেদ্ধ করুন, যতক্ষণ না নরম-পাতলা পিউরি টেক্সচার হয়।</li>
+      <li>একটু ঠান্ডা হলে সামান্য ঘি বা ম্যাশ করা ফল/সবজি মিশিয়ে দিন — চিনি ছাড়াই বাড়তি ক্যালরি ও স্বাদের জন্য।</li>
+    </ol>
+
+    <h3 class="sub-head">কোন ফল/সবজি মেশাবেন</h3>
+    <div class="recipe-grid">
+      <div class="recipe-block">
+        <h3>ফল (ম্যাশ/পিউরি করে)</h3>
+        <ul class="ingredients">
+          <li>পাকা কলা</li>
+          <li>পাকা পেঁপে</li>
+          <li>সিদ্ধ/ভাপে দেওয়া আপেল</li>
+          <li>পাকা আম (মৌসুমে)</li>
+          <li>নাশপাতি (সিদ্ধ)</li>
+          <li>অল্প খেজুর পেস্ট</li>
+        </ul>
+      </div>
+      <div class="recipe-block">
+        <h3>সবজি (সেদ্ধ করে ম্যাশ)</h3>
+        <ul class="ingredients">
+          <li>মিষ্টি আলু</li>
+          <li>মিষ্টি কুমড়া</li>
+          <li>গাজর</li>
+          <li>ফুলকপি/ব্রকলি</li>
+          <li>মটরশুঁটি</li>
+          <li>পালং শাক (অল্প পরিমাণে)</li>
+        </ul>
+      </div>
+    </div>
+    <p class="stage-detail">একবারে একটি নতুন ফল/সবজি যোগ করুন, ২–৩ দিন অপেক্ষা করে প্রতিক্রিয়া লক্ষ্য রাখুন — <a href="#allergens">অ্যালার্জেন পরিচিতি দেখুন ↑</a>। পালং শাক, বিট বা শালগমের মতো নাইট্রেট-সমৃদ্ধ শাকসবজি অল্প পরিমাণে দিন এবং সপ্তাহে বেশ কয়েকবার এড়িয়ে চলুন।</p>
+
+    <p class="stage-detail"><strong>আয়রন বাড়াতে:</strong> শুধু চাল-ডালের গুঁড়ায় আয়রন কম শোষিত হয় — সপ্তাহে কয়েকবার আলাদাভাবে রান্না করা মাংস/মাছ/ডিমের পিউরি সাথে দিন, আর ভিটামিন সি সমৃদ্ধ ফল (কমলা, পেয়ারা) একসাথে দিলে আয়রন শোষণ বাড়ে।</p>
+    <p class="recipe-note"><strong>সংরক্ষণ সতর্কতা:</strong> গুঁড়া শুকনো অবস্থায় রাখুন। রান্না করা পোরিজ ফ্রিজে সর্বোচ্চ ২৪ ঘণ্টা রাখা যায় — এর বেশি নয়। প্রতিবার তাজা বানানোই সবচেয়ে নিরাপদ।</p>
+  </div>
+
+  <div class="recipe" id="recipe">
+    <h2><span class="h-ico" aria-hidden="true">🌰</span><span>বাদাম–খেজুর বরফি, নতুনভাবে</span></h2>
+    <p class="tagline">"মিষ্টি" হিসেবে নয় — একটা nut-and-seed food হিসেবে বানান।</p>
+    <div class="recipe-grid">
+      <div class="recipe-block">
+        <h3>উপকরণ</h3>
+        <ul class="ingredients">
+          <li>কাজু</li>
+          <li>কাঠবাদাম</li>
+          <li>তিল</li>
+          <li>কুমড়ার বিচি</li>
+          <li>অল্প খেজুর</li>
+        </ul>
+      </div>
+      <div class="recipe-block">
+        <h3>বাদ দিন</h3>
+        <ul class="avoid-list">
+          <li>❌ চিনি</li>
+          <li>❌ মধু (১ বছরের কম বয়সে)</li>
+          <li>❌ লবণ</li>
+          <li>❌ কনডেন্সড মিল্ক</li>
+          <li>❌ সিরাপ</li>
+        </ul>
+      </div>
+    </div>
+    <p class="recipe-note"><strong>টেক্সচার সতর্কতা:</strong> বাচ্চা খাওয়া শুরু করলে গোটা বাদাম/বিচি বা শক্ত বরফির টুকরা দেবেন না — বয়স অনুযায়ী মিহি গুঁড়া বা নরম পেস্ট করে দিন। WHO-ও বয়স বাড়ার সঙ্গে খাবারের টেক্সচার ধীরে ধীরে পরিবর্তনের পরামর্শ দেয়।</p>
+  </div>
+
+  <section id="more-recipes" class="tool-card">
+    <h2><span class="h-ico" aria-hidden="true">👩‍🍳</span><span>আরও ঘরে তৈরি খাবার</span></h2>
+    <p class="tool-desc">একঘেয়েমি এড়াতে বৈচিত্র্য আনুন — নিচের সবগুলোতেই যোগ করা চিনি, লবণ বা মধু নেই।</p>
+    <div class="mini-recipes-grid">
+      <div class="mini-recipe">
+        <div class="mini-recipe-head"><h3>সবজি খিচুড়ি</h3><span class="age-tag">৬–৮ মাস+</span></div>
+        <p><strong>উপকরণ:</strong> ভাত, মুগ ডাল, মিষ্টি আলু/গাজর/লাউ, সামান্য ঘি, হলুদ।</p>
+        <p><strong>পদ্ধতি:</strong> সব একসাথে নরম হওয়া পর্যন্ত সেদ্ধ করে ম্যাশ করুন। ১ বছরের নিচে লবণ দেবেন না।</p>
+      </div>
+      <div class="mini-recipe">
+        <div class="mini-recipe-head"><h3>রাগি-কলা পুডিং</h3><span class="age-tag">৭–৮ মাস+</span></div>
+        <p><strong>রাগি কী:</strong> ফিঙ্গার মিলেট নামের একধরনের ছোট দানার শস্য (দক্ষিণ ভারতে বেশি প্রচলিত) — স্বাভাবিক শস্যের মধ্যে সবচেয়ে বেশি ক্যালসিয়াম থাকে। বাংলাদেশের সাধারণ দোকানে সহজে পাওয়া নাও যেতে পারে, অর্গানিক/হেলথ ফুড শপ বা অনলাইন গ্রোসারিতে "ragi flour" নামে খুঁজুন।</p>
+        <p><strong>উপকরণ:</strong> রাগির গুঁড়া, পাকা কলা, বুকের দুধ/পানি।</p>
+        <p><strong>পদ্ধতি:</strong> রাগির গুঁড়া পানিতে সেদ্ধ করে ম্যাশ করা কলা মিশিয়ে দিন — চিনি ছাড়াই স্বাভাবিক মিষ্টি, ক্যালসিয়াম-আয়রন সমৃদ্ধ।</p>
+        <p><strong>না পেলে:</strong> চালের গুঁড়া বা ওটস দিয়ে একই পদ্ধতিতে বানাতে পারেন — স্বাদ একই রকম মিষ্টি হবে না, তবে পুষ্টিগুণ কাছাকাছি।</p>
+      </div>
+      <div class="mini-recipe">
+        <div class="mini-recipe-head"><h3>ওটস-কলা প্যানকেক</h3><span class="age-tag">৯–১০ মাস+</span></div>
+        <p><strong>উপকরণ:</strong> ওটসের গুঁড়া, পাকা কলা (চটকানো), ডিম (ঐচ্ছিক বাইন্ডার)।</p>
+        <p><strong>পদ্ধতি:</strong> একসাথে মিশিয়ে অল্প ঘিয়ে ছোট প্যানকেক ভেজে নিন — হাতে ধরে খাওয়ার (self-feeding) অভ্যাস তৈরি করে।</p>
+      </div>
+      <div class="mini-recipe">
+        <div class="mini-recipe-head"><h3>নরম মুরগি/মাছের কোপ্তা</h3><span class="age-tag">১০–১২ মাস+</span></div>
+        <p><strong>উপকরণ:</strong> সেদ্ধ মুরগি/মাছ (কাঁটা ছাড়া) কিমা, সেদ্ধ আলু, সামান্য ঘি।</p>
+        <p><strong>পদ্ধতি:</strong> একসাথে মেখে ছোট নরম বল বানিয়ে ভাপে বা অল্প তেলে হালকা সেঁকে নিন — চিবানোর অভ্যাস তৈরি করে ও আয়রনের ভালো উৎস।</p>
+      </div>
+      <div class="mini-recipe">
+        <div class="mini-recipe-head"><h3>ফল-দই মিশ্রণ</h3><span class="age-tag">৮ মাস+</span></div>
+        <p><strong>উপকরণ:</strong> টক দই, ম্যাশ করা পাকা ফল (কলা/আম/পেঁপে)।</p>
+        <p><strong>পদ্ধতি:</strong> দইয়ের সাথে ফল মিশিয়ে দিন — আলাদা চিনি ছাড়াই মিষ্টি স্বাদ পাওয়া যায়। দুধজাত খাবার পরিচয়ের পর দিন।</p>
+      </div>
+      <div class="mini-recipe">
+        <div class="mini-recipe-head"><h3>মসুর ডাল-সবজির স্যুপ</h3><span class="age-tag">১–৩ বছর</span></div>
+        <p><strong>উপকরণ:</strong> মসুর ডাল, গাজর/টমেটো/লাউ, হালকা রসুন-জিরা, সামান্য ঘি।</p>
+        <p><strong>পদ্ধতি:</strong> সব সেদ্ধ করে ব্লেন্ড করুন — পরিবারের বাকি খাবারে লবণ দেওয়ার আগেই শিশুর ভাগ আলাদা করে তুলে রাখুন।</p>
+      </div>
+      </div>
+  </section>
+
+  <footer>
+    <p>এই রোডম্যাপ WHO-এর সাধারণ গাইডলাইনের ওপর ভিত্তি করে তৈরি একটি প্র্যাকটিক্যাল সহায়িকা। প্রতিটি শিশুর প্রয়োজন আলাদা হতে পারে — অ্যালার্জি, বৃদ্ধি বা যেকোনো নির্দিষ্ট স্বাস্থ্য সংক্রান্ত সিদ্ধান্তের আগে শিশু বিশেষজ্ঞের পরামর্শ নিন।</p>
+    <p>এই সাইটের নিরাপত্তা ও প্রাথমিক চিকিৎসা সংক্রান্ত তথ্য কোনো প্রশিক্ষণ বা পেশাদার চিকিৎসা পরামর্শের বিকল্প নয়।</p>
+  </footer>
+
+</div>
+
+<script>
+(function(){
+  var stageEls = {
+    0: document.getElementById('stage-0-6'),
+    1: document.getElementById('stage-6-12'),
+    2: document.getElementById('stage-12-24'),
+    3: document.getElementById('stage-24-36')
+  };
+  var stageNames = ['জন্ম – ৬ মাস','৬ – ১২ মাস','১ – ২ বছর','২ – ৩ বছর'];
+
+  function monthsBetween(birth, today){
+    var months = (today.getFullYear() - birth.getFullYear()) * 12 + (today.getMonth() - birth.getMonth());
+    if(today.getDate() < birth.getDate()) months--;
+    return months;
+  }
+
+  function stageIndex(months){
+    if(months < 6) return 0;
+    if(months < 12) return 1;
+    if(months < 24) return 2;
+    if(months < 36) return 3;
+    return -1;
+  }
+
+  function highlightStage(idx){
+    Object.keys(stageEls).forEach(function(key){
+      if(stageEls[key]) stageEls[key].classList.remove('highlight');
+    });
+    if(idx >= 0 && stageEls[idx]){
+      stageEls[idx].classList.add('highlight');
+      stageEls[idx].scrollIntoView({behavior:'smooth', block:'center'});
+    }
+  }
+
+  var form = document.getElementById('ageForm');
+  var input = document.getElementById('birthDate');
+  var result = document.getElementById('ageResult');
+
+  function runCalc(){
+    if(!input.value) return;
+    var birth = new Date(input.value + 'T00:00:00');
+    var today = new Date();
+    if(isNaN(birth.getTime()) || birth > today){
+      result.textContent = 'সঠিক জন্ম তারিখ দিন।';
+      return;
+    }
+    var months = monthsBetween(birth, today);
+    var idx = stageIndex(months);
+    if(idx === -1){
+      result.textContent = 'আপনার শিশুর বয়স ' + months + ' মাস — এই রোডম্যাপ ৩ বছর পর্যন্ত কভার করে।';
+      highlightStage(-1);
+      return;
+    }
+    result.textContent = 'আপনার শিশুর বয়স ' + months + ' মাস — এখন "' + stageNames[idx] + '" ধাপে আছে।';
+    highlightStage(idx);
+  }
+
+  if(form && input && result){
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      try{ localStorage.setItem('babyBirthDate', input.value); }catch(err){}
+      runCalc();
+    });
+    try{
+      var saved = localStorage.getItem('babyBirthDate');
+      if(saved){ input.value = saved; runCalc(); }
+    }catch(err){}
+  }
+
+  var trackerGrid = document.getElementById('trackerGrid');
+  var resetBtn = document.getElementById('trackerReset');
+  var STORE_KEY = 'babyFoodTracker';
+
+  function loadTracker(){
+    try{
+      var raw = localStorage.getItem(STORE_KEY);
+      return raw ? JSON.parse(raw) : {};
+    }catch(err){ return {}; }
+  }
+  function saveTracker(data){
+    try{ localStorage.setItem(STORE_KEY, JSON.stringify(data)); }catch(err){}
+  }
+
+  if(trackerGrid){
+    var data = loadTracker();
+    var boxes = trackerGrid.querySelectorAll('input[type=checkbox]');
+    boxes.forEach(function(box){
+      var id = box.getAttribute('data-food');
+      box.checked = !!data[id];
+      box.addEventListener('change', function(){
+        var d = loadTracker();
+        d[id] = box.checked;
+        saveTracker(d);
+      });
+    });
+    if(resetBtn){
+      resetBtn.addEventListener('click', function(){
+        saveTracker({});
+        boxes.forEach(function(box){ box.checked = false; });
+      });
+    }
+  }
+
+  /* ---- UI enhancements ---- */
+  var root = document.documentElement;
+  var themeBtn = document.getElementById('themeBtn');
+  function currentDark(){
+    var t = root.getAttribute('data-theme');
+    if(t) return t === 'dark';
+    return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  }
+  function paintTheme(){ if(themeBtn) themeBtn.textContent = currentDark() ? '☀️' : '🌙'; }
+  try{ var st = localStorage.getItem('theme'); if(st) root.setAttribute('data-theme', st); }catch(err){}
+  paintTheme();
+  if(themeBtn){
+    themeBtn.addEventListener('click', function(){
+      var next = currentDark() ? 'light' : 'dark';
+      root.setAttribute('data-theme', next);
+      try{ localStorage.setItem('theme', next); }catch(err){}
+      paintTheme();
+    });
+  }
+
+  var bar = document.getElementById('progressBar');
+  var topBtn = document.getElementById('topBtn');
+  function onScroll(){
+    var h = document.documentElement;
+    var max = h.scrollHeight - h.clientHeight;
+    if(bar) bar.style.width = (max > 0 ? (h.scrollTop / max) * 100 : 0) + '%';
+    if(topBtn) topBtn.classList.toggle('show', h.scrollTop > 600);
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+  if(topBtn) topBtn.addEventListener('click', function(){ window.scrollTo({top:0, behavior:'smooth'}); });
+
+  var navLinks = Array.prototype.slice.call(document.querySelectorAll('.quicknav a'));
+  var spyTargets = navLinks.map(function(a){ return document.querySelector(a.getAttribute('href')); });
+  if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(!en.isIntersecting) return;
+        var i = spyTargets.indexOf(en.target);
+        navLinks.forEach(function(a, j){ a.classList.toggle('active', j === i); });
+        if(navLinks[i]){
+          var nav = navLinks[i].parentElement;
+          nav.scrollTo({left: navLinks[i].offsetLeft - nav.clientWidth/2 + navLinks[i].clientWidth/2, behavior:'smooth'});
+        }
+      });
+    }, {rootMargin:'-20% 0px -70% 0px'});
+    spyTargets.forEach(function(t){ if(t) io.observe(t); });
+  }
+
+  /* ---- Pregnancy timeline (dynamic) ---- */
+  (function(){
+    var form = document.getElementById('pregForm');
+    if(!form) return;
+    var eddEl = document.getElementById('eddDate');
+    var birthEl = document.getElementById('actualBirth');
+    var out = document.getElementById('pregOut');
+    var msg = document.getElementById('pregMsg');
+    var KEY = 'pregnancyDates';
+    var DAY = 86400000;
+    var M = ['জানুয়ারি','ফেব্রুয়ারি','মার্চ','এপ্রিল','মে','জুন','জুলাই','আগস্ট','সেপ্টেম্বর','অক্টোবর','নভেম্বর','ডিসেম্বর'];
+
+    function bn(n){ return String(n).replace(/[0-9]/g, function(d){ return '০১২৩৪৫৬৭৮৯'[d]; }); }
+    function parse(v){ var p = v.split('-'); return Date.UTC(+p[0], +p[1]-1, +p[2]); }
+    function addDays(t, n){ return t + n*DAY; }
+    function fmt(t, withYear){
+      var d = new Date(t);
+      return bn(d.getUTCDate()) + ' ' + M[d.getUTCMonth()] + (withYear ? ' ' + bn(d.getUTCFullYear()) : '');
+    }
+    function fmtRange(a, b){ return fmt(a, false) + ' – ' + fmt(b, false); }
+    function wd(days){ var w = Math.floor(days/7), d = days % 7; return bn(w) + ' সপ্তাহ' + (d ? ' ' + bn(d) + ' দিন' : ''); }
+    function todayUTC(){ var n = new Date(); return Date.UTC(n.getFullYear(), n.getMonth(), n.getDate()); }
+    function toISO(t){ return new Date(t).toISOString().slice(0,10); }
+    function termName(days){
+      var w = Math.floor(days/7);
+      if(w < 37) return 'প্রিটার্ম (৩৭ সপ্তাহের আগে)';
+      if(w < 39) return 'Early term (৩৭–৩৮ সপ্তাহ ৬ দিন)';
+      if(w < 41) return 'Full term (৩৯–৪০ সপ্তাহ ৬ দিন)';
+      if(w < 42) return 'Late term (৪১–৪১ সপ্তাহ ৬ দিন)';
+      return 'Post term (৪২ সপ্তাহ বা বেশি)';
+    }
+
+    function render(edd, birth){
+      var lmp = addDays(edd, -280), conc = addDays(edd, -266), today = todayUTC();
+      var ref = birth || today;
+      var gaDays = Math.round((ref - lmp)/DAY);
+      var pct = Math.max(0, Math.min(100, gaDays/280*100));
+      var born = !!birth;
+
+      // 4th card
+      var c4;
+      if(born){
+        c4 = '<div class="preg-stat hl"><small>আসল জন্ম</small><b>' + fmt(birth,true) + '</b><span>' + wd(gaDays) + '</span></div>';
+      } else if(today < lmp){
+        c4 = '<div class="preg-stat hl"><small>আজ</small><b>' + fmt(today,true) + '</b><span>গণনা শুরুর আগে</span></div>';
+      } else {
+        var left = Math.round((edd - today)/DAY);
+        c4 = '<div class="preg-stat hl"><small>আজকের অবস্থা</small><b>' + wd(gaDays) + '</b><span>' + (left >= 0 ? 'বাকি ' + bn(left) + ' দিন' : bn(-left) + ' দিন পেরিয়েছে') + '</span></div>';
+      }
+      var html = '<div class="preg-stats">'
+        + '<div class="preg-stat"><small>শেষ মাসিকের প্রথম দিন</small><b>' + fmt(lmp,true) + '</b><span>সপ্তাহ ০</span></div>'
+        + '<div class="preg-stat"><small>গর্ভধারণ (আনুমানিক)</small><b>' + fmt(conc,true) + '</b><span>সপ্তাহ ২</span></div>'
+        + '<div class="preg-stat"><small>প্রত্যাশিত জন্মতারিখ</small><b>' + fmt(edd,true) + '</b><span>৪০ সপ্তাহ</span></div>'
+        + c4 + '</div>';
+
+      // bar
+      var pinLabel = born ? 'জন্ম ' + fmt(birth,false) : 'আজ';
+      var showPin = born || (today >= lmp);
+      html += '<div class="preg-bar" role="img" aria-label="৪০ সপ্তাহের গর্ভকালীন সময়রেখা"><i></i><i></i><i></i>'
+        + (showPin ? '<span class="preg-pin ' + (born ? 'birth' : 'today') + '" style="left:' + Math.min(pct,96).toFixed(1) + '%;">' + pinLabel + '</span>' : '')
+        + '</div>'
+        + '<div class="preg-legend">'
+        + '<span style="--c:var(--sun)">১ম ত্রৈমাসিক (সপ্তাহ ১–১৩)</span>'
+        + '<span style="--c:var(--accent)">২য় ত্রৈমাসিক (১৪–২৭)</span>'
+        + '<span style="--c:var(--lav)">৩য় ত্রৈমাসিক (২৮–৪০)</span></div>';
+
+      // milestones
+      var ev = [
+        {t:lmp, h:'সপ্তাহ ০ — গণনা শুরু', d:'শেষ মাসিকের প্রথম দিন (আনুমানিক)।'},
+        {t:conc, h:'গর্ভধারণ', d:'এখান থেকে শিশুর যাত্রা শুরু — প্রত্যাশিত জন্মতারিখের প্রায় ২৬৬ দিন আগে।'},
+        {t:addDays(lmp,28), e:addDays(lmp,35), h:'সপ্তাহ ৪–৫ — গর্ভাবস্থা ধরা পড়ে', d:'মাসিক বন্ধ হওয়া ও গর্ভাবস্থার পরীক্ষা পজিটিভ আসার সময়।'},
+        {t:addDays(lmp,91), h:'সপ্তাহ ১৩ — ১ম ত্রৈমাসিক শেষ', d:'প্রধান অঙ্গ-প্রত্যঙ্গ গঠিত; গর্ভপাতের ঝুঁকি উল্লেখযোগ্যভাবে কমে।'},
+        {t:addDays(lmp,126), e:addDays(lmp,154), h:'সপ্তাহ ১৮–২২ — বিস্তারিত আল্ট্রাসাউন্ড', d:'সাধারণত এই সময়ে শিশুর গঠন পরীক্ষা করা হয়।'},
+        {t:addDays(lmp,189), h:'সপ্তাহ ২৭ — ২য় ত্রৈমাসিক শেষ', d:'শিশু দ্রুত ওজন বাড়াতে শুরু করে।'},
+        {t:addDays(lmp,196), h:'সপ্তাহ ২৮ — ৩য় ত্রৈমাসিক শুরু', d:'ফুসফুস ও মস্তিষ্কের পরিপক্বতা এগিয়ে চলে।'},
+        {t:addDays(lmp,259), h:'সপ্তাহ ৩৭ — Early term শুরু', d:'এখন থেকে জন্ম হলে শিশু প্রিটার্ম নয়, early term হিসেবে ধরা হয়।'},
+        {t:addDays(lmp,273), h:'সপ্তাহ ৩৯ — Full term শুরু', d:'সাধারণত সবচেয়ে অনুকূল সময়ের শুরু।'},
+        {t:edd, h:'সপ্তাহ ৪০ — প্রত্যাশিত জন্মতারিখ', d:'চিকিৎসকের হিসাবে মূল তারিখ।'}
+      ];
+      if(born){
+        var diff = Math.round((edd - birth)/DAY);
+        var diffTxt = diff > 0 ? 'প্রত্যাশিত তারিখের ' + bn(diff) + ' দিন আগে' : (diff < 0 ? 'প্রত্যাশিত তারিখের ' + bn(-diff) + ' দিন পরে' : 'ঠিক প্রত্যাশিত তারিখেই');
+        ev.push({t:birth, h:wd(gaDays) + ' — জন্ম 🎉', d:diffTxt + '। ' + termName(gaDays) + '।', cls:'now'});
+        var age = Math.round((today - birth)/DAY);
+        if(age >= 0 && today >= birth){
+          ev.push({t:today, h:'আজকের হিসাব', d:'জন্মের পর ' + bn(age) + ' দিন; শেষ মাসিক থেকে গুনলে ' + wd(Math.round((today-lmp)/DAY)) + '।', cls:'today'});
+        }
+      } else if(today >= lmp){
+        ev.push({t:today, h:'আজ — ' + wd(gaDays), d:'গর্ভাবস্থার বর্তমান অবস্থান।', cls:'today'});
+      }
+      ev.sort(function(a,b){ return a.t - b.t; });
+      html += '<h3 class="sub-head">গুরুত্বপূর্ণ ধাপ</h3><ul class="preg-list">';
+      ev.forEach(function(x){
+        var when = x.e ? fmtRange(x.t, x.e) : fmt(x.t, x.t === lmp || x.t === edd || x.cls === 'now');
+        var future = x.t > today && !x.cls ? ' future' : '';
+        html += '<li class="' + (x.cls || '') + future + '"><time>' + when + '</time><div><b>' + x.h + '</b><span>' + x.d + '</span></div></li>';
+      });
+      html += '</ul>';
+
+      // note
+      var note = '';
+      if(born){
+        var six = new Date(birth); six.setUTCMonth(six.getUTCMonth() + 6);
+        if(gaDays < 259){
+          var corr = 280 - gaDays;
+          note = '<strong>বয়স সংশোধন দরকার হতে পারে:</strong> ৩৭ সপ্তাহের আগে জন্ম হওয়ায় বৃদ্ধি ও বিকাশের হিসাবে "corrected age" ধরা হয় — প্রায় ' + wd(corr) + ' বাদ দিয়ে। চিকিৎসকের পরামর্শ নিন। জন্মতারিখ থেকে ৬ মাস পূর্ণ হবে <strong>' + fmt(six.getTime(), true) + '</strong>।';
+        } else {
+          note = '<strong>বয়স সংশোধনের দরকার নেই:</strong> ৩৭ সপ্তাহ বা তার পরে জন্ম নেওয়া শিশুর জন্য "corrected age" লাগে না — খাবার, টিকা ও বৃদ্ধির চার্টে জন্মের তারিখ (' + fmt(birth, true) + ') থেকেই বয়স ধরুন। ৬ মাস পূর্ণ হবে <strong>' + fmt(six.getTime(), true) + '</strong>।';
+        }
+      } else if(today < edd){
+        note = '<strong>এখনও প্রতীক্ষায়:</strong> ৩৭ সপ্তাহ (' + fmt(addDays(lmp,259), true) + ') থেকে জন্ম হলে শিশুকে প্রিটার্ম ধরা হয় না। জন্মের পর আসল জন্মতারিখ এখানে দিলে হিসাব আরও পূর্ণ হবে।';
+      } else {
+        note = '<strong>প্রত্যাশিত তারিখ পেরিয়েছে:</strong> চিকিৎসকের নির্দেশনা অনুযায়ী নিয়মিত পরীক্ষা ও ফলো-আপ চালিয়ে যান।';
+      }
+      html += '<div class="alert-box" style="background:var(--accent-tint);border-color:transparent;border-inline-start-color:var(--accent);">' + note + '</div>';
+      out.innerHTML = html;
+    }
+
+    function run(save){
+      msg.textContent = '';
+      if(!eddEl.value){ out.innerHTML = ''; return false; }
+      var edd = parse(eddEl.value);
+      var birth = birthEl.value ? parse(birthEl.value) : null;
+      if(birth !== null && (birth < addDays(edd,-280) + 20*7*DAY || birth > addDays(edd, 60))){
+        msg.textContent = 'আসল জন্মতারিখ ও প্রত্যাশিত তারিখের মধ্যে অস্বাভাবিক ফারাক — তারিখগুলো আবার দেখুন।';
+        out.innerHTML = '';
+        return false;
+      }
+      render(edd, birth);
+      if(save){ try{ localStorage.setItem(KEY, JSON.stringify({edd:eddEl.value, birth:birthEl.value})); }catch(err){} }
+      return true;
+    }
+
+    form.addEventListener('submit', function(e){ e.preventDefault(); run(true); });
+    document.getElementById('pregClear').addEventListener('click', function(){
+      eddEl.value = ''; birthEl.value = ''; out.innerHTML = ''; msg.textContent = '';
+      try{ localStorage.setItem(KEY, JSON.stringify({edd:'', birth:'', cleared:true})); }catch(err){}
+    });
+
+    var init = null;
+    try{ init = JSON.parse(localStorage.getItem(KEY) || 'null'); }catch(err){}
+    if(init){ eddEl.value = init.edd || ''; birthEl.value = init.birth || ''; }
+    else { eddEl.value = '2026-11-14'; birthEl.value = '2026-11-05'; }
+    run(false);
+  })();
+
+  /* ---- Baby log & weight tracker ---- */
+  (function(){
+    if(!document.getElementById('logForm')) return;
+    var DAY = 86400000;
+    var LOGK = 'babyLog', WK = 'babyWeights';
+    var STOOLS = [
+      {k:'meconium', n:'কালচে-সবুজ', c:'#2F3B25'},
+      {k:'brown', n:'সবুজাভ-বাদামি', c:'#7A7A3A'},
+      {k:'yellow', n:'সরষে-হলুদ', c:'#D9A921'},
+      {k:'green', n:'হালকা সবুজ', c:'#8DB254'},
+      {k:'white', n:'সাদা/ফ্যাকাশে', c:'#EDEBDD', flag:'white'},
+      {k:'black', n:'কালো', c:'#171717', flag:'black'},
+      {k:'blood', n:'রক্তমিশ্রিত', c:'#C0392B', flag:'blood'}
+    ];
+    var SIDES = {left:'বাম স্তন', right:'ডান স্তন', both:'উভয় স্তন', bottle:'ফর্মুলা/এক্সপ্রেসড দুধ'};
+
+    function bn(n){ return String(n).replace(/[0-9]/g, function(d){ return '০১২৩৪৫৬৭৮৯'[d]; }); }
+    function bnNum(n, dp){ return bn((Math.round(n*Math.pow(10,dp))/Math.pow(10,dp)).toFixed(dp).replace(/\.?0+$/, function(m){ return dp ? '' : m; })); }
+    function esc(t){ return String(t).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
+    function pad(n){ return (n<10?'0':'') + n; }
+    function isoDay(d){ return d.getFullYear() + '-' + pad(d.getMonth()+1) + '-' + pad(d.getDate()); }
+    function isoLocal(d){ return isoDay(d) + 'T' + pad(d.getHours()) + ':' + pad(d.getMinutes()); }
+    function dayUTC(iso){ var p = iso.split('-'); return Date.UTC(+p[0], +p[1]-1, +p[2]); }
+    var M = ['জানুয়ারি','ফেব্রুয়ারি','মার্চ','এপ্রিল','মে','জুন','জুলাই','আগস্ট','সেপ্টেম্বর','অক্টোবর','নভেম্বর','ডিসেম্বর'];
+    function fmtDay(iso){ var p = iso.split('-'); return bn(+p[2]) + ' ' + M[+p[1]-1] + ' ' + bn(p[0]); }
+    function fmtDayShort(iso){ var p = iso.split('-'); return bn(+p[2]) + ' ' + M[+p[1]-1]; }
+    function fmtTime(t){
+      var h = +t.slice(11,13), m = t.slice(14,16);
+      var per = h < 5 ? 'রাত' : h < 12 ? 'সকাল' : h < 15 ? 'দুপুর' : h < 18 ? 'বিকাল' : h < 20 ? 'সন্ধ্যা' : 'রাত';
+      var h12 = h % 12 || 12;
+      return per + ' ' + bn(h12) + ':' + bn(m);
+    }
+    function load(k, def){ try{ var r = localStorage.getItem(k); return r ? JSON.parse(r) : def; }catch(e){ return def; } }
+    function save(k, v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
+    function uid(){ return Date.now().toString(36) + Math.random().toString(36).slice(2,6); }
+    function dur(min){ var h = Math.floor(min/60), m = min % 60; return (h ? bn(h) + ' ঘণ্টা ' : '') + (m || !h ? bn(m) + ' মিনিট' : '').trim(); }
+
+    function birthISO(){
+      var p = load('pregnancyDates', null);
+      if(p && p.birth) return p.birth;
+      try{ var b = localStorage.getItem('babyBirthDate'); if(b) return b; }catch(e){}
+      return '2026-11-05';
+    }
+    function ageDaysAt(iso){ return Math.round((dayUTC(iso) - dayUTC(birthISO()))/DAY); }
+
+    /* ---------- LOG ---------- */
+    var log = load(LOGK, {entries:[]});
+    if(!log.entries) log.entries = [];
+    var type = 'feed';
+    var timeEl = document.getElementById('logTime');
+    var noteEl = document.getElementById('logNote');
+    var fieldsEl = document.getElementById('logFields');
+    var dayEl = document.getElementById('logDay');
+    var msgEl = document.getElementById('logMsg');
+
+    function nowLocal(){ return isoLocal(new Date()); }
+    function fieldsFor(t){
+      if(t === 'feed') return '<label class="fld">কীভাবে<select id="fSide">'
+        + Object.keys(SIDES).map(function(k){ return '<option value="' + k + '">' + SIDES[k] + '</option>'; }).join('')
+        + '</select></label>'
+        + '<label class="fld">পরিমাণ (মি.লি.) <small>ফর্মুলা/বোতলে</small><input type="number" id="fMl" min="1" max="400" inputmode="numeric"></label>'
+        + '<label class="fld">কত মিনিট <small>ঐচ্ছিক</small><input type="number" id="fDur" min="1" max="120" inputmode="numeric"></label>';
+      if(t === 'stool') return '<div class="fld span2">রঙ<div class="col-pick">'
+        + STOOLS.map(function(x,i){ return '<label class="col-opt"><input type="radio" name="stoolc" value="' + x.k + '"' + (i===2?' checked':'') + '><i style="background:' + x.c + '"></i>' + x.n + '</label>'; }).join('')
+        + '</div></div>';
+      if(t === 'sleep') return '<label class="fld">ঘুমের সময় (মিনিট)<input type="number" id="fSleep" min="1" max="1000" inputmode="numeric" required placeholder="যেমন ৯০"></label>';
+      if(t === 'med') return '<label class="fld">ওষুধ/ভিটামিনের নাম<input type="text" id="fMed" maxlength="60" required placeholder="যেমন ভিটামিন ডি ড্রপ"></label>';
+      return '';
+    }
+    function setType(t){
+      type = t;
+      Array.prototype.forEach.call(document.querySelectorAll('#logTypes .log-type'), function(b){ b.classList.toggle('active', b.getAttribute('data-type') === t); });
+      fieldsEl.innerHTML = fieldsFor(t);
+    }
+    document.getElementById('logTypes').addEventListener('click', function(e){
+      var b = e.target.closest('.log-type'); if(b) setType(b.getAttribute('data-type'));
+    });
+
+    document.getElementById('logForm').addEventListener('submit', function(e){
+      e.preventDefault();
+      msgEl.textContent = '';
+      var en = {id:uid(), t:timeEl.value, type:type, note:noteEl.value.trim()};
+      if(!en.t) return;
+      if(en.t > nowLocal()){ msgEl.textContent = 'ভবিষ্যতের সময় দেওয়া যাবে না।'; return; }
+      if(type === 'feed'){
+        en.side = document.getElementById('fSide').value;
+        var ml = document.getElementById('fMl').value, du = document.getElementById('fDur').value;
+        if(ml) en.ml = +ml; if(du) en.dur = +du;
+      } else if(type === 'stool'){
+        var r = document.querySelector('input[name=stoolc]:checked'); en.color = r ? r.value : 'yellow';
+      } else if(type === 'sleep'){
+        en.dur = +document.getElementById('fSleep').value;
+        if(!(en.dur > 0)) return;
+      } else if(type === 'med'){
+        en.name = document.getElementById('fMed').value.trim();
+        if(!en.name) return;
+      }
+      log.entries.push(en);
+      save(LOGK, log);
+      dayEl.value = en.t.slice(0,10);
+      noteEl.value = '';
+      timeEl.value = nowLocal();
+      setType(type);
+      renderLog();
+    });
+
+    function describe(en){
+      if(en.type === 'feed') return '🍼 ' + SIDES[en.side || 'both'] + (en.ml ? ' · ' + bn(en.ml) + ' মি.লি.' : '') + (en.dur ? ' · ' + bn(en.dur) + ' মিনিট' : '');
+      if(en.type === 'wet') return '💧 ভেজা ন্যাপি';
+      if(en.type === 'stool'){ var s = STOOLS.filter(function(x){ return x.k === en.color; })[0]; return '💩 পটি · ' + (s ? s.n : ''); }
+      if(en.type === 'sleep') return '😴 ঘুম · ' + dur(en.dur);
+      if(en.type === 'med') return '💊 ' + esc(en.name);
+      return '';
+    }
+
+    function renderLog(){
+      var day = dayEl.value;
+      var list = log.entries.filter(function(x){ return x.t.slice(0,10) === day; }).sort(function(a,b){ return a.t < b.t ? 1 : -1; });
+      var c = {feed:0, wet:0, stool:0, sleep:0, med:0, ml:0};
+      list.forEach(function(x){ c[x.type]++; if(x.type==='feed' && x.ml) c.ml += x.ml; if(x.type==='sleep') c.sleepMin = (c.sleepMin||0) + x.dur; });
+      var today = isoDay(new Date());
+      var wetCls = c.wet >= 6 ? 'good' : (day < today ? 'warnc' : '');
+      document.getElementById('logSummary').innerHTML =
+        '<div class="preg-stat"><small>🍼 দুধ খাওয়া</small><b>' + bn(c.feed) + ' বার</b><span>' + (c.ml ? bn(c.ml) + ' মি.লি. বোতলে' : 'লক্ষ্য: ৮–১২ বার') + '</span></div>'
+        + '<div class="preg-stat ' + wetCls + '"><small>💧 ভেজা ন্যাপি</small><b>' + bn(c.wet) + (c.wet >= 6 ? ' ✅' : '') + '</b><span>লক্ষ্য: ৬+</span></div>'
+        + '<div class="preg-stat"><small>💩 পটি</small><b>' + bn(c.stool) + ' বার</b><span>&nbsp;</span></div>'
+        + '<div class="preg-stat"><small>😴 ঘুম</small><b>' + (c.sleepMin ? dur(c.sleepMin) : '—') + '</b><span>' + (c.med ? '💊 ' + bn(c.med) + 'টি ওষুধ/ভিটামিন' : '&nbsp;') + '</span></div>';
+
+      // alerts
+      var age = ageDaysAt(day), msgs = [];
+      list.forEach(function(x){
+        if(x.type !== 'stool') return;
+        var s = STOOLS.filter(function(y){ return y.k === x.color; })[0];
+        if(!s || !s.flag) return;
+        if(s.flag === 'black' && age <= 5) return;
+        msgs.push('<li><strong>' + fmtTime(x.t) + '</strong> — ' + s.n + ' পটি নথিভুক্ত।' + (s.flag === 'white' ? ' সাদা/ফ্যাকাশে পটি জরুরি — আজই চিকিৎসকের সাথে যোগাযোগ করুন।' : ' চিকিৎসককে জানান।') + '</li>');
+      });
+      if(day < today && c.wet > 0 && c.wet < 6) msgs.push('<li>এদিন ভেজা ন্যাপি ৬টির কম (' + bn(c.wet) + 'টি) লেখা আছে — সব লেখা হয়েছে কি না দেখুন; না হলে দুধ খাওয়া ঠিক আছে কি না চিকিৎসকের সাথে আলোচনা করুন।</li>');
+      document.getElementById('logAlert').innerHTML = msgs.length ? '<div class="alert-box"><strong>খেয়াল করুন:</strong><ul class="hazard-list" style="margin:8px 0 0;">' + msgs.join('') + '</ul></div>' : '';
+
+      var ul = document.getElementById('logList');
+      ul.innerHTML = list.length ? list.map(function(x){
+        return '<li><time>' + fmtTime(x.t) + '</time><div class="txt">' + describe(x) + (x.note ? '<em>' + esc(x.note) + '</em>' : '') + '</div><button type="button" class="x-btn" data-id="' + x.id + '" aria-label="মুছুন">✕</button></li>';
+      }).join('') : '<li class="log-empty" style="justify-content:center;border-style:dashed;">এই দিনে কোনো এন্ট্রি নেই</li>';
+    }
+    document.getElementById('logList').addEventListener('click', function(e){
+      var b = e.target.closest('.x-btn'); if(!b) return;
+      if(!confirm('এই এন্ট্রি মুছে ফেলবেন?')) return;
+      log.entries = log.entries.filter(function(x){ return x.id !== b.getAttribute('data-id'); });
+      save(LOGK, log); renderLog();
+    });
+    function shiftDay(n){
+      var d = new Date(dayUTC(dayEl.value) + n*DAY); dayEl.value = d.toISOString().slice(0,10); renderLog();
+    }
+    dayEl.addEventListener('change', function(){ if(!dayEl.value) dayEl.value = isoDay(new Date()); renderLog(); });
+    document.getElementById('dayPrev').addEventListener('click', function(){ shiftDay(-1); });
+    document.getElementById('dayNext').addEventListener('click', function(){ if(dayEl.value < isoDay(new Date())) shiftDay(1); });
+    document.getElementById('dayToday').addEventListener('click', function(){ dayEl.value = isoDay(new Date()); renderLog(); });
+
+    /* ---------- WEIGHT ---------- */
+    var W = load(WK, {birthW:3.0, entries:[]});
+    if(!W.entries) W.entries = [];
+    if(!W.birthW) W.birthW = 3.0;
+    var wDate = document.getElementById('wDate'), wKg = document.getElementById('wKg'),
+        wLen = document.getElementById('wLen'), wHead = document.getElementById('wHead'),
+        birthW = document.getElementById('birthW'), wBirth = document.getElementById('wBirth'),
+        wMsg = document.getElementById('wMsg');
+
+    // WHO weight-for-age, boys, months 0..12 (-2SD, median, +2SD) in kg
+    var REF = [[2.5,3.3,4.4],[3.4,4.5,5.8],[4.3,5.6,7.1],[5.0,6.4,8.0],[5.6,7.0,8.7],[6.0,7.5,9.3],[6.4,7.9,9.8],[6.7,8.3,10.3],[6.9,8.6,10.7],[7.1,8.9,11.0],[7.4,9.2,11.4],[7.6,9.4,11.7],[7.7,9.6,12.0]];
+    var MD = 30.4375;
+    function refAt(days, idx){
+      var m = Math.max(0, Math.min(12, days / MD)), lo = Math.floor(m), hi = Math.min(12, lo+1), f = m - lo;
+      return REF[lo][idx] + (REF[hi][idx] - REF[lo][idx]) * f;
+    }
+
+    function chart(points, maxMonths){
+      var Wd = 640, H = 300, L = 44, R = 14, T = 14, B = 34;
+      var maxD = maxMonths * MD;
+      var lo = 2, hi = 5;
+      for(var m = 0; m <= maxMonths; m++){ hi = Math.max(hi, REF[m][2]); lo = Math.min(lo, REF[m][0]); }
+      points.forEach(function(p){ hi = Math.max(hi, p.w + .3); lo = Math.min(lo, p.w - .3); });
+      lo = Math.floor(lo); hi = Math.ceil(hi);
+      function X(d){ return L + (d / maxD) * (Wd - L - R); }
+      function Y(w){ return T + (1 - (w - lo)/(hi - lo)) * (H - T - B); }
+      var up = [], dn = [], med = [];
+      for(var i = 0; i <= 40; i++){
+        var d = maxD * i / 40;
+        up.push(X(d).toFixed(1) + ',' + Y(refAt(d,2)).toFixed(1));
+        dn.unshift(X(d).toFixed(1) + ',' + Y(refAt(d,0)).toFixed(1));
+        med.push(X(d).toFixed(1) + ',' + Y(refAt(d,1)).toFixed(1));
+      }
+      var g = '';
+      var step = (hi - lo) > 10 ? 2 : 1;
+      for(var w = lo; w <= hi; w += step){
+        g += '<line x1="' + L + '" x2="' + (Wd-R) + '" y1="' + Y(w) + '" y2="' + Y(w) + '" stroke="var(--line)" stroke-width="1"/><text x="' + (L-6) + '" y="' + (Y(w)+4) + '" text-anchor="end">' + bn(w) + '</text>';
+      }
+      var xs = maxMonths <= 6 ? 1 : 2;
+      for(var mm = 0; mm <= maxMonths; mm += xs){
+        g += '<text x="' + X(mm*MD) + '" y="' + (H-12) + '" text-anchor="middle">' + bn(mm) + '</text>';
+      }
+      g += '<text x="' + ((L+Wd-R)/2) + '" y="' + (H-1) + '" text-anchor="middle">বয়স (মাস)</text><text x="12" y="' + (T+4) + '" >কেজি</text>';
+      var line = points.map(function(p){ return X(p.d).toFixed(1) + ',' + Y(p.w).toFixed(1); }).join(' ');
+      var dots = points.map(function(p){ return '<circle cx="' + X(p.d).toFixed(1) + '" cy="' + Y(p.w).toFixed(1) + '" r="4.5" fill="var(--accent-2)" stroke="var(--surface)" stroke-width="2"><title>' + bnNum(p.w,2) + ' কেজি</title></circle>'; }).join('');
+      return '<svg viewBox="0 0 ' + Wd + ' ' + H + '" role="img" aria-label="ওজনের চার্ট">' + g
+        + '<polygon points="' + up.join(' ') + ' ' + dn.join(' ') + '" fill="var(--accent-tint)" opacity=".95"/>'
+        + '<polyline points="' + med.join(' ') + '" fill="none" stroke="var(--accent)" stroke-width="2" stroke-dasharray="5 4"/>'
+        + (points.length > 1 ? '<polyline points="' + line + '" fill="none" stroke="var(--accent-2)" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>' : '')
+        + dots + '</svg>';
+    }
+
+    function renderW(){
+      var bd = birthISO(), bw = +W.birthW || 3;
+      var rows = W.entries.slice().sort(function(a,b){ return a.date < b.date ? -1 : 1; });
+      var pts = [{date:bd, w:bw, d:0, birth:true}].concat(rows.map(function(r){ return {date:r.date, w:r.w, d:Math.max(0, ageDaysAt(r.date)), len:r.len, head:r.head, id:r.id}; }));
+      var last = pts[pts.length-1];
+      var maxM = Math.min(12, Math.max(3, Math.ceil(last.d / MD) + 1));
+      document.getElementById('wChart').innerHTML = chart(pts, maxM);
+
+      // stats
+      var gain = Math.round((last.w - bw) * 1000), pct = (last.w - bw) / bw * 100;
+      var rate = '', prev = pts.length > 1 ? pts[pts.length-2] : null, rateVal = null;
+      if(prev && last.d - prev.d >= 4){ rateVal = (last.w - prev.w) * 1000 / (last.d - prev.d) * 7; rate = (rateVal >= 0 ? '+' : '−') + bn(Math.abs(Math.round(rateVal))) + ' গ্রাম/সপ্তাহ'; }
+      var lo2 = refAt(last.d,0), hi2 = refAt(last.d,2);
+      var pos = last.w < lo2 ? 'রেঞ্জের নিচে' : last.w > hi2 ? 'রেঞ্জের ওপরে' : 'রেঞ্জের মধ্যে';
+      document.getElementById('wStats').innerHTML =
+        '<div class="preg-stat"><small>সর্বশেষ ওজন</small><b>' + bnNum(last.w,2) + ' কেজি</b><span>' + (last.birth ? 'জন্মওজন' : fmtDayShort(last.date)) + '</span></div>'
+        + '<div class="preg-stat"><small>জন্মওজন</small><b>' + bnNum(bw,2) + ' কেজি</b><span>' + fmtDayShort(bd) + '</span></div>'
+        + '<div class="preg-stat ' + (gain >= 0 ? 'good' : 'warnc') + '"><small>জন্ম থেকে পরিবর্তন</small><b>' + (gain >= 0 ? '+' : '−') + bn(Math.abs(gain)) + ' গ্রাম</b><span>' + (pct >= 0 ? '+' : '−') + bn(Math.abs(pct).toFixed(1)) + '%</span></div>'
+        + '<div class="preg-stat"><small>সর্বশেষ গতি</small><b>' + (rate || '—') + '</b><span>' + (rows.length ? 'WHO ' + pos : 'ওজন যোগ করুন') + '</span></div>';
+
+      // status
+      var st = document.getElementById('wStatus'), cls = '', txt = '';
+      if(rows.length){
+        var age = last.d;
+        if(age < 14 && last.w < bw){
+          var loss = (bw - last.w) / bw * 100;
+          if(loss > 10){ cls = 'bad'; txt = '⚠️ জন্মওজনের ' + bn(loss.toFixed(1)) + '% কমেছে — ১০%-এর বেশি কমলে চিকিৎসকের সাথে কথা বলুন।'; }
+          else { cls = 'warn'; txt = 'প্রথম কয়েক দিনে জন্মওজনের ৭–১০% পর্যন্ত কমা স্বাভাবিক। ১০–১৪ দিনের মধ্যে জন্মওজনে ফেরার কথা।'; }
+        } else if(age >= 14 && last.w < bw){
+          cls = 'bad'; txt = '⚠️ ১৪ দিন পেরিয়েছে কিন্তু শিশু এখনও জন্মওজনে ফেরেনি — চিকিৎসককে জানান।';
+        } else {
+          txt = '✅ জন্মওজনের চেয়ে বেশি আছে।';
+          if(rateVal !== null && age >= 14 && age < 120){
+            if(rateVal < 150){ cls = 'warn'; txt += ' তবে শেষ দুই মাপে সপ্তাহে প্রায় ' + bn(Math.round(rateVal)) + ' গ্রাম বেড়েছে (সাধারণ প্রত্যাশা ১৫০–২০০) — পরের চেকআপে চিকিৎসকের সাথে আলোচনা করুন।'; }
+            else { txt += ' শেষ দুই মাপে সপ্তাহে প্রায় ' + bn(Math.round(rateVal)) + ' গ্রাম বেড়েছে — যা প্রত্যাশিত গতির মধ্যে।'; }
+          }
+        }
+      }
+      st.className = 'w-status ' + cls; st.textContent = txt;
+
+      // table (newest first)
+      var h = '<thead><tr><th>তারিখ</th><th>বয়স</th><th>ওজন</th><th>পরিবর্তন</th><th>উচ্চতা / মাথা</th><th></th></tr></thead><tbody>';
+      for(var i = pts.length - 1; i >= 0; i--){
+        var p = pts[i], q = i > 0 ? pts[i-1] : null, ch = '—';
+        if(q){ var dg = Math.round((p.w - q.w)*1000); var dd = p.d - q.d; ch = (dg >= 0 ? '+' : '−') + bn(Math.abs(dg)) + ' গ্রাম' + (dd > 0 ? ' (' + bn(dd) + ' দিনে)' : ''); }
+        h += '<tr><td>' + fmtDayShort(p.date) + (p.birth ? ' 🎉' : '') + '</td><td>' + (p.birth ? 'জন্ম' : bn(p.d) + ' দিন') + '</td><td>' + bnNum(p.w,2) + ' কেজি</td><td>' + ch + '</td><td>'
+          + (p.len ? bnNum(p.len,1) + ' সেমি' : '—') + ' / ' + (p.head ? bnNum(p.head,1) + ' সেমি' : '—') + '</td><td>'
+          + (p.birth ? '' : '<button type="button" class="x-btn" data-wid="' + p.id + '" aria-label="মুছুন">✕</button>') + '</td></tr>';
+      }
+      document.getElementById('wTable').innerHTML = h + '</tbody>';
+    }
+    document.getElementById('wTable').addEventListener('click', function(e){
+      var b = e.target.closest('.x-btn'); if(!b) return;
+      if(!confirm('এই মাপ মুছে ফেলবেন?')) return;
+      W.entries = W.entries.filter(function(x){ return x.id !== b.getAttribute('data-wid'); });
+      save(WK, W); renderW();
+    });
+    document.getElementById('wForm').addEventListener('submit', function(e){
+      e.preventDefault(); wMsg.textContent = '';
+      var kg = parseFloat(wKg.value);
+      if(!wDate.value || !(kg >= 0.5 && kg <= 30)){ wMsg.textContent = 'সঠিক তারিখ ও ওজন দিন।'; return; }
+      if(wDate.value > isoDay(new Date())){ wMsg.textContent = 'ভবিষ্যতের তারিখ দেওয়া যাবে না।'; return; }
+      if(wDate.value < birthISO()){ wMsg.textContent = 'তারিখ জন্মতারিখের আগে হতে পারে না।'; return; }
+      W.entries.push({id:uid(), date:wDate.value, w:kg, len:parseFloat(wLen.value) || null, head:parseFloat(wHead.value) || null});
+      save(WK, W);
+      wKg.value = ''; wLen.value = ''; wHead.value = '';
+      renderW();
+    });
+    birthW.addEventListener('change', function(){
+      var v = parseFloat(birthW.value);
+      if(v >= 0.5 && v <= 6){ W.birthW = v; save(WK, W); renderW(); } else { birthW.value = W.birthW; }
+    });
+    wBirth.addEventListener('change', function(){
+      if(!wBirth.value) return;
+      var p = load('pregnancyDates', {edd:'2026-11-14', birth:''}); p.birth = wBirth.value; save('pregnancyDates', p);
+      var pb = document.getElementById('actualBirth'); if(pb) pb.value = wBirth.value;
+      renderLog(); renderW();
+    });
+
+    /* ---------- BACKUP ---------- */
+    var KEYS = ['babyVaccines','babyLog','babyWeights','pregnancyDates','babyBirthDate','babyFoodTracker'];
+    document.getElementById('backupBtn').addEventListener('click', function(){
+      var out = {app:'child-care', saved:new Date().toISOString(), data:{}};
+      KEYS.forEach(function(k){ try{ var v = localStorage.getItem(k); if(v !== null) out.data[k] = v; }catch(e){} });
+      var a = document.createElement('a');
+      a.href = URL.createObjectURL(new Blob([JSON.stringify(out)], {type:'application/json'}));
+      a.download = 'baby-backup-' + isoDay(new Date()) + '.json';
+      document.body.appendChild(a); a.click(); a.remove();
+    });
+    document.getElementById('restoreFile').addEventListener('change', function(e){
+      var f = e.target.files[0]; if(!f) return;
+      var r = new FileReader();
+      r.onload = function(){
+        try{
+          var o = JSON.parse(r.result);
+          if(!o || o.app !== 'child-care' || !o.data) throw 0;
+          if(!confirm('বর্তমান ডেটা এই ব্যাকআপ দিয়ে প্রতিস্থাপিত হবে। এগিয়ে যাবেন?')) return;
+          KEYS.forEach(function(k){ if(typeof o.data[k] === 'string'){ try{ JSON.parse(o.data[k]); localStorage.setItem(k, o.data[k]); }catch(err){ if(k === 'babyBirthDate') localStorage.setItem(k, o.data[k]); } } });
+          location.reload();
+        }catch(err){ alert('ফাইলটি সঠিক ব্যাকআপ নয়।'); }
+      };
+      r.readAsText(f); e.target.value = '';
+    });
+
+    /* init */
+    var nowD = new Date();
+    timeEl.value = nowLocal();
+    dayEl.value = isoDay(nowD);
+    wDate.value = isoDay(nowD);
+    birthW.value = W.birthW;
+    wBirth.value = birthISO();
+    setType('feed');
+    renderLog();
+    renderW();
+  })();
+
+  /* ---- Vaccination schedule ---- */
+  (function(){
+    var statsEl = document.getElementById('vStats');
+    if(!statsEl) return;
+    var DAY = 86400000, KEY = 'babyVaccines';
+    var M = ['জানুয়ারি','ফেব্রুয়ারি','মার্চ','এপ্রিল','মে','জুন','জুলাই','আগস্ট','সেপ্টেম্বর','অক্টোবর','নভেম্বর','ডিসেম্বর'];
+    function bn(n){ return String(n).replace(/[0-9]/g, function(d){ return '০১২৩৪৫৬৭৮৯'[d]; }); }
+    function pad(n){ return (n<10?'0':'') + n; }
+    function isoOf(t){ var d = new Date(t); return d.getUTCFullYear() + '-' + pad(d.getUTCMonth()+1) + '-' + pad(d.getUTCDate()); }
+    function utc(iso){ var p = iso.split('-'); return Date.UTC(+p[0], +p[1]-1, +p[2]); }
+    function fmt(t){ var d = new Date(t); return bn(d.getUTCDate()) + ' ' + M[d.getUTCMonth()] + ' ' + bn(d.getUTCFullYear()); }
+    function todayT(){ var n = new Date(); return Date.UTC(n.getFullYear(), n.getMonth(), n.getDate()); }
+    function load(k, def){ try{ var r = localStorage.getItem(k); return r ? JSON.parse(r) : def; }catch(e){ return def; } }
+    function save(k, v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
+    function birthISO(){
+      var p = load('pregnancyDates', null);
+      if(p && p.birth) return p.birth;
+      try{ var b = localStorage.getItem('babyBirthDate'); if(b) return b; }catch(e){}
+      return '2026-11-05';
+    }
+    function dueT(birthT, off){
+      if(off.m){ var d = new Date(birthT); d.setUTCMonth(d.getUTCMonth() + off.m); return d.getTime(); }
+      return birthT + (off.w ? off.w*7 : (off.d || 0)) * DAY;
+    }
+
+    var EPI = [
+      {id:'e0', label:'জন্মের সময়', off:{d:0}, items:[{id:'bcg', n:'BCG', d:'যক্ষ্মা প্রতিরোধ'}]},
+      {id:'e6w', label:'৬ সপ্তাহ', off:{w:6}, items:[
+        {id:'penta1', n:'পেন্টাভ্যালেন্ট ১', d:'ডিপথেরিয়া, ধনুষ্টংকার, হুপিং কাশি, হেপাটাইটিস বি, হিব'},
+        {id:'opv1', n:'ওপিভি (পোলিও ফোঁটা) ১', d:'পোলিও'},
+        {id:'pcv1', n:'পিসিভি ১', d:'নিউমোকক্কাল (নিউমোনিয়া) রোগ'}]},
+      {id:'e10w', label:'১০ সপ্তাহ', off:{w:10}, items:[
+        {id:'penta2', n:'পেন্টাভ্যালেন্ট ২'},
+        {id:'opv2', n:'ওপিভি ২'},
+        {id:'pcv2', n:'পিসিভি ২'}]},
+      {id:'e14w', label:'১৪ সপ্তাহ', off:{w:14}, items:[
+        {id:'penta3', n:'পেন্টাভ্যালেন্ট ৩'},
+        {id:'opv3', n:'ওপিভি ৩'},
+        {id:'pcv3', n:'পিসিভি ৩'},
+        {id:'ipv', n:'আইপিভি (পোলিও ইনজেকশন)', d:'কোন বয়সে দেওয়া হবে তা কার্ড/কেন্দ্রে মিলিয়ে নিন', chk:1}]},
+      {id:'e9m', label:'৯ মাস', off:{m:9}, items:[{id:'mr1', n:'এমআর ১', d:'হাম ও রুবেলা'}]},
+      {id:'e15m', label:'১৫ মাস', off:{m:15}, items:[
+        {id:'mr2', n:'এমআর ২', d:'হাম ও রুবেলা'},
+        {id:'tcv', n:'টাইফয়েড কনজুগেট (TCV)', d:'রুটিনে অন্তর্ভুক্তির বয়স ও সময় নিশ্চিত করে নিন', chk:1}]}
+    ];
+    var OPT = [
+      {id:'o0', label:'জন্মের পর যত দ্রুত সম্ভব', off:{d:0}, items:[{id:'hepb0', n:'হেপাটাইটিস বি (জন্ম-ডোজ)', d:'WHO সাধারণত জন্মের ২৪ ঘণ্টার মধ্যে সুপারিশ করে — চিকিৎসকের সাথে কথা বলুন'}]},
+      {id:'o6w', label:'৬ সপ্তাহ', off:{w:6}, items:[{id:'rota1', n:'রোটাভাইরাস ১ম ডোজ', d:'ডায়রিয়া প্রতিরোধ; ডোজ সংখ্যা ব্র্যান্ডভেদে ২–৩টি'}]},
+      {id:'o10w', label:'১০ সপ্তাহ', off:{w:10}, items:[{id:'rota2', n:'রোটাভাইরাস ২য় ডোজ'}]},
+      {id:'o6m', label:'৬ মাস', off:{m:6}, items:[{id:'flu', n:'ইনফ্লুয়েঞ্জা', d:'৬ মাস থেকে; প্রতি বছর (প্রথমবার ২ ডোজ)'}]},
+      {id:'o12m', label:'১২ মাস', off:{m:12}, items:[
+        {id:'hepa', n:'হেপাটাইটিস এ', d:'২ ডোজ, ৬ মাস ব্যবধানে'},
+        {id:'mmr', n:'এমএমআর / ভ্যারিসেলা (চিকেনপক্স)', d:'১২–১৫ মাসে; চিকিৎসকের পরামর্শমতো'}]}
+    ];
+
+    var state = load(KEY, {});
+    var birthEl = document.getElementById('vBirth');
+
+    function visitHTML(v, birthT, today, isEpi){
+      var due = dueT(birthT, v.off), diff = Math.round((due - today)/DAY);
+      var done = v.items.filter(function(i){ return state[i.id]; }).length, all = done === v.items.length;
+      var cls = '', tag;
+      if(all){ cls = 'done'; tag = '✅ সম্পন্ন'; }
+      else if(isEpi && diff < 0){ cls = 'late'; tag = '⚠️ ' + bn(-diff) + ' দিন দেরি'; }
+      else if(diff <= 14 && diff >= 0){ cls = 'soon'; tag = '⏰ ' + (diff === 0 ? 'আজই' : bn(diff) + ' দিন বাকি'); }
+      else if(diff < 0){ tag = 'সময় পেরিয়েছে'; }
+      else { tag = 'আরও ' + (diff > 60 ? bn(Math.round(diff/30.4)) + ' মাস' : bn(diff) + ' দিন'); }
+      var h = '<div class="vac-visit ' + cls + '"><div class="vac-head"><div><b>' + v.label + '</b><small>সম্ভাব্য তারিখ: ' + fmt(due) + '</small></div><span class="vac-tag">' + tag + '</span></div><div class="vac-items">';
+      v.items.forEach(function(i){
+        var d = state[i.id];
+        h += '<label class="vac-item' + (d ? ' is-done' : '') + '"><input type="checkbox" data-vid="' + i.id + '"' + (d ? ' checked' : '') + '><span><b>' + i.n + '</b>' + (i.chk ? '<span class="chk">কার্ডে মিলিয়ে নিন</span>' : '')
+          + (d ? '<em>দেওয়া হয়েছে: ' + fmt(utc(d)) + '</em>' : (i.d ? '<em>' + i.d + '</em>' : '')) + '</span></label>';
+      });
+      return h + '</div></div>';
+    }
+
+    function render(){
+      var bISO = birthEl.value || birthISO(), birthT = utc(bISO), today = todayT();
+      document.getElementById('vEpi').innerHTML = EPI.map(function(v){ return visitHTML(v, birthT, today, true); }).join('');
+      document.getElementById('vOpt').innerHTML = OPT.map(function(v){ return visitHTML(v, birthT, today, false); }).join('');
+
+      var total = 0, got = 0, next = null;
+      EPI.forEach(function(v){ v.items.forEach(function(i){ total++; if(state[i.id]) got++; });
+        if(!next && v.items.some(function(i){ return !state[i.id]; })) next = v; });
+      var nextTxt = '—', nextSub = 'সব ইপিআই টিকা সম্পন্ন 🎉';
+      if(next){
+        var due = dueT(birthT, next.off), diff = Math.round((due - today)/DAY);
+        nextTxt = next.label; nextSub = fmt(due) + ' · ' + (diff >= 0 ? 'আর ' + bn(diff) + ' দিন' : bn(-diff) + ' দিন দেরি');
+      }
+      var ageD = Math.round((today - birthT)/DAY);
+      statsEl.innerHTML =
+        '<div class="preg-stat"><small>শিশুর বয়স</small><b>' + bn(ageD) + ' দিন</b><span>' + bn(Math.floor(ageD/7)) + ' সপ্তাহ ' + bn(ageD % 7) + ' দিন</span></div>'
+        + '<div class="preg-stat hl" style="grid-column:span 2;"><small>পরবর্তী টিকা</small><b>' + nextTxt + '</b><span>' + nextSub + '</span></div>'
+        + '<div class="preg-stat ' + (got === total ? 'good' : '') + '"><small>ইপিআই টিকা</small><b>' + bn(got) + ' / ' + bn(total) + '</b><span>সম্পন্ন</span></div>';
+    }
+
+    document.getElementById('vaccines').addEventListener('change', function(e){
+      var c = e.target.closest('input[data-vid]'); if(!c) return;
+      var id = c.getAttribute('data-vid');
+      if(c.checked){ var n = new Date(); state[id] = n.getFullYear() + '-' + pad(n.getMonth()+1) + '-' + pad(n.getDate()); }
+      else delete state[id];
+      save(KEY, state); render();
+    });
+    birthEl.addEventListener('change', function(){
+      if(!birthEl.value) return;
+      var pp = load('pregnancyDates', {edd:'2026-11-14', birth:''}); pp.birth = birthEl.value; save('pregnancyDates', pp);
+      ['actualBirth','wBirth'].forEach(function(id){ var el = document.getElementById(id); if(el) el.value = birthEl.value; });
+      render();
+    });
+    birthEl.value = birthISO();
+    render();
+  })();
+})();
+</script>
+
+</body>
+</html>
