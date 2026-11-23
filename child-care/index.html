@@ -4,6 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>শিশুর খাবার রোডম্যাপ</title>
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#2A9D8F">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="শিশুর যত্ন">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" href="icon-192.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+Da+2:wght@500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&display=swap">
 <style>
@@ -624,8 +632,86 @@
   @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .vac-item .chk{color:var(--sun);}}
   .vac-item.is-done span b{text-decoration:line-through;color:var(--ink-soft);}
 
+
+  [hidden]{display:none !important;}
+  /* emergency */
+  .sos-fab{
+    position:fixed;left:16px;bottom:16px;z-index:50;height:46px;padding:0 18px;border-radius:99px;border:none;
+    background:var(--accent-2);color:#fff;font:inherit;font-weight:700;font-size:14.5px;cursor:pointer;
+    box-shadow:0 6px 18px rgba(228,101,75,.45);display:flex;align-items:center;gap:8px;
+  }
+  .sos-fab:hover{transform:translateY(-2px);}
+  :root[data-theme="dark"] .sos-fab{color:#2a0d07;}
+  @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .sos-fab{color:#2a0d07;}}
+  .call-grid{display:grid;grid-template-columns:1fr;gap:10px;}
+  @media(min-width:640px){.call-grid{grid-template-columns:1fr 1fr;}}
+  .call-btn{
+    display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:var(--radius-sm);text-decoration:none;
+    background:var(--accent-tint);color:var(--ink);border:2px solid transparent;
+  }
+  .call-btn:hover{border-color:var(--accent);}
+  .call-btn.sos{background:var(--accent-2-tint);}
+  .call-btn .ci{flex:none;width:40px;height:40px;border-radius:50%;background:var(--surface);display:grid;place-items:center;font-size:20px;}
+  .call-btn b{display:block;font-size:15px;line-height:1.3;}
+  .call-btn small{display:block;color:var(--ink-soft);font-size:13.5px;}
+  .call-btn.empty{opacity:.55;pointer-events:none;}
+  .em-form{display:grid;grid-template-columns:1fr;gap:12px;margin-top:16px;background:var(--bg);border:1px solid var(--line);border-radius:var(--radius-sm);padding:16px;}
+  @media(min-width:760px){.em-form{grid-template-columns:1fr 1fr;}}
+  .em-form h4{grid-column:1/-1;margin:0;font-size:15px;font-family:'Baloo Da 2',sans-serif;}
+  dialog#sosDialog{
+    border:none;border-radius:var(--radius);padding:0;max-width:min(560px,calc(100vw - 24px));width:100%;
+    background:var(--surface);color:var(--ink);box-shadow:var(--shadow-md);
+  }
+  dialog#sosDialog::backdrop{background:rgba(20,15,10,.55);backdrop-filter:blur(3px);}
+  .sos-in{padding:22px 22px 20px;max-height:86vh;overflow:auto;}
+  .sos-in h2{margin:0 0 4px;font-size:21px;color:var(--accent-2);}
+  .sos-in .hazard-list{margin:8px 0 0;}
+  .sos-close{float:right;border:none;background:var(--muted-tint);color:var(--ink);width:36px;height:36px;border-radius:50%;font-size:18px;cursor:pointer;}
+
+  /* doctor & milestones */
+  .appt{background:linear-gradient(135deg,var(--lav-tint),var(--accent-tint));border-radius:var(--radius-sm);padding:14px 18px;margin-bottom:16px;font-size:15px;}
+  .appt:empty{display:none;}
+  .appt b{font-family:'Baloo Da 2',sans-serif;font-size:17px;}
+  .d-form{display:grid;grid-template-columns:1fr;gap:12px;background:var(--bg);border:1px solid var(--line);border-radius:var(--radius-sm);padding:16px;}
+  @media(min-width:760px){.d-form{grid-template-columns:1fr 1fr;}}
+  .fld textarea{
+    font:inherit;font-size:15px;padding:10px 16px;border-radius:18px;border:2px solid var(--line);
+    background:var(--surface);color:var(--ink);resize:vertical;min-height:84px;width:100%;
+  }
+  .fld textarea:focus{border-color:var(--accent);outline:none;}
+  .q-add{display:flex;gap:8px;margin-bottom:10px;}
+  .q-add input{flex:1;min-width:0;font:inherit;font-size:15px;padding:10px 16px;border-radius:99px;border:2px solid var(--line);background:var(--bg);color:var(--ink);}
+  .q-add input:focus{border-color:var(--accent);outline:none;}
+  .q-list{list-style:none;margin:0 0 6px;padding:0;display:flex;flex-direction:column;gap:6px;}
+  .q-list li{display:flex;align-items:center;gap:10px;padding:8px 14px;border:1px solid var(--line);border-radius:var(--radius-sm);background:var(--bg);font-size:15px;}
+  .q-list li.asked span{text-decoration:line-through;color:var(--ink-soft);}
+  .q-list input[type=checkbox]{accent-color:var(--accent);width:18px;height:18px;flex:none;}
+  .q-list span{flex:1;min-width:0;word-break:break-word;}
+  .visit{border:1px solid var(--line);border-radius:var(--radius-sm);padding:14px 18px;background:var(--bg);margin-bottom:10px;}
+  .visit-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;}
+  .visit-head b{font-family:'Baloo Da 2',sans-serif;font-size:16.5px;}
+  .visit-head small{display:block;color:var(--ink-soft);font-size:13.5px;}
+  .visit p{margin:8px 0 0;font-size:14.5px;color:var(--ink);white-space:pre-wrap;}
+  .visit .next{display:inline-block;margin-top:8px;font-size:13px;font-weight:700;padding:2px 12px;border-radius:99px;background:var(--lav-tint);color:var(--ink);}
+  .ms-band{background:var(--bg);border:1px solid var(--line);border-radius:var(--radius-sm);padding:14px 18px;margin-bottom:12px;border-inline-start:6px solid var(--rail);}
+  .ms-band.now{border-inline-start-color:var(--accent);background:var(--accent-tint);}
+  .ms-band h4{margin:0 0 6px;font-family:'Baloo Da 2',sans-serif;font-size:16.5px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+  .ms-band h4 em{font-style:normal;font-size:12px;font-weight:700;padding:2px 10px;border-radius:99px;background:var(--accent);color:#fff;}
+  :root[data-theme="dark"] .ms-band h4 em{color:#0F2B28;}
+  @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .ms-band h4 em{color:#0F2B28;}}
+  .ms-item{display:flex;align-items:flex-start;gap:10px;font-size:15px;cursor:pointer;padding:5px 0;}
+  .ms-item input{accent-color:var(--accent);width:20px;height:20px;flex:none;margin-top:3px;}
+  .ms-item span{flex:1;min-width:0;}
+  .ms-item em{display:block;font-style:normal;font-size:13px;color:var(--accent-strong);}
+  .ms-item.is-done span b{font-weight:600;}
+  .journal-list{list-style:none;padding:0;margin:14px 0 0;display:flex;flex-direction:column;gap:8px;}
+  .journal-list li{display:flex;gap:12px;align-items:flex-start;padding:10px 14px;border:1px solid var(--line);border-radius:var(--radius-sm);background:var(--bg);font-size:15px;}
+  .journal-list time{flex:none;font-family:'Baloo Da 2',sans-serif;font-weight:700;color:var(--accent-strong);font-size:13.5px;min-width:84px;}
+  .journal-list .txt{flex:1;min-width:0;word-break:break-word;}
+  .journal-list .txt em{display:block;font-style:normal;font-size:13.5px;color:var(--ink-soft);}
+
   @media print{
-    .quicknav,.print-btn,.hero-actions,.reset-btn,.age-form,.fab,.progress,.hero-emoji{display:none !important;}
+    .quicknav,.print-btn,.hero-actions,.sos-fab,.reset-btn,.age-form,.fab,.progress,.hero-emoji{display:none !important;}
     body{background:#fff;color:#000;}
     .hero{background:#fff;color:#000;box-shadow:none;border:1px solid #ccc;}
     .hero h1,.hero .subtitle,.hero .eyebrow{color:#000;background:none;}
@@ -638,6 +724,17 @@
 
 <div class="progress" aria-hidden="true"><span id="progressBar"></span></div>
 <button type="button" class="fab top-btn" id="topBtn" aria-label="উপরে যান">↑</button>
+<button type="button" class="sos-fab" id="sosBtn" aria-haspopup="dialog">🚨 জরুরি</button>
+<dialog id="sosDialog" aria-labelledby="sosTitle">
+  <div class="sos-in">
+    <button type="button" class="sos-close" id="sosClose" aria-label="বন্ধ করুন">✕</button>
+    <h2 id="sosTitle">🚨 জরুরি সাহায্য</h2>
+    <p class="tool-desc" style="margin-bottom:12px;">ট্যাপ করলেই কল হবে।</p>
+    <div class="call-grid" id="sosCalls"></div>
+    <h3 class="sub-head">এই লক্ষণে এখনই হাসপাতালে যান</h3>
+    <ul class="hazard-list" id="sosSigns"></ul>
+  </div>
+</dialog>
 <button type="button" class="fab theme-btn" id="themeBtn" aria-label="থিম পরিবর্তন করুন">🌙</button>
 
 <div class="page">
@@ -651,6 +748,7 @@
       <a class="btn btn-light" href="#calculator">🗓️ শিশুর ধাপ দেখুন</a>
       <a class="btn btn-ghost" href="#newborn-stool">🍼 নবজাতকের পটি গাইড</a>
       <button type="button" class="btn btn-ghost print-btn" onclick="window.print()">🖨️ প্রিন্ট</button>
+      <button type="button" class="btn btn-light" id="installBtn" hidden>📲 অ্যাপ ইনস্টল করুন</button>
     </div>
   </header>
 
@@ -664,9 +762,12 @@
     <a href="#safety">নিরাপত্তা</a>
     <a href="#feeding-cues">খাওয়ানোর ইঙ্গিত</a>
     <a href="#newborn-stool">নবজাতকের পটি</a>
+    <a href="#emergency">জরুরি</a>
     <a href="#baby-log">বেবি লগ</a>
     <a href="#weight-tracker">ওজন</a>
     <a href="#vaccines">টিকা</a>
+    <a href="#doctor">ডাক্তার</a>
+    <a href="#milestones">মাইলফলক</a>
     <a href="#portions">পরিমাণ</a>
     <a href="#meal-plan">দৈনিক মেনু</a>
     <a href="#tracker">ট্র্যাকার</a>
@@ -993,6 +1094,25 @@
     </div>
   </section>
 
+  <section id="emergency" class="tool-card">
+    <h2><span class="h-ico" aria-hidden="true">🚨</span><span>জরুরি যোগাযোগ ও বিপদ-সংকেত</span></h2>
+    <p class="tool-desc">ফোন নম্বর একবার সেভ করে রাখুন — স্ক্রিনের নিচের বাঁ দিকের "🚨 জরুরি" বাটন থেকে যেকোনো সময় এক ট্যাপে কল করা যাবে। নম্বর শুধু এই ডিভাইসে সংরক্ষিত থাকে।</p>
+    <div class="call-grid" id="emCalls"></div>
+    <form id="emForm" class="em-form">
+      <h4>নম্বর সম্পাদনা</h4>
+      <label class="fld">শিশুচিকিৎসকের নাম <input type="text" id="emPedN" maxlength="50"></label>
+      <label class="fld">ফোন <input type="tel" id="emPedP" inputmode="tel" maxlength="20"></label>
+      <label class="fld">হাসপাতাল/ক্লিনিকের নাম <input type="text" id="emHospN" maxlength="50"></label>
+      <label class="fld">ফোন <input type="tel" id="emHospP" inputmode="tel" maxlength="20"></label>
+      <label class="fld">পরিবারের সদস্য/আত্মীয় <input type="text" id="emFamN" maxlength="50"></label>
+      <label class="fld">ফোন <input type="tel" id="emFamP" inputmode="tel" maxlength="20"></label>
+      <div class="span2" style="grid-column:1/-1;"><button type="submit" class="preg-go">💾 সংরক্ষণ করুন</button></div>
+    </form>
+    <h3 class="sub-head">নবজাতকের বিপদ-সংকেত — দেরি না করে হাসপাতালে যান</h3>
+    <ul class="hazard-list" id="emSigns"></ul>
+    <p class="stage-detail" style="margin-top:12px;">জাতীয় জরুরি সেবা <strong>৯৯৯</strong> (বাংলাদেশ)। অন্য দেশে থাকলে স্থানীয় জরুরি নম্বর সংরক্ষণ করুন। এটি সাধারণ নির্দেশিকা — সন্দেহ হলে অপেক্ষা না করে চিকিৎসকের কাছে যান।</p>
+  </section>
+
   <section id="baby-log" class="tool-card">
     <h2><span class="h-ico" aria-hidden="true">📒</span><span>দৈনিক বেবি লগ</span></h2>
     <p class="tool-desc">দুধ খাওয়া, ভেজা ন্যাপি, পটি, ঘুম ও ওষুধ লিখে রাখুন — চিকিৎসকের কাছে গেলে এই হিসাব খুব কাজে লাগে। তথ্য শুধু এই ডিভাইসের ব্রাউজারে সংরক্ষিত থাকে।</p>
@@ -1086,6 +1206,48 @@
 
     <div class="alert-box" style="background:var(--sun-tint);border-color:transparent;border-inline-start-color:var(--sun);">
       <strong style="color:inherit;">অবশ্যই মিলিয়ে নিন:</strong> এই সূচি বাংলাদেশের ইপিআই-এর সাধারণ রূপরেখা অনুযায়ী আনুমানিক। টিকার ধরন ও বয়স (বিশেষ করে পোলিও ইনজেকশন IPV এবং টাইফয়েড TCV) সময়ের সাথে বদলায় এবং সরবরাহে ঘাটতি হতে পারে — তাই <strong>শিশুর টিকা কার্ড ও আপনার শিশুচিকিৎসক/ইপিআই কেন্দ্রের নির্দেশনা চূড়ান্ত ধরুন</strong>। ঐচ্ছিক টিকা নিতে হবে কি না চিকিৎসকের সাথে আলোচনা করুন। টিকার পর হালকা জ্বর বা ইনজেকশনের জায়গায় ব্যথা সাধারণ, তবে <strong>৩ মাসের কম বয়সে জ্বর ৩৮°C বা বেশি হলে সরাসরি হাসপাতালে যান</strong>।
+    </div>
+  </section>
+
+  <section id="doctor" class="tool-card">
+    <h2><span class="h-ico" aria-hidden="true">🩺</span><span>ডাক্তারের ভিজিট ও নোট</span></h2>
+    <p class="tool-desc">প্রতিটি চেকআপের তারিখ, ডাক্তারের পরামর্শ ও পরবর্তী অ্যাপয়েন্টমেন্ট লিখে রাখুন। যাওয়ার আগে প্রশ্নের তালিকা তৈরি করে নিন, যাতে কিছু ভুলে না যান।</p>
+
+    <div class="appt" id="dAppt"></div>
+
+    <h3 class="sub-head">ডাক্তারকে যা জিজ্ঞেস করবেন</h3>
+    <form id="qForm" class="q-add"><input type="text" id="qText" maxlength="140" placeholder="যেমন: পটি সবুজ হলে কখন চিন্তা করব?" aria-label="প্রশ্ন"><button type="submit" class="preg-go" style="padding:10px 18px;">➕</button></form>
+    <ul class="q-list" id="qList"></ul>
+
+    <h3 class="sub-head">নতুন ভিজিট যোগ করুন</h3>
+    <form id="dForm" class="d-form">
+      <label class="fld">তারিখ <input type="date" id="dDate" required></label>
+      <label class="fld">ডাক্তার/ক্লিনিক <input type="text" id="dWho" maxlength="60" placeholder="নাম বা জায়গা"></label>
+      <label class="fld span2" style="grid-column:1/-1;">কারণ <input type="text" id="dWhy" maxlength="100" placeholder="যেমন: রুটিন চেকআপ, ওজন মাপ, টিকা"></label>
+      <label class="fld span2" style="grid-column:1/-1;">ডাক্তারের পরামর্শ / নোট <textarea id="dNotes" maxlength="800" placeholder="ওজন, ওষুধ, খাওয়ানো নিয়ে নির্দেশনা…"></textarea></label>
+      <label class="fld">পরবর্তী অ্যাপয়েন্টমেন্ট <small>ঐচ্ছিক</small><input type="date" id="dNext"></label>
+      <div style="align-self:end;"><button type="submit" class="preg-go">➕ ভিজিট সংরক্ষণ</button></div>
+    </form>
+    <p id="dMsg" class="preg-msg" role="alert"></p>
+    <div id="dList" style="margin-top:14px;"></div>
+  </section>
+
+  <section id="milestones" class="tool-card">
+    <h2><span class="h-ico" aria-hidden="true">🌟</span><span>মাইলফলকের জার্নাল</span></h2>
+    <p class="tool-desc">শিশুর প্রথম হাসি, প্রথম গড়াগড়ি, প্রথম শব্দ — যখন ঘটে টিক দিন, তারিখ জমা হবে। বয়সের ধাপগুলো আনুমানিক; প্রতিটি শিশু নিজের গতিতে বড় হয়।</p>
+    <div id="msBands"></div>
+
+    <h3 class="sub-head">নিজের মুহূর্ত যোগ করুন</h3>
+    <form id="msForm" class="d-form">
+      <label class="fld">তারিখ <input type="date" id="msDate" required></label>
+      <label class="fld">কী ঘটল <input type="text" id="msTitle" maxlength="80" required placeholder="যেমন: প্রথম বার বাইরে নিয়ে যাওয়া"></label>
+      <label class="fld" style="grid-column:1/-1;">নোট <small>ঐচ্ছিক</small><input type="text" id="msNote" maxlength="160"></label>
+      <div style="grid-column:1/-1;"><button type="submit" class="preg-go">➕ যোগ করুন</button></div>
+    </form>
+    <ul class="journal-list" id="msJournal"></ul>
+
+    <div class="alert-box" style="background:var(--accent-tint);border-color:transparent;border-inline-start-color:var(--accent);">
+      <strong style="color:var(--accent-strong);">কখন চিকিৎসকের সাথে কথা বলবেন:</strong> কোনো ধাপ অনেক দেরিতে হলে, আগে শেখা কিছু হারিয়ে ফেললে, বা শব্দে/আলোয় সাড়া না দিলে শিশুচিকিৎসককে জানান। এখানকার তালিকা শুধু সাধারণ ধারণার জন্য, রোগনির্ণয়ের জন্য নয়।
     </div>
   </section>
 
@@ -1329,6 +1491,7 @@
   </section>
 
   <footer>
+    <p>📲 <strong>ফোনে অ্যাপের মতো ব্যবহার করতে:</strong> Android/Chrome-এ মেনু থেকে "Install app"/"হোম স্ক্রিনে যোগ করুন"; iPhone/Safari-এ Share (⬆️) → "Add to Home Screen"। এতে ইন্টারনেট ছাড়াও পাতাটি খুলবে।</p>
     <p>এই রোডম্যাপ WHO-এর সাধারণ গাইডলাইনের ওপর ভিত্তি করে তৈরি একটি প্র্যাকটিক্যাল সহায়িকা। প্রতিটি শিশুর প্রয়োজন আলাদা হতে পারে — অ্যালার্জি, বৃদ্ধি বা যেকোনো নির্দিষ্ট স্বাস্থ্য সংক্রান্ত সিদ্ধান্তের আগে শিশু বিশেষজ্ঞের পরামর্শ নিন।</p>
     <p>এই সাইটের নিরাপত্তা ও প্রাথমিক চিকিৎসা সংক্রান্ত তথ্য কোনো প্রশিক্ষণ বা পেশাদার চিকিৎসা পরামর্শের বিকল্প নয়।</p>
   </footer>
@@ -1924,7 +2087,7 @@
     });
 
     /* ---------- BACKUP ---------- */
-    var KEYS = ['babyVaccines','babyLog','babyWeights','pregnancyDates','babyBirthDate','babyFoodTracker'];
+    var KEYS = ['babyDoctor','babyMilestones','emergencyContacts','babyVaccines','babyLog','babyWeights','pregnancyDates','babyBirthDate','babyFoodTracker'];
     document.getElementById('backupBtn').addEventListener('click', function(){
       var out = {app:'child-care', saved:new Date().toISOString(), data:{}};
       KEYS.forEach(function(k){ try{ var v = localStorage.getItem(k); if(v !== null) out.data[k] = v; }catch(e){} });
@@ -2071,6 +2234,179 @@
     });
     birthEl.value = birthISO();
     render();
+  })();
+
+  /* ---- Emergency, Doctor, Milestones, PWA ---- */
+  (function(){
+    var DAY = 86400000;
+    var M = ['জানুয়ারি','ফেব্রুয়ারি','মার্চ','এপ্রিল','মে','জুন','জুলাই','আগস্ট','সেপ্টেম্বর','অক্টোবর','নভেম্বর','ডিসেম্বর'];
+    function bn(n){ return String(n).replace(/[0-9]/g, function(d){ return '০১২৩৪৫৬৭৮৯'[d]; }); }
+    function pad(n){ return (n<10?'0':'') + n; }
+    function todayISO(){ var n = new Date(); return n.getFullYear() + '-' + pad(n.getMonth()+1) + '-' + pad(n.getDate()); }
+    function utc(iso){ var p = iso.split('-'); return Date.UTC(+p[0], +p[1]-1, +p[2]); }
+    function fmt(iso){ var p = iso.split('-'); return bn(+p[2]) + ' ' + M[+p[1]-1] + ' ' + bn(p[0]); }
+    function esc(t){ return String(t == null ? '' : t).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
+    function load(k, def){ try{ var r = localStorage.getItem(k); return r ? JSON.parse(r) : def; }catch(e){ return def; } }
+    function save(k, v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
+    function uid(){ return Date.now().toString(36) + Math.random().toString(36).slice(2,6); }
+    function $(id){ return document.getElementById(id); }
+    function birthISO(){
+      var p = load('pregnancyDates', null);
+      if(p && p.birth) return p.birth;
+      try{ var b = localStorage.getItem('babyBirthDate'); if(b) return b; }catch(e){}
+      return '2026-11-05';
+    }
+
+    /* ----- Emergency ----- */
+    var SIGNS = [
+      '<strong>জ্বর ৩৮°C (১০০.৪°F) বা বেশি</strong> (৩ মাসের কম বয়সে)',
+      'শ্বাস নিতে কষ্ট, দ্রুত শ্বাস, বুক ভেতরে ঢুকে যাওয়া বা ঠোঁট/মুখ নীল হওয়া',
+      'খুব ঘুমকাতর, ডাকলেও জাগে না বা নেতিয়ে পড়েছে; খিঁচুনি',
+      'দুধ একেবারে খেতে না চাওয়া বা বারবার জোরে/সবুজ বমি',
+      'সাদা/ফ্যাকাশে বা কালো পটি, পটিতে রক্ত',
+      '৮ ঘণ্টায় একবারও প্রস্রাব না হওয়া; শুকনো মুখ, ডুবে যাওয়া তালু',
+      'জন্ডিস দ্রুত বাড়ছে (হাত-পা বা পেট পর্যন্ত হলুদ)',
+      'নাভিতে লালচে ভাব, পুঁজ বা দুর্গন্ধ'
+    ];
+    var emData = load('emergencyContacts', {});
+    function phone(v){ return (v || '').replace(/[^0-9+]/g, ''); }
+    function callHTML(ico, label, num, cls){
+      var n = phone(num);
+      return '<a class="call-btn ' + (cls || '') + (n ? '' : ' empty') + '"' + (n ? ' href="tel:' + n + '"' : '') + '><span class="ci">' + ico + '</span><span><b>' + esc(label) + '</b><small>' + (n ? esc(num) : 'নম্বর সেভ করা হয়নি') + '</small></span></a>';
+    }
+    function renderEm(){
+      var h = callHTML('🆘', 'জাতীয় জরুরি সেবা', '999', 'sos')
+        + callHTML('👨‍⚕️', (emData.pedN || 'শিশুচিকিৎসক'), emData.pedP)
+        + callHTML('🏥', (emData.hospN || 'হাসপাতাল/ক্লিনিক'), emData.hospP)
+        + callHTML('👪', (emData.famN || 'পরিবারের সদস্য'), emData.famP);
+      $('emCalls').innerHTML = h; $('sosCalls').innerHTML = h;
+      var li = SIGNS.map(function(x){ return '<li>' + x + '</li>'; }).join('');
+      $('emSigns').innerHTML = li; $('sosSigns').innerHTML = li;
+    }
+    ['pedN','pedP','hospN','hospP','famN','famP'].forEach(function(k){ $('em' + k.charAt(0).toUpperCase() + k.slice(1)).value = emData[k] || ''; });
+    $('emForm').addEventListener('submit', function(e){
+      e.preventDefault();
+      ['pedN','pedP','hospN','hospP','famN','famP'].forEach(function(k){ emData[k] = $('em' + k.charAt(0).toUpperCase() + k.slice(1)).value.trim(); });
+      save('emergencyContacts', emData); renderEm();
+    });
+    var dlg = $('sosDialog');
+    $('sosBtn').addEventListener('click', function(){ if(dlg.showModal) dlg.showModal(); else window.location.hash = '#emergency'; });
+    $('sosClose').addEventListener('click', function(){ dlg.close(); });
+    dlg.addEventListener('click', function(e){ if(e.target === dlg) dlg.close(); });
+    renderEm();
+
+    /* ----- Doctor ----- */
+    var D = load('babyDoctor', {visits:[], questions:[]});
+    if(!D.visits) D.visits = []; if(!D.questions) D.questions = [];
+    function renderD(){
+      var today = todayISO();
+      var upcoming = D.visits.filter(function(v){ return v.next && v.next >= today; }).map(function(v){ return v.next; }).sort()[0];
+      var ap = $('dAppt');
+      if(upcoming){
+        var diff = Math.round((utc(upcoming) - utc(today))/DAY);
+        ap.innerHTML = '📅 <b>পরবর্তী অ্যাপয়েন্টমেন্ট: ' + fmt(upcoming) + '</b> — ' + (diff === 0 ? 'আজই' : 'আর ' + bn(diff) + ' দিন');
+      } else ap.innerHTML = '';
+      $('qList').innerHTML = D.questions.length ? D.questions.map(function(q){
+        return '<li class="' + (q.asked ? 'asked' : '') + '"><input type="checkbox" data-q="' + q.id + '"' + (q.asked ? ' checked' : '') + ' aria-label="জিজ্ঞেস করা হয়েছে"><span>' + esc(q.q) + '</span><button type="button" class="x-btn" data-qdel="' + q.id + '" aria-label="মুছুন">✕</button></li>';
+      }).join('') : '<li style="justify-content:center;color:var(--ink-soft);border-style:dashed;">এখনও কোনো প্রশ্ন নেই</li>';
+      var vs = D.visits.slice().sort(function(a,b){ return a.date < b.date ? 1 : -1; });
+      $('dList').innerHTML = vs.length ? vs.map(function(v){
+        return '<div class="visit"><div class="visit-head"><div><b>' + fmt(v.date) + '</b><small>' + esc(v.who || '') + (v.who && v.why ? ' · ' : '') + esc(v.why || '') + '</small></div><button type="button" class="x-btn" data-vdel="' + v.id + '" aria-label="মুছুন">✕</button></div>'
+          + (v.notes ? '<p>' + esc(v.notes) + '</p>' : '') + (v.next ? '<span class="next">পরবর্তী: ' + fmt(v.next) + '</span>' : '') + '</div>';
+      }).join('') : '<p class="log-empty">এখনও কোনো ভিজিট সংরক্ষিত নেই।</p>';
+    }
+    $('qForm').addEventListener('submit', function(e){
+      e.preventDefault(); var t = $('qText').value.trim(); if(!t) return;
+      D.questions.push({id:uid(), q:t, asked:false}); save('babyDoctor', D); $('qText').value = ''; renderD();
+    });
+    $('qList').addEventListener('click', function(e){
+      var del = e.target.closest('[data-qdel]');
+      if(del){ D.questions = D.questions.filter(function(q){ return q.id !== del.getAttribute('data-qdel'); }); save('babyDoctor', D); renderD(); }
+    });
+    $('qList').addEventListener('change', function(e){
+      var c = e.target.closest('[data-q]'); if(!c) return;
+      D.questions.forEach(function(q){ if(q.id === c.getAttribute('data-q')) q.asked = c.checked; }); save('babyDoctor', D); renderD();
+    });
+    $('dForm').addEventListener('submit', function(e){
+      e.preventDefault(); $('dMsg').textContent = '';
+      var v = {id:uid(), date:$('dDate').value, who:$('dWho').value.trim(), why:$('dWhy').value.trim(), notes:$('dNotes').value.trim(), next:$('dNext').value};
+      if(!v.date) return;
+      if(v.next && v.next < v.date){ $('dMsg').textContent = 'পরবর্তী অ্যাপয়েন্টমেন্ট ভিজিটের তারিখের আগে হতে পারে না।'; return; }
+      D.visits.push(v); save('babyDoctor', D);
+      $('dWho').value = ''; $('dWhy').value = ''; $('dNotes').value = ''; $('dNext').value = ''; renderD();
+    });
+    $('dList').addEventListener('click', function(e){
+      var del = e.target.closest('[data-vdel]'); if(!del) return;
+      if(!confirm('এই ভিজিট মুছে ফেলবেন?')) return;
+      D.visits = D.visits.filter(function(v){ return v.id !== del.getAttribute('data-vdel'); }); save('babyDoctor', D); renderD();
+    });
+    $('dDate').value = todayISO();
+    renderD();
+
+    /* ----- Milestones ----- */
+    var BANDS = [
+      {l:'জন্ম – ২ মাস', a:0, b:2, it:[['smile','প্রথম সামাজিক হাসি','প্রায় ৬–৮ সপ্তাহে'],['eyes','মুখের দিকে তাকায়, চোখ দিয়ে অনুসরণ করে'],['startle','জোরে শব্দে চমকে ওঠে বা চেনা কণ্ঠে শান্ত হয়'],['head1','উপুড় অবস্থায় মাথা একটু তোলে']]},
+      {l:'৩ – ৪ মাস', a:3, b:4, it:[['coo','"আ-উ" জাতীয় শব্দ করে (coo)'],['neck','মাথা সোজা রাখতে পারে'],['grasp','খেলনা ধরে, দুই হাত একসাথে আনে'],['laugh','শব্দ করে হাসে']]},
+      {l:'৫ – ৬ মাস', a:5, b:6, it:[['roll','গড়াগড়ি দেয় (উপুড় ↔ চিত)'],['sitsup','সাহায্য নিয়ে বসে'],['reach','খেলনার দিকে হাত বাড়ায়'],['name','নাম ডাকলে তাকায়']]},
+      {l:'৭ – ৯ মাস', a:7, b:9, it:[['sit','নিজে বসে থাকে'],['crawl','হামাগুড়ি দেয়'],['babble','"বা-বা", "মা-মা" জাতীয় ধ্বনি'],['pincer','আঙুলে ছোট জিনিস ধরে (pincer grasp)']]},
+      {l:'১০ – ১২ মাস', a:10, b:12, it:[['stand','ধরে দাঁড়ায়'],['wave','টা-টা দেয়'],['word1','প্রথম অর্থপূর্ণ শব্দ'],['cruise','ধরে ধরে হাঁটে']]},
+      {l:'১৩ – ১৮ মাস', a:13, b:18, it:[['walk','একা হাঁটে'],['spoon','নিজে চামচে খাওয়ার চেষ্টা করে'],['words10','৩–১০টি শব্দ বলে'],['point','আঙুল দিয়ে জিনিস দেখায়']]},
+      {l:'১৯ – ২৪ মাস', a:19, b:24, it:[['run','দৌড়ায়'],['two','দুই শব্দের বাক্য বলে'],['stairs','সাহায্য নিয়ে সিঁড়ি ওঠে'],['kick','বলে লাথি মারে']]},
+      {l:'২ – ৩ বছর', a:25, b:36, it:[['three','তিন শব্দের বাক্য বলে'],['jump','দুই পা তুলে লাফায়'],['nameself','নিজের নাম বলে'],['potty','পটি ট্রেনিংয়ে আগ্রহ দেখায়']]}
+    ];
+    var MS = load('babyMilestones', {done:{}, custom:[]});
+    if(!MS.done) MS.done = {}; if(!MS.custom) MS.custom = [];
+    function renderMS(){
+      var ageM = (utc(todayISO()) - utc(birthISO())) / DAY / 30.4375;
+      $('msBands').innerHTML = BANDS.map(function(b){
+        var now = ageM >= b.a && ageM < b.b + 1;
+        var items = b.it.map(function(i){
+          var d = MS.done[i[0]];
+          return '<label class="ms-item' + (d ? ' is-done' : '') + '"><input type="checkbox" data-ms="' + i[0] + '"' + (d ? ' checked' : '') + '><span><b>' + i[1] + '</b>' + (d ? '<em>🎉 ' + fmt(d) + '</em>' : (i[2] ? '<em style="color:var(--ink-soft)">' + i[2] + '</em>' : '')) + '</span></label>';
+        }).join('');
+        return '<div class="ms-band' + (now ? ' now' : '') + '"><h4>' + b.l + (now ? ' <em>এখন এই ধাপে</em>' : '') + '</h4>' + items + '</div>';
+      }).join('');
+      var all = [];
+      Object.keys(MS.done).forEach(function(k){
+        BANDS.forEach(function(b){ b.it.forEach(function(i){ if(i[0] === k) all.push({date:MS.done[k], t:i[1], note:'', id:null, key:k}); }); });
+      });
+      MS.custom.forEach(function(c){ all.push({date:c.date, t:c.title, note:c.note, id:c.id}); });
+      all.sort(function(a,b){ return a.date < b.date ? 1 : -1; });
+      $('msJournal').innerHTML = all.length ? all.map(function(x){
+        return '<li><time>' + fmt(x.date) + '</time><div class="txt">' + (x.id ? '✨ ' : '🌟 ') + esc(x.t) + (x.note ? '<em>' + esc(x.note) + '</em>' : '') + '</div>' + (x.id ? '<button type="button" class="x-btn" data-msdel="' + x.id + '" aria-label="মুছুন">✕</button>' : '') + '</li>';
+      }).join('') : '<li class="log-empty" style="justify-content:center;border-style:dashed;">এখনও কিছু যোগ হয়নি</li>';
+    }
+    $('msBands').addEventListener('change', function(e){
+      var c = e.target.closest('[data-ms]'); if(!c) return;
+      var k = c.getAttribute('data-ms');
+      if(c.checked) MS.done[k] = todayISO(); else delete MS.done[k];
+      save('babyMilestones', MS); renderMS();
+    });
+    $('msForm').addEventListener('submit', function(e){
+      e.preventDefault();
+      var t = $('msTitle').value.trim(); if(!t || !$('msDate').value) return;
+      MS.custom.push({id:uid(), date:$('msDate').value, title:t, note:$('msNote').value.trim()});
+      save('babyMilestones', MS); $('msTitle').value = ''; $('msNote').value = ''; renderMS();
+    });
+    $('msJournal').addEventListener('click', function(e){
+      var d = e.target.closest('[data-msdel]'); if(!d) return;
+      if(!confirm('এটি মুছে ফেলবেন?')) return;
+      MS.custom = MS.custom.filter(function(c){ return c.id !== d.getAttribute('data-msdel'); }); save('babyMilestones', MS); renderMS();
+    });
+    $('msDate').value = todayISO();
+    renderMS();
+
+    /* ----- PWA ----- */
+    if('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')){
+      window.addEventListener('load', function(){ navigator.serviceWorker.register('sw.js').catch(function(){}); });
+    }
+    var deferred = null, ib = $('installBtn');
+    window.addEventListener('beforeinstallprompt', function(e){ e.preventDefault(); deferred = e; if(ib) ib.hidden = false; });
+    if(ib) ib.addEventListener('click', function(){
+      if(!deferred) return; deferred.prompt();
+      deferred.userChoice.then(function(){ deferred = null; ib.hidden = true; });
+    });
+    window.addEventListener('appinstalled', function(){ if(ib) ib.hidden = true; });
   })();
 })();
 </script>
