@@ -527,6 +527,80 @@
   .preg-list li.today time{color:var(--lav);}
   .preg-pin.today{background:var(--lav);border-top-color:var(--lav);}
 
+
+  /* baby log & weight tracker */
+  .fld{display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:600;color:var(--ink);min-width:0;}
+  .fld small{font-weight:400;color:var(--ink-soft);}
+  .fld input,.fld select{
+    font:inherit;font-size:15px;padding:10px 16px;border-radius:99px;min-width:0;width:100%;
+    border:2px solid var(--line);background:var(--surface);color:var(--ink);
+  }
+  .fld input:focus,.fld select:focus{border-color:var(--accent);outline:none;}
+  .span2{grid-column:1/-1;}
+  .log-types{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px;}
+  .log-type{
+    font:inherit;font-size:14.5px;font-weight:600;padding:9px 16px;border-radius:99px;
+    border:2px solid var(--line);background:var(--bg);color:var(--ink);cursor:pointer;transition:transform .15s,background .15s;
+  }
+  .log-type:hover{transform:translateY(-1px);border-color:var(--accent);}
+  .log-type.active{background:var(--accent);border-color:var(--accent);color:#fff;}
+  :root[data-theme="dark"] .log-type.active{color:#0F2B28;}
+  @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .log-type.active{color:#0F2B28;}}
+  .log-form{
+    display:grid;gap:12px;grid-template-columns:1fr;background:var(--bg);
+    border:1px solid var(--line);border-radius:var(--radius-sm);padding:16px;align-items:end;
+  }
+  @media(min-width:760px){.log-form{grid-template-columns:1fr 1fr;}}
+  .log-fields{display:contents;}
+  .col-pick{display:flex;flex-wrap:wrap;gap:8px;}
+  .col-opt{
+    display:flex;align-items:center;gap:8px;font-size:13.5px;font-weight:600;padding:6px 12px 6px 8px;
+    border-radius:99px;border:2px solid var(--line);background:var(--surface);cursor:pointer;
+  }
+  .col-opt input{position:absolute;opacity:0;pointer-events:none;}
+  .col-opt i{width:20px;height:20px;border-radius:50%;display:block;box-shadow:inset 0 -2px 3px rgba(0,0,0,.2);}
+  .col-opt:has(input:checked){border-color:var(--accent);background:var(--accent-tint);}
+  .col-opt:has(input:focus-visible){outline:3px solid var(--accent);outline-offset:2px;}
+  .day-nav{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:22px 0 14px;}
+  .day-nav input[type=date]{
+    font:inherit;font-size:15px;padding:8px 14px;border-radius:99px;border:2px solid var(--line);background:var(--bg);color:var(--ink);
+  }
+  .mini-btn{
+    font:inherit;font-size:13.5px;font-weight:600;padding:8px 14px;border-radius:99px;
+    border:2px solid var(--line);background:var(--surface);color:var(--ink-soft);cursor:pointer;
+  }
+  .mini-btn:hover{border-color:var(--accent);color:var(--accent-strong);}
+  .preg-stat.good{background:var(--accent-tint);border-color:transparent;}
+  .preg-stat.good b{color:var(--accent-strong);}
+  .preg-stat.warnc{background:var(--sun-tint);border-color:transparent;}
+  .log-list{list-style:none;margin:14px 0 0;padding:0;display:flex;flex-direction:column;gap:8px;}
+  .log-list li{
+    display:flex;align-items:center;gap:12px;padding:10px 14px;border:1px solid var(--line);
+    border-radius:var(--radius-sm);background:var(--bg);font-size:15px;
+  }
+  .log-list time{flex:none;font-family:'Baloo Da 2',sans-serif;font-weight:700;font-size:13.5px;color:var(--accent-strong);min-width:74px;}
+  .log-list .txt{flex:1;min-width:0;word-break:break-word;}
+  .log-list .txt em{display:block;font-style:normal;font-size:13px;color:var(--ink-soft);}
+  .x-btn{flex:none;border:none;background:transparent;color:var(--ink-soft);font-size:18px;cursor:pointer;width:32px;height:32px;border-radius:50%;line-height:1;}
+  .x-btn:hover{background:var(--accent-2-tint);color:var(--accent-2);}
+  .log-empty{color:var(--ink-soft);font-size:14.5px;padding:14px 0;text-align:center;}
+  .backup-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px;padding-top:18px;border-top:1px dashed var(--line);align-items:center;}
+  .backup-row span{font-size:13.5px;color:var(--ink-soft);flex:1 1 100%;}
+  .w-form{display:grid;gap:12px;grid-template-columns:1fr 1fr;align-items:end;background:var(--bg);border:1px solid var(--line);border-radius:var(--radius-sm);padding:16px;}
+  @media(min-width:760px){.w-form{grid-template-columns:repeat(5,1fr);}}
+  .w-form .preg-go{grid-column:1/-1;justify-self:start;}
+  @media(min-width:760px){.w-form .preg-go{grid-column:auto;}}
+  .w-chart{margin:22px 0 6px;background:var(--bg);border:1px solid var(--line);border-radius:var(--radius-sm);padding:10px 8px 6px;}
+  .w-chart svg{width:100%;height:auto;display:block;}
+  .w-chart text{font-family:'Hind Siliguri',sans-serif;font-size:11px;fill:var(--ink-soft);}
+  .w-legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:12.5px;color:var(--ink-soft);margin:6px 0 0;padding:0 8px 6px;}
+  .w-legend span::before{content:"";display:inline-block;width:12px;height:12px;border-radius:3px;margin-inline-end:6px;background:var(--c);vertical-align:-1px;}
+  .w-status{margin-top:14px;padding:12px 16px;border-radius:var(--radius-sm);font-size:14.5px;background:var(--accent-tint);color:var(--ink);}
+  .w-status.warn{background:var(--sun-tint);}
+  .w-status.bad{background:var(--accent-2-tint);}
+  .w-status:empty{display:none;}
+  .w-table td .x-btn{width:28px;height:28px;font-size:16px;}
+
   @media print{
     .quicknav,.print-btn,.hero-actions,.reset-btn,.age-form,.fab,.progress,.hero-emoji{display:none !important;}
     body{background:#fff;color:#000;}
@@ -567,6 +641,8 @@
     <a href="#safety">নিরাপত্তা</a>
     <a href="#feeding-cues">খাওয়ানোর ইঙ্গিত</a>
     <a href="#newborn-stool">নবজাতকের পটি</a>
+    <a href="#baby-log">বেবি লগ</a>
+    <a href="#weight-tracker">ওজন</a>
     <a href="#portions">পরিমাণ</a>
     <a href="#meal-plan">দৈনিক মেনু</a>
     <a href="#tracker">ট্র্যাকার</a>
@@ -891,6 +967,81 @@
       </ul>
       মনে সন্দেহ হলে অপেক্ষা না করে চিকিৎসকের সাথে যোগাযোগ করুন — নবজাতকের ক্ষেত্রে অভিভাবকের অনুভূতি গুরুত্বপূর্ণ।
     </div>
+  </section>
+
+  <section id="baby-log" class="tool-card">
+    <h2><span class="h-ico" aria-hidden="true">📒</span><span>দৈনিক বেবি লগ</span></h2>
+    <p class="tool-desc">দুধ খাওয়া, ভেজা ন্যাপি, পটি, ঘুম ও ওষুধ লিখে রাখুন — চিকিৎসকের কাছে গেলে এই হিসাব খুব কাজে লাগে। তথ্য শুধু এই ডিভাইসের ব্রাউজারে সংরক্ষিত থাকে।</p>
+
+    <div class="log-types" id="logTypes" role="group" aria-label="লগের ধরন">
+      <button type="button" class="log-type active" data-type="feed">🍼 দুধ খাওয়া</button>
+      <button type="button" class="log-type" data-type="wet">💧 ভেজা ন্যাপি</button>
+      <button type="button" class="log-type" data-type="stool">💩 পটি</button>
+      <button type="button" class="log-type" data-type="sleep">😴 ঘুম</button>
+      <button type="button" class="log-type" data-type="med">💊 ওষুধ/ভিটামিন</button>
+    </div>
+
+    <form id="logForm" class="log-form">
+      <label class="fld">সময়
+        <input type="datetime-local" id="logTime" required>
+      </label>
+      <div class="log-fields" id="logFields"></div>
+      <label class="fld span2">নোট <small>(ঐচ্ছিক)</small>
+        <input type="text" id="logNote" maxlength="120" placeholder="যেমন: বমি করেছে, কান্না বেশি ছিল">
+      </label>
+      <div class="span2"><button type="submit" class="preg-go">➕ যোগ করুন</button></div>
+    </form>
+    <p id="logMsg" class="preg-msg" role="alert"></p>
+
+    <div class="day-nav">
+      <button type="button" class="mini-btn" id="dayPrev" aria-label="আগের দিন">← আগের দিন</button>
+      <input type="date" id="logDay" aria-label="দিন নির্বাচন">
+      <button type="button" class="mini-btn" id="dayNext" aria-label="পরের দিন">পরের দিন →</button>
+      <button type="button" class="mini-btn" id="dayToday">আজ</button>
+    </div>
+    <div id="logSummary" class="preg-stats"></div>
+    <div id="logAlert"></div>
+    <ul id="logList" class="log-list"></ul>
+
+    <div class="backup-row">
+      <span>ব্রাউজারের ডেটা মুছে গেলে সব হারাতে পারেন — মাঝে মাঝে ব্যাকআপ রাখুন (লগ, ওজন ও তারিখসহ)।</span>
+      <button type="button" class="mini-btn" id="backupBtn">⬇️ ব্যাকআপ ডাউনলোড</button>
+      <label class="mini-btn" style="cursor:pointer;">⬆️ ব্যাকআপ ফিরিয়ে আনুন
+        <input type="file" id="restoreFile" accept="application/json,.json" hidden>
+      </label>
+    </div>
+  </section>
+
+  <section id="weight-tracker" class="tool-card">
+    <h2><span class="h-ico" aria-hidden="true">⚖️</span><span>ওজন ও বৃদ্ধির ট্র্যাকার</span></h2>
+    <p class="tool-desc">ওজন (এবং চাইলে উচ্চতা ও মাথার মাপ) লিখে রাখুন। প্রথম ৩ মাসে সপ্তাহে প্রায় ১৫০–২০০ গ্রাম ওজন বাড়া সাধারণ প্রত্যাশা; ১০–১৪ দিনের মধ্যে জন্মওজনে ফেরার কথা।</p>
+
+    <form id="wForm" class="w-form">
+      <label class="fld">তারিখ <input type="date" id="wDate" required></label>
+      <label class="fld">ওজন (কেজি) <input type="number" id="wKg" step="0.01" min="0.5" max="30" inputmode="decimal" required placeholder="৩.২০"></label>
+      <label class="fld">উচ্চতা (সেমি) <small>ঐচ্ছিক</small><input type="number" id="wLen" step="0.1" min="20" max="130" inputmode="decimal"></label>
+      <label class="fld">মাথার মাপ (সেমি) <small>ঐচ্ছিক</small><input type="number" id="wHead" step="0.1" min="20" max="60" inputmode="decimal"></label>
+      <button type="submit" class="preg-go">➕ যোগ করুন</button>
+    </form>
+    <p id="wMsg" class="preg-msg" role="alert"></p>
+
+    <div class="preg-form" style="margin:6px 0 0;grid-template-columns:1fr 1fr;">
+      <label class="fld">জন্মওজন (কেজি) <input type="number" id="birthW" step="0.01" min="0.5" max="6" inputmode="decimal"></label>
+      <label class="fld">জন্মতারিখ <input type="date" id="wBirth"></label>
+    </div>
+
+    <div id="wStats" class="preg-stats" style="margin-top:18px;"></div>
+    <div id="wStatus" class="w-status" role="status"></div>
+    <div class="w-chart">
+      <div id="wChart"></div>
+      <div class="w-legend">
+        <span style="--c:var(--accent-tint)">WHO রেফারেন্স রেঞ্জ (ছেলে, −২ থেকে +২ SD)</span>
+        <span style="--c:var(--accent)">মিডিয়ান</span>
+        <span style="--c:var(--accent-2)">আপনার শিশু</span>
+      </div>
+    </div>
+    <div class="table-wrap"><table class="portion-table w-table" id="wTable"></table></div>
+    <p class="stage-detail" style="margin-top:12px;">রেফারেন্স রেঞ্জ আনুমানিক (WHO ছেলে শিশুর weight-for-age)। এক-দুটি মাপ নয়, ধারাবাহিক ধারা দেখুন — চিন্তা হলে চিকিৎসকের সাথে কথা বলুন।</p>
   </section>
 
   <section id="portions" class="tool-card">
@@ -1435,6 +1586,333 @@
     if(init){ eddEl.value = init.edd || ''; birthEl.value = init.birth || ''; }
     else { eddEl.value = '2026-11-14'; birthEl.value = '2026-11-05'; }
     run(false);
+  })();
+
+  /* ---- Baby log & weight tracker ---- */
+  (function(){
+    if(!document.getElementById('logForm')) return;
+    var DAY = 86400000;
+    var LOGK = 'babyLog', WK = 'babyWeights';
+    var STOOLS = [
+      {k:'meconium', n:'কালচে-সবুজ', c:'#2F3B25'},
+      {k:'brown', n:'সবুজাভ-বাদামি', c:'#7A7A3A'},
+      {k:'yellow', n:'সরষে-হলুদ', c:'#D9A921'},
+      {k:'green', n:'হালকা সবুজ', c:'#8DB254'},
+      {k:'white', n:'সাদা/ফ্যাকাশে', c:'#EDEBDD', flag:'white'},
+      {k:'black', n:'কালো', c:'#171717', flag:'black'},
+      {k:'blood', n:'রক্তমিশ্রিত', c:'#C0392B', flag:'blood'}
+    ];
+    var SIDES = {left:'বাম স্তন', right:'ডান স্তন', both:'উভয় স্তন', bottle:'ফর্মুলা/এক্সপ্রেসড দুধ'};
+
+    function bn(n){ return String(n).replace(/[0-9]/g, function(d){ return '০১২৩৪৫৬৭৮৯'[d]; }); }
+    function bnNum(n, dp){ return bn((Math.round(n*Math.pow(10,dp))/Math.pow(10,dp)).toFixed(dp).replace(/\.?0+$/, function(m){ return dp ? '' : m; })); }
+    function esc(t){ return String(t).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
+    function pad(n){ return (n<10?'0':'') + n; }
+    function isoDay(d){ return d.getFullYear() + '-' + pad(d.getMonth()+1) + '-' + pad(d.getDate()); }
+    function isoLocal(d){ return isoDay(d) + 'T' + pad(d.getHours()) + ':' + pad(d.getMinutes()); }
+    function dayUTC(iso){ var p = iso.split('-'); return Date.UTC(+p[0], +p[1]-1, +p[2]); }
+    var M = ['জানুয়ারি','ফেব্রুয়ারি','মার্চ','এপ্রিল','মে','জুন','জুলাই','আগস্ট','সেপ্টেম্বর','অক্টোবর','নভেম্বর','ডিসেম্বর'];
+    function fmtDay(iso){ var p = iso.split('-'); return bn(+p[2]) + ' ' + M[+p[1]-1] + ' ' + bn(p[0]); }
+    function fmtDayShort(iso){ var p = iso.split('-'); return bn(+p[2]) + ' ' + M[+p[1]-1]; }
+    function fmtTime(t){
+      var h = +t.slice(11,13), m = t.slice(14,16);
+      var per = h < 5 ? 'রাত' : h < 12 ? 'সকাল' : h < 15 ? 'দুপুর' : h < 18 ? 'বিকাল' : h < 20 ? 'সন্ধ্যা' : 'রাত';
+      var h12 = h % 12 || 12;
+      return per + ' ' + bn(h12) + ':' + bn(m);
+    }
+    function load(k, def){ try{ var r = localStorage.getItem(k); return r ? JSON.parse(r) : def; }catch(e){ return def; } }
+    function save(k, v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
+    function uid(){ return Date.now().toString(36) + Math.random().toString(36).slice(2,6); }
+    function dur(min){ var h = Math.floor(min/60), m = min % 60; return (h ? bn(h) + ' ঘণ্টা ' : '') + (m || !h ? bn(m) + ' মিনিট' : '').trim(); }
+
+    function birthISO(){
+      var p = load('pregnancyDates', null);
+      if(p && p.birth) return p.birth;
+      try{ var b = localStorage.getItem('babyBirthDate'); if(b) return b; }catch(e){}
+      return '2026-11-05';
+    }
+    function ageDaysAt(iso){ return Math.round((dayUTC(iso) - dayUTC(birthISO()))/DAY); }
+
+    /* ---------- LOG ---------- */
+    var log = load(LOGK, {entries:[]});
+    if(!log.entries) log.entries = [];
+    var type = 'feed';
+    var timeEl = document.getElementById('logTime');
+    var noteEl = document.getElementById('logNote');
+    var fieldsEl = document.getElementById('logFields');
+    var dayEl = document.getElementById('logDay');
+    var msgEl = document.getElementById('logMsg');
+
+    function nowLocal(){ return isoLocal(new Date()); }
+    function fieldsFor(t){
+      if(t === 'feed') return '<label class="fld">কীভাবে<select id="fSide">'
+        + Object.keys(SIDES).map(function(k){ return '<option value="' + k + '">' + SIDES[k] + '</option>'; }).join('')
+        + '</select></label>'
+        + '<label class="fld">পরিমাণ (মি.লি.) <small>ফর্মুলা/বোতলে</small><input type="number" id="fMl" min="1" max="400" inputmode="numeric"></label>'
+        + '<label class="fld">কত মিনিট <small>ঐচ্ছিক</small><input type="number" id="fDur" min="1" max="120" inputmode="numeric"></label>';
+      if(t === 'stool') return '<div class="fld span2">রঙ<div class="col-pick">'
+        + STOOLS.map(function(x,i){ return '<label class="col-opt"><input type="radio" name="stoolc" value="' + x.k + '"' + (i===2?' checked':'') + '><i style="background:' + x.c + '"></i>' + x.n + '</label>'; }).join('')
+        + '</div></div>';
+      if(t === 'sleep') return '<label class="fld">ঘুমের সময় (মিনিট)<input type="number" id="fSleep" min="1" max="1000" inputmode="numeric" required placeholder="যেমন ৯০"></label>';
+      if(t === 'med') return '<label class="fld">ওষুধ/ভিটামিনের নাম<input type="text" id="fMed" maxlength="60" required placeholder="যেমন ভিটামিন ডি ড্রপ"></label>';
+      return '';
+    }
+    function setType(t){
+      type = t;
+      Array.prototype.forEach.call(document.querySelectorAll('#logTypes .log-type'), function(b){ b.classList.toggle('active', b.getAttribute('data-type') === t); });
+      fieldsEl.innerHTML = fieldsFor(t);
+    }
+    document.getElementById('logTypes').addEventListener('click', function(e){
+      var b = e.target.closest('.log-type'); if(b) setType(b.getAttribute('data-type'));
+    });
+
+    document.getElementById('logForm').addEventListener('submit', function(e){
+      e.preventDefault();
+      msgEl.textContent = '';
+      var en = {id:uid(), t:timeEl.value, type:type, note:noteEl.value.trim()};
+      if(!en.t) return;
+      if(en.t > nowLocal()){ msgEl.textContent = 'ভবিষ্যতের সময় দেওয়া যাবে না।'; return; }
+      if(type === 'feed'){
+        en.side = document.getElementById('fSide').value;
+        var ml = document.getElementById('fMl').value, du = document.getElementById('fDur').value;
+        if(ml) en.ml = +ml; if(du) en.dur = +du;
+      } else if(type === 'stool'){
+        var r = document.querySelector('input[name=stoolc]:checked'); en.color = r ? r.value : 'yellow';
+      } else if(type === 'sleep'){
+        en.dur = +document.getElementById('fSleep').value;
+        if(!(en.dur > 0)) return;
+      } else if(type === 'med'){
+        en.name = document.getElementById('fMed').value.trim();
+        if(!en.name) return;
+      }
+      log.entries.push(en);
+      save(LOGK, log);
+      dayEl.value = en.t.slice(0,10);
+      noteEl.value = '';
+      timeEl.value = nowLocal();
+      setType(type);
+      renderLog();
+    });
+
+    function describe(en){
+      if(en.type === 'feed') return '🍼 ' + SIDES[en.side || 'both'] + (en.ml ? ' · ' + bn(en.ml) + ' মি.লি.' : '') + (en.dur ? ' · ' + bn(en.dur) + ' মিনিট' : '');
+      if(en.type === 'wet') return '💧 ভেজা ন্যাপি';
+      if(en.type === 'stool'){ var s = STOOLS.filter(function(x){ return x.k === en.color; })[0]; return '💩 পটি · ' + (s ? s.n : ''); }
+      if(en.type === 'sleep') return '😴 ঘুম · ' + dur(en.dur);
+      if(en.type === 'med') return '💊 ' + esc(en.name);
+      return '';
+    }
+
+    function renderLog(){
+      var day = dayEl.value;
+      var list = log.entries.filter(function(x){ return x.t.slice(0,10) === day; }).sort(function(a,b){ return a.t < b.t ? 1 : -1; });
+      var c = {feed:0, wet:0, stool:0, sleep:0, med:0, ml:0};
+      list.forEach(function(x){ c[x.type]++; if(x.type==='feed' && x.ml) c.ml += x.ml; if(x.type==='sleep') c.sleepMin = (c.sleepMin||0) + x.dur; });
+      var today = isoDay(new Date());
+      var wetCls = c.wet >= 6 ? 'good' : (day < today ? 'warnc' : '');
+      document.getElementById('logSummary').innerHTML =
+        '<div class="preg-stat"><small>🍼 দুধ খাওয়া</small><b>' + bn(c.feed) + ' বার</b><span>' + (c.ml ? bn(c.ml) + ' মি.লি. বোতলে' : 'লক্ষ্য: ৮–১২ বার') + '</span></div>'
+        + '<div class="preg-stat ' + wetCls + '"><small>💧 ভেজা ন্যাপি</small><b>' + bn(c.wet) + (c.wet >= 6 ? ' ✅' : '') + '</b><span>লক্ষ্য: ৬+</span></div>'
+        + '<div class="preg-stat"><small>💩 পটি</small><b>' + bn(c.stool) + ' বার</b><span>&nbsp;</span></div>'
+        + '<div class="preg-stat"><small>😴 ঘুম</small><b>' + (c.sleepMin ? dur(c.sleepMin) : '—') + '</b><span>' + (c.med ? '💊 ' + bn(c.med) + 'টি ওষুধ/ভিটামিন' : '&nbsp;') + '</span></div>';
+
+      // alerts
+      var age = ageDaysAt(day), msgs = [];
+      list.forEach(function(x){
+        if(x.type !== 'stool') return;
+        var s = STOOLS.filter(function(y){ return y.k === x.color; })[0];
+        if(!s || !s.flag) return;
+        if(s.flag === 'black' && age <= 5) return;
+        msgs.push('<li><strong>' + fmtTime(x.t) + '</strong> — ' + s.n + ' পটি নথিভুক্ত।' + (s.flag === 'white' ? ' সাদা/ফ্যাকাশে পটি জরুরি — আজই চিকিৎসকের সাথে যোগাযোগ করুন।' : ' চিকিৎসককে জানান।') + '</li>');
+      });
+      if(day < today && c.wet > 0 && c.wet < 6) msgs.push('<li>এদিন ভেজা ন্যাপি ৬টির কম (' + bn(c.wet) + 'টি) লেখা আছে — সব লেখা হয়েছে কি না দেখুন; না হলে দুধ খাওয়া ঠিক আছে কি না চিকিৎসকের সাথে আলোচনা করুন।</li>');
+      document.getElementById('logAlert').innerHTML = msgs.length ? '<div class="alert-box"><strong>খেয়াল করুন:</strong><ul class="hazard-list" style="margin:8px 0 0;">' + msgs.join('') + '</ul></div>' : '';
+
+      var ul = document.getElementById('logList');
+      ul.innerHTML = list.length ? list.map(function(x){
+        return '<li><time>' + fmtTime(x.t) + '</time><div class="txt">' + describe(x) + (x.note ? '<em>' + esc(x.note) + '</em>' : '') + '</div><button type="button" class="x-btn" data-id="' + x.id + '" aria-label="মুছুন">✕</button></li>';
+      }).join('') : '<li class="log-empty" style="justify-content:center;border-style:dashed;">এই দিনে কোনো এন্ট্রি নেই</li>';
+    }
+    document.getElementById('logList').addEventListener('click', function(e){
+      var b = e.target.closest('.x-btn'); if(!b) return;
+      if(!confirm('এই এন্ট্রি মুছে ফেলবেন?')) return;
+      log.entries = log.entries.filter(function(x){ return x.id !== b.getAttribute('data-id'); });
+      save(LOGK, log); renderLog();
+    });
+    function shiftDay(n){
+      var d = new Date(dayUTC(dayEl.value) + n*DAY); dayEl.value = d.toISOString().slice(0,10); renderLog();
+    }
+    dayEl.addEventListener('change', function(){ if(!dayEl.value) dayEl.value = isoDay(new Date()); renderLog(); });
+    document.getElementById('dayPrev').addEventListener('click', function(){ shiftDay(-1); });
+    document.getElementById('dayNext').addEventListener('click', function(){ if(dayEl.value < isoDay(new Date())) shiftDay(1); });
+    document.getElementById('dayToday').addEventListener('click', function(){ dayEl.value = isoDay(new Date()); renderLog(); });
+
+    /* ---------- WEIGHT ---------- */
+    var W = load(WK, {birthW:3.0, entries:[]});
+    if(!W.entries) W.entries = [];
+    if(!W.birthW) W.birthW = 3.0;
+    var wDate = document.getElementById('wDate'), wKg = document.getElementById('wKg'),
+        wLen = document.getElementById('wLen'), wHead = document.getElementById('wHead'),
+        birthW = document.getElementById('birthW'), wBirth = document.getElementById('wBirth'),
+        wMsg = document.getElementById('wMsg');
+
+    // WHO weight-for-age, boys, months 0..12 (-2SD, median, +2SD) in kg
+    var REF = [[2.5,3.3,4.4],[3.4,4.5,5.8],[4.3,5.6,7.1],[5.0,6.4,8.0],[5.6,7.0,8.7],[6.0,7.5,9.3],[6.4,7.9,9.8],[6.7,8.3,10.3],[6.9,8.6,10.7],[7.1,8.9,11.0],[7.4,9.2,11.4],[7.6,9.4,11.7],[7.7,9.6,12.0]];
+    var MD = 30.4375;
+    function refAt(days, idx){
+      var m = Math.max(0, Math.min(12, days / MD)), lo = Math.floor(m), hi = Math.min(12, lo+1), f = m - lo;
+      return REF[lo][idx] + (REF[hi][idx] - REF[lo][idx]) * f;
+    }
+
+    function chart(points, maxMonths){
+      var Wd = 640, H = 300, L = 44, R = 14, T = 14, B = 34;
+      var maxD = maxMonths * MD;
+      var lo = 2, hi = 5;
+      for(var m = 0; m <= maxMonths; m++){ hi = Math.max(hi, REF[m][2]); lo = Math.min(lo, REF[m][0]); }
+      points.forEach(function(p){ hi = Math.max(hi, p.w + .3); lo = Math.min(lo, p.w - .3); });
+      lo = Math.floor(lo); hi = Math.ceil(hi);
+      function X(d){ return L + (d / maxD) * (Wd - L - R); }
+      function Y(w){ return T + (1 - (w - lo)/(hi - lo)) * (H - T - B); }
+      var up = [], dn = [], med = [];
+      for(var i = 0; i <= 40; i++){
+        var d = maxD * i / 40;
+        up.push(X(d).toFixed(1) + ',' + Y(refAt(d,2)).toFixed(1));
+        dn.unshift(X(d).toFixed(1) + ',' + Y(refAt(d,0)).toFixed(1));
+        med.push(X(d).toFixed(1) + ',' + Y(refAt(d,1)).toFixed(1));
+      }
+      var g = '';
+      var step = (hi - lo) > 10 ? 2 : 1;
+      for(var w = lo; w <= hi; w += step){
+        g += '<line x1="' + L + '" x2="' + (Wd-R) + '" y1="' + Y(w) + '" y2="' + Y(w) + '" stroke="var(--line)" stroke-width="1"/><text x="' + (L-6) + '" y="' + (Y(w)+4) + '" text-anchor="end">' + bn(w) + '</text>';
+      }
+      var xs = maxMonths <= 6 ? 1 : 2;
+      for(var mm = 0; mm <= maxMonths; mm += xs){
+        g += '<text x="' + X(mm*MD) + '" y="' + (H-12) + '" text-anchor="middle">' + bn(mm) + '</text>';
+      }
+      g += '<text x="' + ((L+Wd-R)/2) + '" y="' + (H-1) + '" text-anchor="middle">বয়স (মাস)</text><text x="12" y="' + (T+4) + '" >কেজি</text>';
+      var line = points.map(function(p){ return X(p.d).toFixed(1) + ',' + Y(p.w).toFixed(1); }).join(' ');
+      var dots = points.map(function(p){ return '<circle cx="' + X(p.d).toFixed(1) + '" cy="' + Y(p.w).toFixed(1) + '" r="4.5" fill="var(--accent-2)" stroke="var(--surface)" stroke-width="2"><title>' + bnNum(p.w,2) + ' কেজি</title></circle>'; }).join('');
+      return '<svg viewBox="0 0 ' + Wd + ' ' + H + '" role="img" aria-label="ওজনের চার্ট">' + g
+        + '<polygon points="' + up.join(' ') + ' ' + dn.join(' ') + '" fill="var(--accent-tint)" opacity=".95"/>'
+        + '<polyline points="' + med.join(' ') + '" fill="none" stroke="var(--accent)" stroke-width="2" stroke-dasharray="5 4"/>'
+        + (points.length > 1 ? '<polyline points="' + line + '" fill="none" stroke="var(--accent-2)" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>' : '')
+        + dots + '</svg>';
+    }
+
+    function renderW(){
+      var bd = birthISO(), bw = +W.birthW || 3;
+      var rows = W.entries.slice().sort(function(a,b){ return a.date < b.date ? -1 : 1; });
+      var pts = [{date:bd, w:bw, d:0, birth:true}].concat(rows.map(function(r){ return {date:r.date, w:r.w, d:Math.max(0, ageDaysAt(r.date)), len:r.len, head:r.head, id:r.id}; }));
+      var last = pts[pts.length-1];
+      var maxM = Math.min(12, Math.max(3, Math.ceil(last.d / MD) + 1));
+      document.getElementById('wChart').innerHTML = chart(pts, maxM);
+
+      // stats
+      var gain = Math.round((last.w - bw) * 1000), pct = (last.w - bw) / bw * 100;
+      var rate = '', prev = pts.length > 1 ? pts[pts.length-2] : null, rateVal = null;
+      if(prev && last.d - prev.d >= 4){ rateVal = (last.w - prev.w) * 1000 / (last.d - prev.d) * 7; rate = (rateVal >= 0 ? '+' : '−') + bn(Math.abs(Math.round(rateVal))) + ' গ্রাম/সপ্তাহ'; }
+      var lo2 = refAt(last.d,0), hi2 = refAt(last.d,2);
+      var pos = last.w < lo2 ? 'রেঞ্জের নিচে' : last.w > hi2 ? 'রেঞ্জের ওপরে' : 'রেঞ্জের মধ্যে';
+      document.getElementById('wStats').innerHTML =
+        '<div class="preg-stat"><small>সর্বশেষ ওজন</small><b>' + bnNum(last.w,2) + ' কেজি</b><span>' + (last.birth ? 'জন্মওজন' : fmtDayShort(last.date)) + '</span></div>'
+        + '<div class="preg-stat"><small>জন্মওজন</small><b>' + bnNum(bw,2) + ' কেজি</b><span>' + fmtDayShort(bd) + '</span></div>'
+        + '<div class="preg-stat ' + (gain >= 0 ? 'good' : 'warnc') + '"><small>জন্ম থেকে পরিবর্তন</small><b>' + (gain >= 0 ? '+' : '−') + bn(Math.abs(gain)) + ' গ্রাম</b><span>' + (pct >= 0 ? '+' : '−') + bn(Math.abs(pct).toFixed(1)) + '%</span></div>'
+        + '<div class="preg-stat"><small>সর্বশেষ গতি</small><b>' + (rate || '—') + '</b><span>' + (rows.length ? 'WHO ' + pos : 'ওজন যোগ করুন') + '</span></div>';
+
+      // status
+      var st = document.getElementById('wStatus'), cls = '', txt = '';
+      if(rows.length){
+        var age = last.d;
+        if(age < 14 && last.w < bw){
+          var loss = (bw - last.w) / bw * 100;
+          if(loss > 10){ cls = 'bad'; txt = '⚠️ জন্মওজনের ' + bn(loss.toFixed(1)) + '% কমেছে — ১০%-এর বেশি কমলে চিকিৎসকের সাথে কথা বলুন।'; }
+          else { cls = 'warn'; txt = 'প্রথম কয়েক দিনে জন্মওজনের ৭–১০% পর্যন্ত কমা স্বাভাবিক। ১০–১৪ দিনের মধ্যে জন্মওজনে ফেরার কথা।'; }
+        } else if(age >= 14 && last.w < bw){
+          cls = 'bad'; txt = '⚠️ ১৪ দিন পেরিয়েছে কিন্তু শিশু এখনও জন্মওজনে ফেরেনি — চিকিৎসককে জানান।';
+        } else {
+          txt = '✅ জন্মওজনের চেয়ে বেশি আছে।';
+          if(rateVal !== null && age >= 14 && age < 120){
+            if(rateVal < 150){ cls = 'warn'; txt += ' তবে শেষ দুই মাপে সপ্তাহে প্রায় ' + bn(Math.round(rateVal)) + ' গ্রাম বেড়েছে (সাধারণ প্রত্যাশা ১৫০–২০০) — পরের চেকআপে চিকিৎসকের সাথে আলোচনা করুন।'; }
+            else { txt += ' শেষ দুই মাপে সপ্তাহে প্রায় ' + bn(Math.round(rateVal)) + ' গ্রাম বেড়েছে — যা প্রত্যাশিত গতির মধ্যে।'; }
+          }
+        }
+      }
+      st.className = 'w-status ' + cls; st.textContent = txt;
+
+      // table (newest first)
+      var h = '<thead><tr><th>তারিখ</th><th>বয়স</th><th>ওজন</th><th>পরিবর্তন</th><th>উচ্চতা / মাথা</th><th></th></tr></thead><tbody>';
+      for(var i = pts.length - 1; i >= 0; i--){
+        var p = pts[i], q = i > 0 ? pts[i-1] : null, ch = '—';
+        if(q){ var dg = Math.round((p.w - q.w)*1000); var dd = p.d - q.d; ch = (dg >= 0 ? '+' : '−') + bn(Math.abs(dg)) + ' গ্রাম' + (dd > 0 ? ' (' + bn(dd) + ' দিনে)' : ''); }
+        h += '<tr><td>' + fmtDayShort(p.date) + (p.birth ? ' 🎉' : '') + '</td><td>' + (p.birth ? 'জন্ম' : bn(p.d) + ' দিন') + '</td><td>' + bnNum(p.w,2) + ' কেজি</td><td>' + ch + '</td><td>'
+          + (p.len ? bnNum(p.len,1) + ' সেমি' : '—') + ' / ' + (p.head ? bnNum(p.head,1) + ' সেমি' : '—') + '</td><td>'
+          + (p.birth ? '' : '<button type="button" class="x-btn" data-wid="' + p.id + '" aria-label="মুছুন">✕</button>') + '</td></tr>';
+      }
+      document.getElementById('wTable').innerHTML = h + '</tbody>';
+    }
+    document.getElementById('wTable').addEventListener('click', function(e){
+      var b = e.target.closest('.x-btn'); if(!b) return;
+      if(!confirm('এই মাপ মুছে ফেলবেন?')) return;
+      W.entries = W.entries.filter(function(x){ return x.id !== b.getAttribute('data-wid'); });
+      save(WK, W); renderW();
+    });
+    document.getElementById('wForm').addEventListener('submit', function(e){
+      e.preventDefault(); wMsg.textContent = '';
+      var kg = parseFloat(wKg.value);
+      if(!wDate.value || !(kg >= 0.5 && kg <= 30)){ wMsg.textContent = 'সঠিক তারিখ ও ওজন দিন।'; return; }
+      if(wDate.value > isoDay(new Date())){ wMsg.textContent = 'ভবিষ্যতের তারিখ দেওয়া যাবে না।'; return; }
+      if(wDate.value < birthISO()){ wMsg.textContent = 'তারিখ জন্মতারিখের আগে হতে পারে না।'; return; }
+      W.entries.push({id:uid(), date:wDate.value, w:kg, len:parseFloat(wLen.value) || null, head:parseFloat(wHead.value) || null});
+      save(WK, W);
+      wKg.value = ''; wLen.value = ''; wHead.value = '';
+      renderW();
+    });
+    birthW.addEventListener('change', function(){
+      var v = parseFloat(birthW.value);
+      if(v >= 0.5 && v <= 6){ W.birthW = v; save(WK, W); renderW(); } else { birthW.value = W.birthW; }
+    });
+    wBirth.addEventListener('change', function(){
+      if(!wBirth.value) return;
+      var p = load('pregnancyDates', {edd:'2026-11-14', birth:''}); p.birth = wBirth.value; save('pregnancyDates', p);
+      var pb = document.getElementById('actualBirth'); if(pb) pb.value = wBirth.value;
+      renderLog(); renderW();
+    });
+
+    /* ---------- BACKUP ---------- */
+    var KEYS = ['babyLog','babyWeights','pregnancyDates','babyBirthDate','babyFoodTracker'];
+    document.getElementById('backupBtn').addEventListener('click', function(){
+      var out = {app:'child-care', saved:new Date().toISOString(), data:{}};
+      KEYS.forEach(function(k){ try{ var v = localStorage.getItem(k); if(v !== null) out.data[k] = v; }catch(e){} });
+      var a = document.createElement('a');
+      a.href = URL.createObjectURL(new Blob([JSON.stringify(out)], {type:'application/json'}));
+      a.download = 'baby-backup-' + isoDay(new Date()) + '.json';
+      document.body.appendChild(a); a.click(); a.remove();
+    });
+    document.getElementById('restoreFile').addEventListener('change', function(e){
+      var f = e.target.files[0]; if(!f) return;
+      var r = new FileReader();
+      r.onload = function(){
+        try{
+          var o = JSON.parse(r.result);
+          if(!o || o.app !== 'child-care' || !o.data) throw 0;
+          if(!confirm('বর্তমান ডেটা এই ব্যাকআপ দিয়ে প্রতিস্থাপিত হবে। এগিয়ে যাবেন?')) return;
+          KEYS.forEach(function(k){ if(typeof o.data[k] === 'string'){ try{ JSON.parse(o.data[k]); localStorage.setItem(k, o.data[k]); }catch(err){ if(k === 'babyBirthDate') localStorage.setItem(k, o.data[k]); } } });
+          location.reload();
+        }catch(err){ alert('ফাইলটি সঠিক ব্যাকআপ নয়।'); }
+      };
+      r.readAsText(f); e.target.value = '';
+    });
+
+    /* init */
+    var nowD = new Date();
+    timeEl.value = nowLocal();
+    dayEl.value = isoDay(nowD);
+    wDate.value = isoDay(nowD);
+    birthW.value = W.birthW;
+    wBirth.value = birthISO();
+    setType('feed');
+    renderLog();
+    renderW();
   })();
 })();
 </script>
