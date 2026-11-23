@@ -601,6 +601,29 @@
   .w-status:empty{display:none;}
   .w-table td .x-btn{width:28px;height:28px;font-size:16px;}
 
+
+  /* vaccination schedule */
+  .vac-visit{background:var(--bg);border:1px solid var(--line);border-radius:var(--radius-sm);padding:14px 18px;margin-bottom:12px;border-inline-start:6px solid var(--rail);}
+  .vac-visit.done{border-inline-start-color:var(--accent);}
+  .vac-visit.soon{border-inline-start-color:var(--sun);background:var(--sun-tint);}
+  .vac-visit.late{border-inline-start-color:var(--accent-2);background:var(--accent-2-tint);}
+  .vac-head{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:6px 12px;margin-bottom:8px;}
+  .vac-head b{font-family:'Baloo Da 2',sans-serif;font-size:17px;color:var(--ink);}
+  .vac-head small{display:block;font-size:13px;color:var(--ink-soft);font-weight:400;font-family:'Hind Siliguri',sans-serif;}
+  .vac-tag{font-size:12.5px;font-weight:700;padding:3px 12px;border-radius:99px;background:var(--muted-tint);color:var(--ink-soft);white-space:nowrap;}
+  .vac-visit.done .vac-tag{background:var(--accent-tint);color:var(--accent-strong);}
+  .vac-visit.soon .vac-tag{background:var(--sun);color:#3d2c00;}
+  .vac-visit.late .vac-tag{background:var(--accent-2);color:#fff;}
+  .vac-items{display:flex;flex-direction:column;gap:6px;}
+  .vac-item{display:flex;align-items:flex-start;gap:10px;font-size:15px;cursor:pointer;padding:6px 2px;}
+  .vac-item input{accent-color:var(--accent);width:20px;height:20px;flex:none;margin-top:3px;}
+  .vac-item span{flex:1;min-width:0;}
+  .vac-item em{display:block;font-style:normal;font-size:13px;color:var(--ink-soft);}
+  .vac-item .chk{display:inline-block;font-size:11.5px;font-weight:700;padding:1px 8px;border-radius:99px;background:var(--sun-tint);color:#8a6100;margin-inline-start:6px;}
+  :root[data-theme="dark"] .vac-item .chk{color:var(--sun);}
+  @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .vac-item .chk{color:var(--sun);}}
+  .vac-item.is-done span b{text-decoration:line-through;color:var(--ink-soft);}
+
   @media print{
     .quicknav,.print-btn,.hero-actions,.reset-btn,.age-form,.fab,.progress,.hero-emoji{display:none !important;}
     body{background:#fff;color:#000;}
@@ -643,6 +666,7 @@
     <a href="#newborn-stool">নবজাতকের পটি</a>
     <a href="#baby-log">বেবি লগ</a>
     <a href="#weight-tracker">ওজন</a>
+    <a href="#vaccines">টিকা</a>
     <a href="#portions">পরিমাণ</a>
     <a href="#meal-plan">দৈনিক মেনু</a>
     <a href="#tracker">ট্র্যাকার</a>
@@ -1042,6 +1066,27 @@
     </div>
     <div class="table-wrap"><table class="portion-table w-table" id="wTable"></table></div>
     <p class="stage-detail" style="margin-top:12px;">রেফারেন্স রেঞ্জ আনুমানিক (WHO ছেলে শিশুর weight-for-age)। এক-দুটি মাপ নয়, ধারাবাহিক ধারা দেখুন — চিন্তা হলে চিকিৎসকের সাথে কথা বলুন।</p>
+  </section>
+
+  <section id="vaccines" class="tool-card">
+    <h2><span class="h-ico" aria-hidden="true">💉</span><span>টিকার সময়সূচি</span></h2>
+    <p class="tool-desc">শিশুর জন্মতারিখ থেকে স্বয়ংক্রিয়ভাবে টিকার সম্ভাব্য তারিখ হিসাব হয়। টিকা দেওয়ার পর টিক দিন — দেরি হলে চিহ্নিত হবে। তথ্য এই ডিভাইসের ব্রাউজারে সংরক্ষিত থাকে।</p>
+
+    <div class="preg-form" style="grid-template-columns:1fr;margin-bottom:16px;">
+      <label class="fld">জন্মতারিখ <input type="date" id="vBirth"></label>
+    </div>
+
+    <div id="vStats" class="preg-stats"></div>
+
+    <h3 class="sub-head">সরকারি ইপিআই সূচি (বিনামূল্যে)</h3>
+    <div id="vEpi"></div>
+
+    <h3 class="sub-head">ঐচ্ছিক টিকা (চিকিৎসকের পরামর্শে, সাধারণত বেসরকারিভাবে)</h3>
+    <div id="vOpt"></div>
+
+    <div class="alert-box" style="background:var(--sun-tint);border-color:transparent;border-inline-start-color:var(--sun);">
+      <strong style="color:inherit;">অবশ্যই মিলিয়ে নিন:</strong> এই সূচি বাংলাদেশের ইপিআই-এর সাধারণ রূপরেখা অনুযায়ী আনুমানিক। টিকার ধরন ও বয়স (বিশেষ করে পোলিও ইনজেকশন IPV এবং টাইফয়েড TCV) সময়ের সাথে বদলায় এবং সরবরাহে ঘাটতি হতে পারে — তাই <strong>শিশুর টিকা কার্ড ও আপনার শিশুচিকিৎসক/ইপিআই কেন্দ্রের নির্দেশনা চূড়ান্ত ধরুন</strong>। ঐচ্ছিক টিকা নিতে হবে কি না চিকিৎসকের সাথে আলোচনা করুন। টিকার পর হালকা জ্বর বা ইনজেকশনের জায়গায় ব্যথা সাধারণ, তবে <strong>৩ মাসের কম বয়সে জ্বর ৩৮°C বা বেশি হলে সরাসরি হাসপাতালে যান</strong>।
+    </div>
   </section>
 
   <section id="portions" class="tool-card">
@@ -1879,7 +1924,7 @@
     });
 
     /* ---------- BACKUP ---------- */
-    var KEYS = ['babyLog','babyWeights','pregnancyDates','babyBirthDate','babyFoodTracker'];
+    var KEYS = ['babyVaccines','babyLog','babyWeights','pregnancyDates','babyBirthDate','babyFoodTracker'];
     document.getElementById('backupBtn').addEventListener('click', function(){
       var out = {app:'child-care', saved:new Date().toISOString(), data:{}};
       KEYS.forEach(function(k){ try{ var v = localStorage.getItem(k); if(v !== null) out.data[k] = v; }catch(e){} });
@@ -1913,6 +1958,119 @@
     setType('feed');
     renderLog();
     renderW();
+  })();
+
+  /* ---- Vaccination schedule ---- */
+  (function(){
+    var statsEl = document.getElementById('vStats');
+    if(!statsEl) return;
+    var DAY = 86400000, KEY = 'babyVaccines';
+    var M = ['জানুয়ারি','ফেব্রুয়ারি','মার্চ','এপ্রিল','মে','জুন','জুলাই','আগস্ট','সেপ্টেম্বর','অক্টোবর','নভেম্বর','ডিসেম্বর'];
+    function bn(n){ return String(n).replace(/[0-9]/g, function(d){ return '০১২৩৪৫৬৭৮৯'[d]; }); }
+    function pad(n){ return (n<10?'0':'') + n; }
+    function isoOf(t){ var d = new Date(t); return d.getUTCFullYear() + '-' + pad(d.getUTCMonth()+1) + '-' + pad(d.getUTCDate()); }
+    function utc(iso){ var p = iso.split('-'); return Date.UTC(+p[0], +p[1]-1, +p[2]); }
+    function fmt(t){ var d = new Date(t); return bn(d.getUTCDate()) + ' ' + M[d.getUTCMonth()] + ' ' + bn(d.getUTCFullYear()); }
+    function todayT(){ var n = new Date(); return Date.UTC(n.getFullYear(), n.getMonth(), n.getDate()); }
+    function load(k, def){ try{ var r = localStorage.getItem(k); return r ? JSON.parse(r) : def; }catch(e){ return def; } }
+    function save(k, v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
+    function birthISO(){
+      var p = load('pregnancyDates', null);
+      if(p && p.birth) return p.birth;
+      try{ var b = localStorage.getItem('babyBirthDate'); if(b) return b; }catch(e){}
+      return '2026-11-05';
+    }
+    function dueT(birthT, off){
+      if(off.m){ var d = new Date(birthT); d.setUTCMonth(d.getUTCMonth() + off.m); return d.getTime(); }
+      return birthT + (off.w ? off.w*7 : (off.d || 0)) * DAY;
+    }
+
+    var EPI = [
+      {id:'e0', label:'জন্মের সময়', off:{d:0}, items:[{id:'bcg', n:'BCG', d:'যক্ষ্মা প্রতিরোধ'}]},
+      {id:'e6w', label:'৬ সপ্তাহ', off:{w:6}, items:[
+        {id:'penta1', n:'পেন্টাভ্যালেন্ট ১', d:'ডিপথেরিয়া, ধনুষ্টংকার, হুপিং কাশি, হেপাটাইটিস বি, হিব'},
+        {id:'opv1', n:'ওপিভি (পোলিও ফোঁটা) ১', d:'পোলিও'},
+        {id:'pcv1', n:'পিসিভি ১', d:'নিউমোকক্কাল (নিউমোনিয়া) রোগ'}]},
+      {id:'e10w', label:'১০ সপ্তাহ', off:{w:10}, items:[
+        {id:'penta2', n:'পেন্টাভ্যালেন্ট ২'},
+        {id:'opv2', n:'ওপিভি ২'},
+        {id:'pcv2', n:'পিসিভি ২'}]},
+      {id:'e14w', label:'১৪ সপ্তাহ', off:{w:14}, items:[
+        {id:'penta3', n:'পেন্টাভ্যালেন্ট ৩'},
+        {id:'opv3', n:'ওপিভি ৩'},
+        {id:'pcv3', n:'পিসিভি ৩'},
+        {id:'ipv', n:'আইপিভি (পোলিও ইনজেকশন)', d:'কোন বয়সে দেওয়া হবে তা কার্ড/কেন্দ্রে মিলিয়ে নিন', chk:1}]},
+      {id:'e9m', label:'৯ মাস', off:{m:9}, items:[{id:'mr1', n:'এমআর ১', d:'হাম ও রুবেলা'}]},
+      {id:'e15m', label:'১৫ মাস', off:{m:15}, items:[
+        {id:'mr2', n:'এমআর ২', d:'হাম ও রুবেলা'},
+        {id:'tcv', n:'টাইফয়েড কনজুগেট (TCV)', d:'রুটিনে অন্তর্ভুক্তির বয়স ও সময় নিশ্চিত করে নিন', chk:1}]}
+    ];
+    var OPT = [
+      {id:'o0', label:'জন্মের পর যত দ্রুত সম্ভব', off:{d:0}, items:[{id:'hepb0', n:'হেপাটাইটিস বি (জন্ম-ডোজ)', d:'WHO সাধারণত জন্মের ২৪ ঘণ্টার মধ্যে সুপারিশ করে — চিকিৎসকের সাথে কথা বলুন'}]},
+      {id:'o6w', label:'৬ সপ্তাহ', off:{w:6}, items:[{id:'rota1', n:'রোটাভাইরাস ১ম ডোজ', d:'ডায়রিয়া প্রতিরোধ; ডোজ সংখ্যা ব্র্যান্ডভেদে ২–৩টি'}]},
+      {id:'o10w', label:'১০ সপ্তাহ', off:{w:10}, items:[{id:'rota2', n:'রোটাভাইরাস ২য় ডোজ'}]},
+      {id:'o6m', label:'৬ মাস', off:{m:6}, items:[{id:'flu', n:'ইনফ্লুয়েঞ্জা', d:'৬ মাস থেকে; প্রতি বছর (প্রথমবার ২ ডোজ)'}]},
+      {id:'o12m', label:'১২ মাস', off:{m:12}, items:[
+        {id:'hepa', n:'হেপাটাইটিস এ', d:'২ ডোজ, ৬ মাস ব্যবধানে'},
+        {id:'mmr', n:'এমএমআর / ভ্যারিসেলা (চিকেনপক্স)', d:'১২–১৫ মাসে; চিকিৎসকের পরামর্শমতো'}]}
+    ];
+
+    var state = load(KEY, {});
+    var birthEl = document.getElementById('vBirth');
+
+    function visitHTML(v, birthT, today, isEpi){
+      var due = dueT(birthT, v.off), diff = Math.round((due - today)/DAY);
+      var done = v.items.filter(function(i){ return state[i.id]; }).length, all = done === v.items.length;
+      var cls = '', tag;
+      if(all){ cls = 'done'; tag = '✅ সম্পন্ন'; }
+      else if(isEpi && diff < 0){ cls = 'late'; tag = '⚠️ ' + bn(-diff) + ' দিন দেরি'; }
+      else if(diff <= 14 && diff >= 0){ cls = 'soon'; tag = '⏰ ' + (diff === 0 ? 'আজই' : bn(diff) + ' দিন বাকি'); }
+      else if(diff < 0){ tag = 'সময় পেরিয়েছে'; }
+      else { tag = 'আরও ' + (diff > 60 ? bn(Math.round(diff/30.4)) + ' মাস' : bn(diff) + ' দিন'); }
+      var h = '<div class="vac-visit ' + cls + '"><div class="vac-head"><div><b>' + v.label + '</b><small>সম্ভাব্য তারিখ: ' + fmt(due) + '</small></div><span class="vac-tag">' + tag + '</span></div><div class="vac-items">';
+      v.items.forEach(function(i){
+        var d = state[i.id];
+        h += '<label class="vac-item' + (d ? ' is-done' : '') + '"><input type="checkbox" data-vid="' + i.id + '"' + (d ? ' checked' : '') + '><span><b>' + i.n + '</b>' + (i.chk ? '<span class="chk">কার্ডে মিলিয়ে নিন</span>' : '')
+          + (d ? '<em>দেওয়া হয়েছে: ' + fmt(utc(d)) + '</em>' : (i.d ? '<em>' + i.d + '</em>' : '')) + '</span></label>';
+      });
+      return h + '</div></div>';
+    }
+
+    function render(){
+      var bISO = birthEl.value || birthISO(), birthT = utc(bISO), today = todayT();
+      document.getElementById('vEpi').innerHTML = EPI.map(function(v){ return visitHTML(v, birthT, today, true); }).join('');
+      document.getElementById('vOpt').innerHTML = OPT.map(function(v){ return visitHTML(v, birthT, today, false); }).join('');
+
+      var total = 0, got = 0, next = null;
+      EPI.forEach(function(v){ v.items.forEach(function(i){ total++; if(state[i.id]) got++; });
+        if(!next && v.items.some(function(i){ return !state[i.id]; })) next = v; });
+      var nextTxt = '—', nextSub = 'সব ইপিআই টিকা সম্পন্ন 🎉';
+      if(next){
+        var due = dueT(birthT, next.off), diff = Math.round((due - today)/DAY);
+        nextTxt = next.label; nextSub = fmt(due) + ' · ' + (diff >= 0 ? 'আর ' + bn(diff) + ' দিন' : bn(-diff) + ' দিন দেরি');
+      }
+      var ageD = Math.round((today - birthT)/DAY);
+      statsEl.innerHTML =
+        '<div class="preg-stat"><small>শিশুর বয়স</small><b>' + bn(ageD) + ' দিন</b><span>' + bn(Math.floor(ageD/7)) + ' সপ্তাহ ' + bn(ageD % 7) + ' দিন</span></div>'
+        + '<div class="preg-stat hl" style="grid-column:span 2;"><small>পরবর্তী টিকা</small><b>' + nextTxt + '</b><span>' + nextSub + '</span></div>'
+        + '<div class="preg-stat ' + (got === total ? 'good' : '') + '"><small>ইপিআই টিকা</small><b>' + bn(got) + ' / ' + bn(total) + '</b><span>সম্পন্ন</span></div>';
+    }
+
+    document.getElementById('vaccines').addEventListener('change', function(e){
+      var c = e.target.closest('input[data-vid]'); if(!c) return;
+      var id = c.getAttribute('data-vid');
+      if(c.checked){ var n = new Date(); state[id] = n.getFullYear() + '-' + pad(n.getMonth()+1) + '-' + pad(n.getDate()); }
+      else delete state[id];
+      save(KEY, state); render();
+    });
+    birthEl.addEventListener('change', function(){
+      if(!birthEl.value) return;
+      var pp = load('pregnancyDates', {edd:'2026-11-14', birth:''}); pp.birth = birthEl.value; save('pregnancyDates', pp);
+      ['actualBirth','wBirth'].forEach(function(id){ var el = document.getElementById(id); if(el) el.value = birthEl.value; });
+      render();
+    });
+    birthEl.value = birthISO();
+    render();
   })();
 })();
 </script>
